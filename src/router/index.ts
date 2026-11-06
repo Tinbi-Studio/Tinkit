@@ -14,6 +14,7 @@ import InboxView from '@/views/InboxView.vue'
 import AnalyticsView from '@/views/AnalyticsView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import OnboardingView from '@/views/OnboardingView.vue'
+import CalendarView from '@/views/CalendarView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -127,6 +128,15 @@ const router = createRouter({
       meta: {
         title: 'Workspace Settings',
         subtitle: 'Konfigurasi workspace, billing, notifikasi, keamanan, dan integrasi API',
+      },
+    },
+    {
+      path: '/calendar',
+      name: 'calendar',
+      component: CalendarView,
+      meta: {
+        title: 'Kalender Tim',
+        subtitle: 'Jadwal rapat, deadline, dan pengingat dalam tampilan bulanan',
       },
     },
     {

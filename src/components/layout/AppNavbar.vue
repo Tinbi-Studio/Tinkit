@@ -24,6 +24,7 @@ import {
   Package,
   MessagesSquare,
   BarChart3,
+  CalendarDays,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
 import GitHubStarButton from '@/components/layout/GitHubStarButton.vue'
@@ -86,6 +87,13 @@ const shortcuts = [
     to: '/project-wizard',
     icon: Wand2,
     variant: 'warning',
+  },
+  {
+    title: 'Kalender Tim',
+    subtitle: 'Agenda Bulanan',
+    to: '/calendar',
+    icon: CalendarDays,
+    variant: 'secondary',
   },
   {
     title: 'UI Components',

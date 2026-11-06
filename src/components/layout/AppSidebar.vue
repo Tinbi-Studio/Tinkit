@@ -18,6 +18,7 @@ import {
   BarChart3,
   Settings,
   Rocket,
+  CalendarDays,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
 import type { ColorVariant } from '@/types/theme'
@@ -54,6 +55,11 @@ const mainNav: NavItem[] = [
     label: 'Project Wizard',
     to: '/project-wizard',
     icon: Wand2,
+  },
+  {
+    label: 'Kalender Tim',
+    to: '/calendar',
+    icon: CalendarDays,
   },
 ]
 
