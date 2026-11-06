@@ -81,6 +81,13 @@ const categoryOptions: { label: string; value: CalendarCategory }[] = [
   { label: 'Libur', value: 'holiday' },
 ]
 
+const categoryLabels: Record<CalendarCategory, string> = {
+  meeting: 'Meeting',
+  deadline: 'Deadline',
+  reminder: 'Pengingat',
+  holiday: 'Libur',
+}
+
 const createOpen = ref(false)
 const form = reactive({
   title: '',
@@ -94,6 +101,16 @@ const form = reactive({
 
 const detailOpen = ref(false)
 const detailEvent = ref<CalendarEvent | null>(null)
+
+const detailDateLabel = computed(() => {
+  if (!detailEvent.value) return ''
+  return new Date(`${detailEvent.value.date}T00:00:00`).toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+})
 
 function shiftMonth(delta: number) {
   cursor.value = new Date(cursor.value.getFullYear(), cursor.value.getMonth() + delta, 1)
@@ -225,7 +242,10 @@ function removeDetailEvent() {
           >
             <div class="flex items-start justify-between gap-2">
               <p class="text-sm font-bold text-base-content">{{ event.title }}</p>
-              <UiBadge :variant="event.color" size="sm" soft>{{ event.category }}</UiBadge>
+              <span class="inline-flex shrink-0 items-center gap-1.5 rounded-badge bg-[var(--surface-hover)] px-2 py-1 text-[10px] font-semibold text-[var(--text)]">
+                <span class="h-1.5 w-1.5 rounded-full" :class="`bg-${event.color}`" />
+                {{ categoryLabels[event.category] }}
+              </span>
             </div>
             <div class="mt-1.5 flex flex-wrap items-center gap-3 text-[11px] text-[var(--text-muted)]">
               <span class="inline-flex items-center gap-1">
@@ -291,9 +311,12 @@ function removeDetailEvent() {
 
     <UiModal v-model="detailOpen" :title="detailEvent?.title" subtitle="Detail acara" max-width="sm">
       <div v-if="detailEvent" class="space-y-4">
-        <div class="flex flex-wrap gap-2">
-          <UiBadge :variant="detailEvent.color" size="sm" soft>{{ detailEvent.category }}</UiBadge>
-          <UiBadge variant="neutral" size="sm" outline>{{ detailEvent.date }}</UiBadge>
+        <div class="flex flex-wrap items-center gap-2">
+          <UiBadge :variant="detailEvent.color" size="sm">{{ categoryLabels[detailEvent.category] }}</UiBadge>
+          <span class="inline-flex items-center gap-1.5 rounded-badge border border-[var(--border)] bg-[var(--surface-raised)] px-2.5 py-1 text-[11px] font-semibold text-[var(--text)]">
+            <CalendarDays class="h-3 w-3 text-[var(--accent)]" />
+            {{ detailDateLabel }}
+          </span>
         </div>
 
         <p class="flex items-center gap-2 text-sm text-[var(--text)]">
