@@ -124,7 +124,7 @@ const variantClasses = computed(() => {
         <div
           v-if="isVisible && text"
           role="tooltip"
-          class="pointer-events-none fixed z-[100000] whitespace-nowrap rounded-btn px-2.5 py-1.5 text-[11px] font-semibold"
+          class="pointer-events-none fixed z-[var(--z-tooltip)] whitespace-nowrap rounded-btn px-2.5 py-1.5 text-[11px] font-semibold"
           :class="[positionClasses, variantClasses]"
           :style="{
             top: `${coords.top}px`,

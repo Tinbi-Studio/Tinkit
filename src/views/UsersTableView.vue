@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useToast } from '@/stores/toast'
 import {
   Search,
@@ -27,7 +27,7 @@ import UiModal from '@/components/ui/UiModal.vue'
 import UiEmptyState from '@/components/ui/UiEmptyState.vue'
 import UiSelect from '@/components/ui/UiSelect.vue'
 import { exportToXLSX, exportToPDF } from '@/utils/exportData'
-import { animateDropdownIn, animateDropdownOut } from '@/utils/gsap'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 interface UserRecord {
   id: number
@@ -106,15 +106,6 @@ function selectPageSize(size: number) {
   currentPage.value = 1
   showPageSizeMenu.value = false
 }
-
-function handleClickOutside(e: MouseEvent) {
-  if (pageSizeRef.value && !pageSizeRef.value.contains(e.target as Node)) {
-    showPageSizeMenu.value = false
-  }
-}
-
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 
 const userExportCols = [
   { key: 'name', label: 'Full Name' },
@@ -360,7 +351,6 @@ function getInitials(name: string) {
           <div
             ref="pageSizeRef"
             class="relative inline-flex items-center"
-            :class="showPageSizeMenu ? 'z-[90]' : 'z-auto'"
           >
             <button
               type="button"
@@ -379,15 +369,15 @@ function getInitials(name: string) {
               />
             </button>
 
-            <Transition
-              :css="false"
-              @enter="(el, done) => animateDropdownIn(el, done)"
-              @leave="(el, done) => animateDropdownOut(el, done)"
+            <UiFloatingPanel
+              :open="showPageSizeMenu"
+              :anchor="pageSizeRef"
+              :offset="6"
+              panel-role="menu"
+              aria-label="Baris per halaman"
+              panel-class="w-36 rounded-panel border border-base-300 bg-base-100 p-1.5 shadow-xl"
+              @close="showPageSizeMenu = false"
             >
-              <div
-                v-if="showPageSizeMenu"
-                class="absolute left-0 top-full mt-1.5 z-[100] w-36 rounded-panel border border-base-300 bg-base-100 p-1.5 shadow-xl"
-              >
                 <div class="px-2.5 py-1 text-[10px] font-semibold text-base-content/45">
                   Rows Per Page
                 </div>
@@ -406,8 +396,7 @@ function getInitials(name: string) {
                   <span>{{ size }} entries</span>
                   <Check v-if="pageSize === size" class="h-3.5 w-3.5 text-primary" />
                 </button>
-              </div>
-            </Transition>
+            </UiFloatingPanel>
           </div>
 
           <button

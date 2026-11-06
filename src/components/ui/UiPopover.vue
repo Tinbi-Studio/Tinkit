@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import { X } from 'lucide-vue-next'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 export interface UiPopoverProps {
   title?: string
@@ -19,7 +20,8 @@ const props = withDefaults(defineProps<UiPopoverProps>(), {
 })
 
 const isOpen = ref(false)
-const containerRef = ref<HTMLElement | null>(null)
+const triggerRef = ref<HTMLElement | null>(null)
+let hoverTimer: ReturnType<typeof setTimeout> | null = null
 
 function toggle() {
   if (props.triggerMode === 'click') {
@@ -32,77 +34,48 @@ function close() {
 }
 
 function handleMouseEnter() {
-  if (props.triggerMode === 'hover') {
-    isOpen.value = true
+  if (props.triggerMode !== 'hover') return
+  if (hoverTimer) {
+    clearTimeout(hoverTimer)
+    hoverTimer = null
   }
+  isOpen.value = true
 }
 
 function handleMouseLeave() {
-  if (props.triggerMode === 'hover') {
+  if (props.triggerMode !== 'hover') return
+  hoverTimer = setTimeout(() => {
     isOpen.value = false
-  }
+  }, 120)
 }
 
-function handleClickOutside(event: MouseEvent) {
-  const path = event.composedPath ? event.composedPath() : []
-  if (
-    containerRef.value &&
-    !containerRef.value.contains(event.target as Node) &&
-    !path.includes(containerRef.value)
-  ) {
-    isOpen.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
-
-const positionClasses = computed(() => {
-  switch (props.position) {
-    case 'top':
-      return 'bottom-full left-1/2 -translate-x-1/2 mb-2.5'
-    case 'left':
-      return 'right-full top-1/2 -translate-y-1/2 mr-2.5'
-    case 'right':
-      return 'left-full top-1/2 -translate-y-1/2 ml-2.5'
-    case 'bottom':
-    default:
-      return 'top-full left-1/2 -translate-x-1/2 mt-2.5'
-  }
+onBeforeUnmount(() => {
+  if (hoverTimer) clearTimeout(hoverTimer)
 })
 </script>
 
 <template>
   <div
-    ref="containerRef"
     class="relative inline-flex"
-    :class="isOpen ? 'z-40' : 'z-auto'"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <div class="inline-flex cursor-pointer" @click="toggle">
+    <div ref="triggerRef" class="inline-flex cursor-pointer" @click="toggle">
       <slot name="trigger" :is-open="isOpen" :toggle="toggle" />
     </div>
 
-    <Transition
-      enter-active-class="transition duration-150 ease-out"
-      enter-from-class="opacity-0 scale-95 translate-y-1"
-      enter-to-class="opacity-100 scale-100 translate-y-0"
-      leave-active-class="transition duration-100 ease-in"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
+    <UiFloatingPanel
+      :open="isOpen"
+      :anchor="triggerRef"
+      :side="position"
+      :offset="10"
+      panel-role="dialog"
+      aria-label="Panel informasi"
+      :panel-class="`${widthClass} overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-4 shadow-xl text-left`"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @close="close"
     >
-      <div
-        v-if="isOpen"
-        class="absolute z-50 rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-4 shadow-xl text-left"
-        :class="[positionClasses, widthClass]"
-        @click.stop
-      >
         <div
           v-if="title || subtitle || triggerMode === 'click'"
           class="flex items-start justify-between gap-2 mb-2.5 pb-2 border-b border-[var(--border)]"
@@ -128,7 +101,6 @@ const positionClasses = computed(() => {
         <div class="text-xs text-base-content/80 leading-relaxed">
           <slot :close="close" />
         </div>
-      </div>
-    </Transition>
+    </UiFloatingPanel>
   </div>
 </template>

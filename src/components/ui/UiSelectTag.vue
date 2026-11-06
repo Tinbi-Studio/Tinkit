@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
 import { X, ChevronDown, Check, Plus } from 'lucide-vue-next'
 import type { ColorVariant } from '@/types/theme'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 export interface TagOption {
   label: string
@@ -36,9 +37,10 @@ const props = withDefaults(defineProps<UiSelectTagProps>(), {
 const emit = defineEmits<{
   'update:modelValue': [values: string[]]
   create: [newTag: string]
+  close: []
 }>()
 
-const containerRef = ref<HTMLElement | null>(null)
+const triggerRef = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
 const isOpen = ref(false)
 const searchQuery = ref('')
@@ -167,38 +169,28 @@ function handleKeyDown(event: KeyboardEvent) {
   } else if (event.key === 'Backspace' && !searchQuery.value && props.modelValue.length > 0) {
     removeTag(props.modelValue[props.modelValue.length - 1])
   } else if (event.key === 'Escape') {
-    isOpen.value = false
-    searchQuery.value = ''
+    closeDropdown()
   }
 }
 
-function handleClickOutside(event: MouseEvent) {
-  if (containerRef.value && !containerRef.value.contains(event.target as Node)) {
-    isOpen.value = false
-  }
+function closeDropdown() {
+  if (!isOpen.value) return
+  isOpen.value = false
+  searchQuery.value = ''
+  activeIndex.value = -1
+  emit('close')
 }
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    class="relative flex flex-col gap-1.5 w-full"
-    :class="isOpen ? 'z-[90]' : 'z-auto'"
-  >
+  <div class="relative flex flex-col gap-1.5 w-full">
     <span v-if="label" class="label-text">
       {{ label }}
     </span>
 
     <!-- Input Box with Chips & Search Input -->
     <div
+      ref="triggerRef"
       class="min-h-[42px] w-full form-surface p-1.5 flex flex-wrap items-center gap-1.5 cursor-text"
       :class="[
         isOpen ? 'form-surface-active' : '',
@@ -260,18 +252,16 @@ onUnmounted(() => {
     </div>
 
     <!-- Dropdown Menu -->
-    <Transition
-      enter-active-class="transition duration-150 ease-out"
-      enter-from-class="opacity-0 scale-95 -translate-y-1"
-      enter-to-class="opacity-100 scale-100 translate-y-0"
-      leave-active-class="transition duration-100 ease-in"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
+    <UiFloatingPanel
+      :open="isOpen && !disabled"
+      :anchor="triggerRef"
+      :offset="6"
+      match-width
+      panel-role="listbox"
+      aria-label="Pilih tag"
+      panel-class="max-h-60 overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-1.5 shadow-xl"
+      @close="closeDropdown"
     >
-      <div
-        v-if="isOpen && !disabled"
-        class="absolute left-0 right-0 top-full mt-1.5 z-[100] max-h-60 overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-1.5 shadow-xl"
-      >
         <!-- Create New Tag Option -->
         <button
           v-if="isQueryNew && allowCreate"
@@ -317,7 +307,6 @@ onUnmounted(() => {
         >
           Tidak ada opsi yang cocok dengan "{{ searchQuery }}".
         </div>
-      </div>
-    </Transition>
+    </UiFloatingPanel>
   </div>
 </template>

@@ -17,7 +17,9 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "flag-icons": "^7.6.0",
@@ -31,11 +33,14 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/test-utils": "^2.5.1",
     "autoprefixer": "^10.4.20",
+    "jsdom": "^31.0.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.6.3",
     "vite": "^8.3.5",
+    "vitest": "^5.1.0",
     "vue-tsc": "^2.2.0"
   }
 }

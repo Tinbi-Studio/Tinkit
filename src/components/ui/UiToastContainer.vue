@@ -95,7 +95,7 @@ function getIconContainerClasses(variant: ToastVariant) {
 
 <template>
   <div
-    class="fixed bottom-5 right-5 z-50 flex flex-col-reverse gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"
+    class="fixed bottom-5 right-5 z-[var(--z-toast)] flex flex-col-reverse gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"
     role="region"
     aria-label="Notifikasi Toast"
   >

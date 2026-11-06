@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import {
   ChevronDown,
   X,
@@ -10,7 +10,7 @@ import {
   Inbox,
 } from 'lucide-vue-next'
 import type { ColorVariant } from '@/types/theme'
-import { animateDropdownIn, animateDropdownOut } from '@/utils/gsap'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 export interface SelectOption {
   label: string
@@ -59,7 +59,7 @@ const emit = defineEmits<{
   close: []
 }>()
 
-const containerRef = ref<HTMLElement | null>(null)
+const triggerRef = ref<HTMLElement | null>(null)
 const searchInputRef = ref<HTMLInputElement | null>(null)
 const isOpen = ref(false)
 const searchQuery = ref('')
@@ -178,15 +178,22 @@ function clearSelection(event?: Event) {
 
 function toggleDropdown() {
   if (props.disabled) return
-  isOpen.value = !isOpen.value
   if (isOpen.value) {
-    emit('open')
-    setTimeout(() => {
-      searchInputRef.value?.focus()
-    }, 50)
-  } else {
-    emit('close')
+    closeDropdown()
+    return
   }
+  isOpen.value = true
+  emit('open')
+  setTimeout(() => {
+    searchInputRef.value?.focus()
+  }, 50)
+}
+
+function closeDropdown() {
+  if (!isOpen.value) return
+  isOpen.value = false
+  searchQuery.value = ''
+  emit('close')
 }
 
 function prevPage(event?: Event) {
@@ -255,8 +262,7 @@ function handleKeyDown(event: KeyboardEvent) {
       toggleDropdown()
     }
   } else if (event.key === 'Escape') {
-    isOpen.value = false
-    emit('close')
+    closeDropdown()
   }
 }
 
@@ -266,28 +272,6 @@ watch(currentPage, () => {
   if (optionsListRef.value) {
     optionsListRef.value.scrollTop = 0
   }
-})
-
-function handleClickOutside(event: MouseEvent) {
-  const path = event.composedPath ? event.composedPath() : []
-  if (
-    containerRef.value &&
-    !containerRef.value.contains(event.target as Node) &&
-    !path.includes(containerRef.value)
-  ) {
-    if (isOpen.value) {
-      isOpen.value = false
-      emit('close')
-    }
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
 })
 
 const sizeClasses = computed(() => {
@@ -304,11 +288,7 @@ const sizeClasses = computed(() => {
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    class="relative flex flex-col gap-1.5 w-full"
-    :class="isOpen ? 'z-[90]' : 'z-auto'"
-  >
+  <div class="relative flex flex-col gap-1.5 w-full">
     <!-- Optional Label -->
     <span v-if="label" class="label-text">
       {{ label }}
@@ -316,7 +296,12 @@ const sizeClasses = computed(() => {
 
     <!-- Multiselect Control Box -->
     <div
+      ref="triggerRef"
       tabindex="0"
+      role="combobox"
+      aria-haspopup="listbox"
+      :aria-expanded="isOpen"
+      :aria-disabled="disabled"
       class="relative w-full form-surface flex items-center justify-between gap-2 cursor-pointer select-none"
       :class="[
         sizeClasses,
@@ -408,17 +393,16 @@ const sizeClasses = computed(() => {
     </div>
 
     <!-- Dropdown Menu -->
-    <Transition
-      :css="false"
-      @enter="(el, done) => animateDropdownIn(el, done)"
-      @leave="(el, done) => animateDropdownOut(el, done)"
+    <UiFloatingPanel
+      :open="isOpen && !disabled"
+      :anchor="triggerRef"
+      :offset="6"
+      match-width
+      panel-role="listbox"
+      aria-label="Pilihan"
+      panel-class="flex flex-col overflow-hidden rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] shadow-xl"
+      @close="closeDropdown"
     >
-      <div
-        v-if="isOpen && !disabled"
-        class="absolute left-0 right-0 top-full mt-1.5 z-[100] rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] shadow-xl overflow-hidden"
-        @click.stop
-        @mousedown.stop
-      >
         <!-- Search Input Bar (when searchable = true) -->
         <div
           v-if="searchable"
@@ -441,7 +425,7 @@ const sizeClasses = computed(() => {
         </div>
 
         <!-- Options List -->
-        <div ref="optionsListRef" class="max-h-56 overflow-y-auto p-1.5 space-y-0.5">
+        <div ref="optionsListRef" class="min-h-0 flex-1 overflow-y-auto p-1.5 space-y-0.5 max-h-64">
           <button
             v-for="(opt, idx) in paginatedOptions"
             :key="opt.value"
@@ -552,8 +536,7 @@ const sizeClasses = computed(() => {
             </button>
           </div>
         </div>
-      </div>
-    </Transition>
+    </UiFloatingPanel>
 
     <!-- Hint or Error Message -->
     <span v-if="error" class="text-[11px] font-medium text-error">

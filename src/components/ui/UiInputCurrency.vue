@@ -71,8 +71,9 @@ export const DEFAULT_CURRENCIES: CurrencyConfig[] = [
 </script>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { ChevronDown, Check, Search, X } from 'lucide-vue-next'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -388,23 +389,14 @@ function selectCurrency(curr: CurrencyConfig) {
   syncDisplayFromModel()
 }
 
-function handleClickOutside(event: MouseEvent) {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
-    isDropdownOpen.value = false
-  }
+function closeDropdown() {
+  isDropdownOpen.value = false
+  searchQuery.value = ''
 }
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>
 
 <template>
-  <div class="relative flex flex-col gap-1.5 w-full" :class="isDropdownOpen ? 'z-[90]' : 'z-auto'">
+  <div class="relative flex flex-col gap-1.5 w-full">
     <label v-if="label" class="label-text">
       {{ label }}
     </label>
@@ -452,19 +444,16 @@ onUnmounted(() => {
           <span>{{ currentCurrency.symbol }}</span>
         </span>
 
-        <!-- Floating Popover Menu with Country Search (z-[100]) -->
-        <Transition
-          enter-active-class="transition duration-150 ease-out"
-          enter-from-class="opacity-0 translate-y-1 scale-95"
-          enter-to-class="opacity-100 translate-y-0 scale-100"
-          leave-active-class="transition duration-100 ease-in"
-          leave-from-class="opacity-100 translate-y-0 scale-100"
-          leave-to-class="opacity-0 translate-y-1 scale-95"
+        <!-- Floating Popover Menu with Country Search -->
+        <UiFloatingPanel
+          :open="isDropdownOpen"
+          :anchor="dropdownRef"
+          :offset="6"
+          panel-role="listbox"
+          aria-label="Pilih mata uang"
+          panel-class="w-64 overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-2 shadow-2xl"
+          @close="closeDropdown"
         >
-          <div
-            v-if="isDropdownOpen"
-            class="absolute left-0 top-full mt-1.5 w-64 rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-2 shadow-2xl z-[100]"
-          >
             <!-- Search Box Inside Dropdown -->
             <div class="relative mb-2">
               <Search class="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-faint)] pointer-events-none" />
@@ -523,8 +512,7 @@ onUnmounted(() => {
                 Negara atau valuta tidak ditemukan
               </div>
             </div>
-          </div>
-        </Transition>
+        </UiFloatingPanel>
       </div>
 
       <!-- Numeric Input with Realtime Masking -->

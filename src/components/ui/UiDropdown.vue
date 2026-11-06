@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { ChevronDown } from 'lucide-vue-next'
 import type { ColorVariant } from '@/types/theme'
-import { animateDropdownIn, animateDropdownOut } from '@/utils/gsap'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 export interface DropdownItem {
   label?: string
@@ -38,7 +38,7 @@ const emit = defineEmits<{
 }>()
 
 const isOpen = ref(false)
-const containerRef = ref<HTMLElement | null>(null)
+const triggerRef = ref<HTMLElement | null>(null)
 
 function toggle() {
   isOpen.value = !isOpen.value
@@ -53,35 +53,12 @@ function handleSelect(item: DropdownItem) {
   emit('select', item)
   close()
 }
-
-function handleClickOutside(event: MouseEvent) {
-  const path = event.composedPath ? event.composedPath() : []
-  if (
-    containerRef.value &&
-    !containerRef.value.contains(event.target as Node) &&
-    !path.includes(containerRef.value)
-  ) {
-    isOpen.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    class="relative inline-flex"
-    :class="isOpen ? 'z-[90]' : 'z-auto'"
-  >
+  <div class="relative inline-flex">
     <!-- Trigger -->
-    <div class="inline-flex" @click="toggle">
+    <div ref="triggerRef" class="inline-flex" @click="toggle">
       <slot name="trigger" :is-open="isOpen" :toggle="toggle">
         <button
           type="button"
@@ -105,17 +82,16 @@ onUnmounted(() => {
     </div>
 
     <!-- Menu Panel -->
-    <Transition
-      :css="false"
-      @enter="(el, done) => animateDropdownIn(el, done)"
-      @leave="(el, done) => animateDropdownOut(el, done)"
+    <UiFloatingPanel
+      :open="isOpen"
+      :anchor="triggerRef"
+      :align="align === 'right' ? 'end' : 'start'"
+      :offset="8"
+      panel-role="menu"
+      aria-label="Menu aksi"
+      :panel-class="`${widthClass} overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-1.5 shadow-xl`"
+      @close="close"
     >
-      <div
-        v-if="isOpen"
-        class="absolute top-full mt-2 z-[100] rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-1.5 shadow-xl"
-        :class="[align === 'right' ? 'right-0' : 'left-0', widthClass]"
-        @click.stop
-      >
         <slot :close="close">
           <template v-for="(item, idx) in items" :key="idx">
             <div
@@ -155,7 +131,6 @@ onUnmounted(() => {
             </button>
           </template>
         </slot>
-      </div>
-    </Transition>
+    </UiFloatingPanel>
   </div>
 </template>

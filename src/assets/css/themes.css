@@ -31,6 +31,11 @@
   --accent-soft: rgba(34, 40, 49, 0.12);
   --ring: rgba(34, 40, 49, 0.25);
 
+  /* Layering scale — single source of truth for floating UI */
+  --z-floating: 1000;
+  --z-toast: 1010;
+  --z-tooltip: 1020;
+
   --p: 34 40 49;
   --p-hover: 58 69 82;
   --pc: 201 222 255;

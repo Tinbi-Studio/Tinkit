@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import {
   Calendar as CalendarIcon,
   ChevronLeft,
@@ -8,7 +8,7 @@ import {
   Clock,
   ChevronDown,
 } from 'lucide-vue-next'
-import { animateDropdownIn, animateDropdownOut } from '@/utils/gsap'
+import UiFloatingPanel from '@/components/ui/UiFloatingPanel.vue'
 
 export interface UiDatePickerProps {
   modelValue?: string
@@ -42,7 +42,7 @@ const emit = defineEmits<{
 }>()
 
 const isOpen = ref(false)
-const containerRef = ref<HTMLElement | null>(null)
+const triggerRef = ref<HTMLElement | null>(null)
 const viewMode = ref<'calendar' | 'month' | 'year'>('calendar')
 
 const monthNames = [
@@ -228,11 +228,17 @@ const availableYears = computed(() => {
 
 function openPicker() {
   if (props.disabled) return
-  isOpen.value = !isOpen.value
   if (isOpen.value) {
-    viewMode.value = 'calendar'
-    syncFromModel()
+    closePicker()
+    return
   }
+  isOpen.value = true
+  viewMode.value = 'calendar'
+  syncFromModel()
+}
+
+function closePicker() {
+  isOpen.value = false
 }
 
 function prevMonth(event?: Event) {
@@ -301,40 +307,22 @@ function clearDate(event?: Event) {
   emit('update:modelValue', '')
   emit('change', '')
 }
-
-function handleClickOutside(event: MouseEvent) {
-  const path = event.composedPath ? event.composedPath() : []
-  if (
-    containerRef.value &&
-    !containerRef.value.contains(event.target as Node) &&
-    !path.includes(containerRef.value)
-  ) {
-    isOpen.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    class="relative flex flex-col gap-1.5 w-full"
-    :class="isOpen ? 'z-[90]' : 'z-auto'"
-  >
+  <div class="relative flex flex-col gap-1.5 w-full">
     <span v-if="label" class="label-text">
       {{ label }}
     </span>
 
     <!-- Trigger Box with Visible Border -->
     <div
+      ref="triggerRef"
       tabindex="0"
+      role="button"
+      aria-haspopup="dialog"
+      :aria-expanded="isOpen"
+      :aria-disabled="disabled"
       class="relative w-full min-h-[40px] px-3.5 py-2 form-surface flex items-center justify-between gap-2 text-sm cursor-pointer select-none"
       :class="[
         isOpen ? 'form-surface-active' : '',
@@ -372,18 +360,16 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Calendar Popup Floating Modal (Solid bg-[var(--surface-overlay)], z-[100], Elevated Shadow) -->
-    <Transition
-      :css="false"
-      @enter="(el, done) => animateDropdownIn(el, done)"
-      @leave="(el, done) => animateDropdownOut(el, done)"
+    <!-- Calendar Popup Floating Modal (Teleported, viewport-aware) -->
+    <UiFloatingPanel
+      :open="isOpen && !disabled"
+      :anchor="triggerRef"
+      :offset="8"
+      panel-role="dialog"
+      aria-label="Pilih tanggal"
+      panel-class="w-[19rem] sm:w-[21rem] overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-4 shadow-2xl select-none dark:shadow-[0_12px_36px_rgba(0,0,0,0.55)]"
+      @close="closePicker"
     >
-      <div
-        v-if="isOpen && !disabled"
-        class="absolute left-0 top-full mt-2 z-[100] w-76 sm:w-84 rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-4 shadow-2xl select-none dark:shadow-[0_12px_36px_rgba(0,0,0,0.55)]"
-        @click.stop
-        @mousedown.stop
-      >
         <!-- Top Navigation Header -->
         <div class="flex items-center justify-between mb-3.5 pb-2.5 border-b border-[var(--border)]">
           <button
@@ -542,7 +528,7 @@ onUnmounted(() => {
             v-if="enableTime"
             type="button"
             class="btn btn-primary btn-xs"
-            @click.stop="isOpen = false"
+            @click.stop="closePicker"
           >
             Selesai
           </button>
@@ -550,8 +536,7 @@ onUnmounted(() => {
             {{ modelValue }}
           </span>
         </div>
-      </div>
-    </Transition>
+    </UiFloatingPanel>
 
     <span v-if="error" class="text-[11px] font-medium text-error">
       {{ error }}
