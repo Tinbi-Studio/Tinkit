@@ -207,26 +207,26 @@ function markAsRead(id: string) {
     :class="navbarWidthClass"
   >
     <nav
-      class="flex h-16 items-center justify-between gap-4 rounded-box bg-[var(--surface-1)] px-4 sm:px-5 backdrop-blur-md border border-[var(--border)] shadow-[0_0.25rem_0.875rem_0_rgba(38,43,67,0.08)] dark:shadow-[0_0.25rem_0.875rem_0_rgba(0,0,0,0.32)]"
+      class="flex h-16 items-center justify-between gap-2 rounded-box bg-[var(--surface-1)] px-3 sm:gap-4 sm:px-5 backdrop-blur-md border border-[var(--border)] shadow-[0_0.25rem_0.875rem_0_rgba(38,43,67,0.08)] dark:shadow-[0_0.25rem_0.875rem_0_rgba(0,0,0,0.32)]"
     >
       <!-- Left: Hamburger + Clean Tinkit Search Bar -->
-      <div class="flex items-center gap-3 flex-1">
+      <div class="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
         <button
           type="button"
-          class="btn btn-ghost btn-sm btn-circle lg:hidden"
+          class="btn btn-ghost btn-sm btn-circle shrink-0 lg:hidden"
           aria-label="Open menu"
           @click="themeStore.mobileSidebarOpen = true"
         >
           <Menu class="h-5 w-5" />
         </button>
 
-        <div class="relative flex items-center w-full max-w-md">
+        <div class="relative flex min-w-0 items-center w-full max-w-md">
           <Search class="h-4.5 w-4.5 text-[var(--text-muted)] shrink-0 mr-2.5" />
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Search (Ctrl+/)"
-            class="w-full bg-transparent text-sm text-[var(--text)] placeholder:text-[var(--text-faint)] focus:outline-none"
+            placeholder="Cari..."
+            class="min-w-0 w-full bg-transparent text-sm text-[var(--text)] placeholder:text-[var(--text-faint)] focus:outline-none"
           />
           <kbd
             class="hidden sm:inline-flex items-center rounded border border-[var(--border)] bg-[var(--surface-input)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--text-muted)]"
@@ -237,7 +237,7 @@ function markAsRead(id: string) {
       </div>
 
       <!-- Right: Tinkit Icon Actions (Theme, Shortcuts, Notifications, User Avatar) -->
-      <div class="flex items-center gap-1 sm:gap-1.5">
+      <div class="flex shrink-0 items-center gap-0.5 sm:gap-1.5">
         <!-- Backdrop when any dropdown is open -->
         <div
           v-if="showPresetMenu || showShortcuts || showNotifications || showUserMenu"
@@ -245,8 +245,8 @@ function markAsRead(id: string) {
           @click="closeAllMenus"
         />
 
-        <!-- 0. GitHub Repository & Live Stars -->
-        <GitHubStarButton />
+        <!-- 0. GitHub Repository & Live Stars (hidden on phones to keep the bar tidy) -->
+        <GitHubStarButton class="hidden sm:inline-flex" />
 
         <!-- 1. Theme Preset Switcher -->
         <div class="relative z-50">
@@ -342,7 +342,7 @@ function markAsRead(id: string) {
         </button>
 
         <!-- 3. Quick Shortcuts Grid Dropdown (Tinkit Style) -->
-        <div class="relative z-50">
+        <div class="relative z-50 hidden md:block">
           <button
             type="button"
             class="btn btn-ghost btn-sm btn-circle"

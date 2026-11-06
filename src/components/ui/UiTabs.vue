@@ -51,24 +51,33 @@ const sizeClasses = computed(() => {
   switch (props.size) {
     case 'sm':
       return {
-        tab: 'h-9 px-3 text-xs gap-1.5',
+        tab: 'h-9 text-xs gap-1.5',
         icon: 'h-3.5 w-3.5',
         content: 'p-3 text-xs',
       }
     case 'lg':
       return {
-        tab: 'h-[3.25rem] px-6 text-base gap-2.5',
+        tab: 'h-[3.25rem] text-base gap-2.5',
         icon: 'h-5 w-5',
         content: 'p-6 text-sm',
       }
     case 'md':
     default:
       return {
-        tab: 'h-11 px-4 text-sm gap-2',
+        tab: 'h-11 text-sm gap-2',
         icon: 'h-4 w-4',
         content: 'p-5 text-sm',
       }
   }
+})
+
+// Boxed and underline tabs use tighter horizontal padding/gaps so the strip
+// does not spread labels far apart.
+const tabPadding = computed(() => {
+  const compact = props.variant === 'boxed' || props.variant === 'underline'
+  if (props.size === 'sm') return compact ? 'px-2.5' : 'px-3'
+  if (props.size === 'lg') return compact ? 'px-3.5' : 'px-6'
+  return compact ? 'px-3' : 'px-4'
 })
 
 // Header & Tab styling per variant
@@ -77,9 +86,9 @@ const headerContainerClasses = computed(() => {
     case 'attached':
       return 'flex items-stretch -mb-px rounded-t-box border-b border-[var(--border)] overflow-x-auto scrollbar-none'
     case 'underline':
-      return 'flex items-center gap-2 border-b border-[var(--border)] overflow-x-auto scrollbar-none'
+      return 'flex items-stretch gap-0 border-b border-[var(--border)] overflow-x-auto scrollbar-none'
     case 'boxed':
-      return 'inline-flex items-center gap-1 p-1 rounded-btn bg-base-300/60 border border-[var(--border)] overflow-x-auto max-w-full'
+      return 'inline-flex items-stretch gap-0.5 p-1 rounded-btn bg-base-300/60 border border-[var(--border)] overflow-x-auto max-w-full'
     case 'pills':
     default:
       return 'flex items-center gap-2 overflow-x-auto scrollbar-none'
@@ -93,6 +102,7 @@ function getTabButtonClasses(item: TabItem) {
     return [
       'relative font-medium transition-all select-none border-t border-r first:border-l border-[var(--border)] -mr-px cursor-pointer',
       sizeClasses.value.tab,
+      tabPadding.value,
       props.fullWidth ? 'flex-1 justify-center' : '',
       isActive
         ? 'bg-[var(--surface-card)] text-[var(--accent)] font-bold shadow-[inset_0_2px_0_var(--accent)] !border-b-transparent z-10'
@@ -105,6 +115,7 @@ function getTabButtonClasses(item: TabItem) {
     return [
       'relative font-medium border-b-2 -mb-px transition-colors select-none cursor-pointer',
       sizeClasses.value.tab,
+      tabPadding.value,
       props.fullWidth ? 'flex-1 justify-center' : '',
       isActive
         ? 'border-primary text-primary font-bold'
@@ -117,6 +128,7 @@ function getTabButtonClasses(item: TabItem) {
     return [
       'rounded-btn font-medium transition-all select-none cursor-pointer',
       sizeClasses.value.tab,
+      tabPadding.value,
       props.fullWidth ? 'flex-1 justify-center' : '',
       isActive
         ? 'bg-primary text-primary-content font-semibold shadow-none'
@@ -129,6 +141,7 @@ function getTabButtonClasses(item: TabItem) {
   return [
     'rounded-btn font-medium transition-all select-none cursor-pointer',
     sizeClasses.value.tab,
+    tabPadding.value,
     props.fullWidth ? 'flex-1 justify-center' : '',
     isActive
       ? 'bg-primary text-primary-content font-semibold shadow-none'
