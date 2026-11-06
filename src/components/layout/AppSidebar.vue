@@ -140,6 +140,13 @@ function isActive(path: string): boolean {
   if (path.startsWith('/error')) return route.path.startsWith('/error')
   return route.path.startsWith(path)
 }
+
+function badgeClasses(item: NavItem): string {
+  if (isActive(item.to)) {
+    return 'border-primary-content/30 bg-primary-content text-primary'
+  }
+  return `badge-soft badge-${item.badgeVariant || 'primary'}`
+}
 </script>
 
 <template>
@@ -287,7 +294,7 @@ function isActive(path: string): boolean {
               <span
                 v-if="item.badge"
                 class="badge badge-xs font-semibold"
-                :class="`badge-soft badge-${item.badgeVariant || 'primary'}`"
+                :class="badgeClasses(item)"
               >
                 {{ item.badge }}
               </span>
@@ -359,7 +366,7 @@ function isActive(path: string): boolean {
               <span
                 v-if="item.badge"
                 class="badge badge-xs font-semibold"
-                :class="`badge-soft badge-${item.badgeVariant || 'primary'}`"
+                :class="badgeClasses(item)"
               >
                 {{ item.badge }}
               </span>
@@ -431,7 +438,7 @@ function isActive(path: string): boolean {
               <span
                 v-if="item.badge"
                 class="badge badge-xs font-semibold"
-                :class="`badge-soft badge-${item.badgeVariant || 'primary'}`"
+                :class="badgeClasses(item)"
               >
                 {{ item.badge }}
               </span>
@@ -503,7 +510,7 @@ function isActive(path: string): boolean {
               <span
                 v-if="item.badge"
                 class="badge badge-xs font-semibold"
-                :class="`badge-soft badge-${item.badgeVariant || 'primary'}`"
+                :class="badgeClasses(item)"
               >
                 {{ item.badge }}
               </span>
