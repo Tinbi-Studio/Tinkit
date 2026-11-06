@@ -90,7 +90,9 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onKeyDown(event: KeyboardEvent) {
-  if (event.key === 'Escape') emit('close')
+  if (event.key !== 'Escape') return
+  emit('close')
+  props.anchor?.focus()
 }
 
 function addListeners() {
