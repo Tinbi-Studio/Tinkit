@@ -183,7 +183,7 @@ function removeDetailEvent() {
       <div v-for="item in summary" :key="item.label" class="card p-4">
         <p class="text-xs font-medium text-[var(--text-muted)]">{{ item.label }}</p>
         <p class="mt-1 text-2xl font-bold text-base-content">{{ item.value }}</p>
-        <UiBadge :variant="item.color" size="sm" soft class="mt-2">Bulan ini</UiBadge>
+        <UiBadge :variant="item.color" size="sm" soft class="mt-2 self-start">Bulan ini</UiBadge>
       </div>
     </div>
 

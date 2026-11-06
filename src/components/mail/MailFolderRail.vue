@@ -34,7 +34,7 @@ const counts = computed(() => store.unreadCounts)
         v-for="item in folders"
         :key="item.key"
         type="button"
-        class="flex shrink-0 items-center justify-between gap-2 rounded-btn px-3 py-2 text-left text-xs font-semibold transition-colors"
+        class="flex shrink-0 items-center justify-between gap-2 rounded-btn px-3 py-2 text-left text-xs font-semibold transition-colors lg:w-full"
         :class="
           store.folder === item.key
             ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
