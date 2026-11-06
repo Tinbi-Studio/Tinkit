@@ -21,6 +21,7 @@
   --surface-raised: #E9EDF2;
   --surface-input: #FFFFFF;
   --surface-overlay: #FFFFFF;
+  --surface-hover: var(--surface-raised);
   --border: rgba(34, 40, 49, 0.12);
   --border-strong: rgba(34, 40, 49, 0.22);
   --text: #222831;
@@ -804,4 +805,5 @@ html.dark[data-theme="berry"] {
 /* Overlay panels inherit the elevated dark surface (lighter than cards in dark mode) */
 html.dark {
   --surface-overlay: var(--surface-raised);
+  --surface-hover: rgba(255, 255, 255, 0.08);
 }

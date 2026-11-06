@@ -284,7 +284,7 @@ function closeDropdown() {
             :class="[
               isSelected(opt.value)
                 ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
-                : 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]',
+                : 'text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]',
               activeIndex === idx ? 'ring-1 ring-primary/40 bg-[var(--surface-raised)] dark:bg-white/[0.06]' : '',
             ]"
             @click="selectOption(opt)"

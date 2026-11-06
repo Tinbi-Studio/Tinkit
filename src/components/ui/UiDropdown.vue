@@ -107,7 +107,7 @@ function handleSelect(item: DropdownItem) {
                 item.disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
                 item.danger
                   ? 'text-error hover:bg-error/12'
-                  : 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]',
+                  : 'text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]',
               ]"
               @click="handleSelect(item)"
             >

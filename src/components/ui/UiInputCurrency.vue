@@ -416,7 +416,7 @@ function closeDropdown() {
           v-if="allowChangeCurrency"
           type="button"
           :disabled="disabled"
-          class="flex h-full items-center gap-1.5 rounded-l-field border-r border-[var(--border)] bg-[var(--surface-1)] px-3 text-xs font-bold text-base-content transition-colors hover:bg-[var(--surface-raised)] focus:outline-none"
+          class="flex h-full items-center gap-1.5 rounded-l-field border-r border-[var(--border)] bg-[var(--surface-1)] px-3 text-xs font-bold text-base-content transition-colors hover:bg-[var(--surface-hover)] focus:outline-none"
           :class="isDropdownOpen && 'bg-[var(--surface-raised)] text-[var(--accent)] border-primary/40'"
           title="Klik untuk memilih mata uang atau cari negara"
           @click="toggleDropdown"
@@ -488,7 +488,7 @@ function closeDropdown() {
                 :class="
                   activeCurrencyCode === curr.code
                     ? 'bg-[var(--accent-soft)] font-bold text-[var(--accent)]'
-                    : 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'
+                    : 'text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]'
                 "
                 @click="selectCurrency(curr)"
               >

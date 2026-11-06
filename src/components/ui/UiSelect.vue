@@ -436,7 +436,7 @@ const sizeClasses = computed(() => {
               opt.disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
               isOptionSelected(opt)
                 ? 'bg-primary text-primary-content font-bold'
-                : 'text-[var(--text)] hover:bg-[var(--surface-raised)]',
+                : 'text-[var(--text)] hover:bg-[var(--surface-hover)]',
               activeIndex === idx ? 'ring-1 ring-primary/40 bg-[var(--surface-raised)] dark:bg-white/[0.06]' : '',
             ]"
             @click="selectOption(opt)"
@@ -512,7 +512,7 @@ const sizeClasses = computed(() => {
                   :key="`page-${p}`"
                   type="button"
                   class="h-5 min-w-5 px-1.5 rounded text-[10px] font-bold transition-colors cursor-pointer"
-                  :class="currentPage === p ? 'bg-primary text-primary-content shadow-xs' : 'text-[var(--text-muted)] hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'"
+                  :class="currentPage === p ? 'bg-primary text-primary-content shadow-xs' : 'text-[var(--text-muted)] hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]'"
                   @click.stop="goToPage(p, $event)"
                   @mousedown.stop.prevent
                 >
