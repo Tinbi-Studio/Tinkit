@@ -64,11 +64,11 @@ export function computeFloatingPosition(
   }
 
   const isVertical = placement === 'top' || placement === 'bottom'
-  const space = isVertical
-    ? Math.max(placement === 'bottom' ? spaceBelow : spaceAbove, 0)
-    : Math.max(viewport.height - padding * 2, 0)
-
-  const maxHeight = panel.height > space ? Math.max(space, MIN_PANEL_HEIGHT) : null
+  const viewportLimit = Math.max(viewport.height - padding * 2, MIN_PANEL_HEIGHT)
+  // Cap to the viewport, not to one side of the anchor. If the panel fits on
+  // screen at all, flip + clamp keeps it visible; capping to the smaller side
+  // produces a tiny, useless scroll window around the middle of the page.
+  const maxHeight = panel.height > viewportLimit ? viewportLimit : null
   const effectiveHeight = Math.min(panel.height, maxHeight ?? panel.height)
   const width = options.matchWidth && isVertical ? anchor.width : null
   const effectiveWidth = width ?? panel.width

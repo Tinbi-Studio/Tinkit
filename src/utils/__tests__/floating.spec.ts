@@ -58,14 +58,14 @@ describe('computeFloatingPosition', () => {
     expect(result.width).toBe(320)
   })
 
-  it('caps the panel height to the space above when it cannot fit', () => {
+  it('caps the panel height to the viewport when it cannot fit', () => {
     const result = computeFloatingPosition(
       { top: 500, left: 100, width: 200, height: 40 },
       { width: 260, height: 900 },
       viewport,
     )
     expect(result.placement).toBe('top')
-    expect(result.maxHeight).toBe(486)
+    expect(result.maxHeight).toBe(784)
     expect(result.top).toBe(8)
   })
 

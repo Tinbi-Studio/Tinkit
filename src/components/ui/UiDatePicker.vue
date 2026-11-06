@@ -367,11 +367,11 @@ function clearDate(event?: Event) {
       :offset="8"
       panel-role="dialog"
       aria-label="Pilih tanggal"
-      panel-class="w-[19rem] sm:w-[21rem] overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-4 shadow-2xl select-none dark:shadow-[0_12px_36px_rgba(0,0,0,0.55)]"
+      panel-class="w-[19rem] overflow-y-auto rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-4 shadow-2xl select-none sm:w-[21rem] dark:shadow-[0_12px_36px_rgba(0,0,0,0.55)]"
       @close="closePicker"
     >
         <!-- Top Navigation Header -->
-        <div class="flex items-center justify-between mb-3.5 pb-2.5 border-b border-[var(--border)]">
+        <div class="mb-3.5 flex shrink-0 items-center justify-between border-b border-[var(--border)] pb-2.5">
           <button
             type="button"
             class="btn btn-ghost btn-xs btn-circle h-7 w-7 text-[var(--text-muted)] hover:text-base-content"
@@ -384,7 +384,7 @@ function clearDate(event?: Event) {
           <div class="flex items-center gap-1.5">
             <button
               type="button"
-              class="inline-flex items-center gap-1 px-2 py-1 rounded-btn text-xs font-bold text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06] transition-colors"
+              class="inline-flex items-center gap-1 px-2 py-1 rounded-btn text-xs font-bold text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06] transition-colors"
               :class="{ 'bg-[var(--accent-soft)] text-[var(--accent)]': viewMode === 'month' }"
               @click="viewMode = viewMode === 'month' ? 'calendar' : 'month'"
             >
@@ -394,7 +394,7 @@ function clearDate(event?: Event) {
 
             <button
               type="button"
-              class="inline-flex items-center gap-1 px-2 py-1 rounded-btn text-xs font-bold text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06] transition-colors"
+              class="inline-flex items-center gap-1 px-2 py-1 rounded-btn text-xs font-bold text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06] transition-colors"
               :class="{ 'bg-[var(--accent-soft)] text-[var(--accent)]': viewMode === 'year' }"
               @click="viewMode = viewMode === 'year' ? 'calendar' : 'year'"
             >
@@ -422,7 +422,7 @@ function clearDate(event?: Event) {
             :class="
               viewMonth === idx
                 ? 'bg-primary text-primary-content font-bold shadow-xs'
-                : 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'
+                : 'text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]'
             "
             @click="selectMonth(idx)"
           >
@@ -440,7 +440,7 @@ function clearDate(event?: Event) {
             :class="
               viewYear === yr
                 ? 'bg-primary text-primary-content font-bold shadow-xs'
-                : 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'
+                : 'text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]'
             "
             @click="selectYear(yr)"
           >
@@ -474,8 +474,8 @@ function clearDate(event?: Event) {
                   : cell.isToday
                     ? 'border border-[var(--border-strong)] text-[var(--text)] font-bold bg-[var(--surface-raised)]'
                     : cell.isCurrentMonth
-                      ? 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'
-                      : 'text-[var(--text-faint)] opacity-60 hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.04]',
+                      ? 'text-base-content hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.06]'
+                      : 'text-[var(--text-faint)] opacity-60 hover:bg-[var(--surface-hover)] dark:hover:bg-white/[0.04]',
               ]"
               @click.stop="selectCell(cell)"
             >
@@ -487,7 +487,7 @@ function clearDate(event?: Event) {
         <!-- OPTIONAL: TIME SELECTOR (Hour & Minute) -->
         <div
           v-if="enableTime && viewMode === 'calendar'"
-          class="mt-3.5 pt-3 border-t border-[var(--border)] flex items-center justify-between gap-3 text-xs"
+          class="mt-3.5 flex items-center justify-between gap-3 border-t border-[var(--border)] pt-3 text-xs"
         >
           <div class="flex items-center gap-1.5 text-[var(--text-muted)]">
             <Clock class="h-4 w-4 text-primary" />
@@ -496,27 +496,35 @@ function clearDate(event?: Event) {
 
           <div class="flex items-center gap-1.5">
             <!-- Hour Picker -->
-            <select
-              v-model="selectedHour"
-              class="select select-xs w-16 text-center font-mono font-medium"
-              @change="onTimeChange"
-            >
-              <option v-for="h in hoursList" :key="h" :value="h">{{ h }}</option>
-            </select>
+            <div class="relative">
+              <select
+                v-model="selectedHour"
+                aria-label="Jam"
+                class="h-8 w-[4.25rem] cursor-pointer appearance-none rounded-field border border-[var(--border)] bg-[var(--surface-input)] pl-2 pr-6 text-center font-mono text-xs font-semibold text-[var(--text)] transition-colors hover:border-[var(--border-strong)] focus:border-[var(--accent)] focus:outline-none focus:shadow-[0_0_0_2px_var(--ring)]"
+                @change="onTimeChange"
+              >
+                <option v-for="h in hoursList" :key="h" :value="h">{{ h }}</option>
+              </select>
+              <ChevronDown class="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-[var(--text-faint)]" />
+            </div>
             <span class="font-bold text-[var(--text-faint)]">:</span>
             <!-- Minute Picker -->
-            <select
-              v-model="selectedMinute"
-              class="select select-xs w-16 text-center font-mono font-medium"
-              @change="onTimeChange"
-            >
-              <option v-for="m in minutesList" :key="m" :value="m">{{ m }}</option>
-            </select>
+            <div class="relative">
+              <select
+                v-model="selectedMinute"
+                aria-label="Menit"
+                class="h-8 w-[4.25rem] cursor-pointer appearance-none rounded-field border border-[var(--border)] bg-[var(--surface-input)] pl-2 pr-6 text-center font-mono text-xs font-semibold text-[var(--text)] transition-colors hover:border-[var(--border-strong)] focus:border-[var(--accent)] focus:outline-none focus:shadow-[0_0_0_2px_var(--ring)]"
+                @change="onTimeChange"
+              >
+                <option v-for="m in minutesList" :key="m" :value="m">{{ m }}</option>
+              </select>
+              <ChevronDown class="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-[var(--text-faint)]" />
+            </div>
           </div>
         </div>
 
         <!-- Calendar Footer (Today Action + Done) -->
-        <div class="mt-3.5 pt-2.5 border-t border-[var(--border)] flex items-center justify-between text-xs">
+        <div class="mt-3.5 flex shrink-0 items-center justify-between border-t border-[var(--border)] pt-2.5 text-xs">
           <button
             type="button"
             class="text-[var(--accent)] font-bold hover:underline cursor-pointer"
