@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ChevronDown } from 'lucide-vue-next'
 import type { ColorVariant } from '@/types/theme'
 
@@ -33,24 +33,24 @@ const emit = defineEmits<{
   change: [id: string | number, isOpen: boolean]
 }>()
 
-// Internal active IDs state
-const activeIds = computed<(string | number)[]>({
-  get() {
-    if (props.modelValue === null || props.modelValue === undefined) return []
-    if (Array.isArray(props.modelValue)) return props.modelValue
-    return [props.modelValue]
+function normalizeIds(value: UiAccordionProps['modelValue']): (string | number)[] {
+  if (value === null || value === undefined) return []
+  return Array.isArray(value) ? [...value] : [value]
+}
+
+// Internal active IDs state so the accordion works with or without v-model.
+const internalIds = ref<(string | number)[]>(normalizeIds(props.modelValue))
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    internalIds.value = normalizeIds(value)
   },
-  set(val) {
-    if (props.multiple) {
-      emit('update:modelValue', val)
-    } else {
-      emit('update:modelValue', val.length > 0 ? val[val.length - 1] : null)
-    }
-  },
-})
+  { deep: true },
+)
 
 function isOpen(id: string | number): boolean {
-  return activeIds.value.includes(id)
+  return internalIds.value.includes(id)
 }
 
 function toggle(item: AccordionItem) {
@@ -61,15 +61,16 @@ function toggle(item: AccordionItem) {
 
   if (props.multiple) {
     if (currentlyOpen) {
-      next = activeIds.value.filter((i) => i !== item.id)
+      next = internalIds.value.filter((i) => i !== item.id)
     } else {
-      next = [...activeIds.value, item.id]
+      next = [...internalIds.value, item.id]
     }
   } else {
     next = currentlyOpen ? [] : [item.id]
   }
 
-  activeIds.value = next
+  internalIds.value = next
+  emit('update:modelValue', props.multiple ? next : (next[0] ?? null))
   emit('change', item.id, !currentlyOpen)
 }
 
