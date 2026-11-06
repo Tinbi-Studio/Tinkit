@@ -20,18 +20,21 @@ const counts = computed(() => store.unreadCounts)
 </script>
 
 <template>
-  <aside class="hidden w-52 shrink-0 flex-col gap-4 border-r border-[var(--border)] p-3 lg:flex">
-    <RouterLink to="/mail/compose" class="btn btn-primary w-full justify-center gap-2">
+  <aside
+    class="flex w-full shrink-0 flex-row items-center gap-2 overflow-x-auto border-b border-[var(--border)] p-2 lg:w-52 lg:flex-col lg:items-stretch lg:gap-4 lg:overflow-visible lg:border-b-0 lg:border-r lg:p-3"
+  >
+    <RouterLink to="/mail/compose" class="btn btn-primary shrink-0 justify-center gap-2 lg:w-full">
       <Plus class="h-4 w-4" />
-      Tulis Email
+      <span class="lg:hidden">Tulis</span>
+      <span class="hidden lg:inline">Tulis Email</span>
     </RouterLink>
 
-    <nav class="flex flex-col gap-0.5">
+    <nav class="flex flex-row gap-0.5 lg:flex-col">
       <button
         v-for="item in folders"
         :key="item.key"
         type="button"
-        class="flex w-full items-center justify-between gap-2 rounded-btn px-3 py-2 text-left text-xs font-semibold transition-colors"
+        class="flex shrink-0 items-center justify-between gap-2 rounded-btn px-3 py-2 text-left text-xs font-semibold transition-colors"
         :class="
           store.folder === item.key
             ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
@@ -53,7 +56,7 @@ const counts = computed(() => store.unreadCounts)
       </button>
     </nav>
 
-    <div class="mt-auto rounded-btn border border-[var(--border)] p-3">
+    <div class="mt-auto hidden rounded-btn border border-[var(--border)] p-3 lg:block">
       <div class="mb-2 flex items-center gap-2 text-[11px] font-bold text-[var(--text-muted)]">
         <HardDrive class="h-3.5 w-3.5" />
         Penyimpanan

@@ -12,7 +12,7 @@ import MailFolderRail from '@/components/mail/MailFolderRail.vue'
     </div>
 
     <div class="overflow-hidden rounded-box border border-[var(--border)] bg-base-100">
-      <div class="flex h-[calc(100dvh-13rem)] min-h-[34rem] max-h-[52rem]">
+      <div class="flex h-[calc(100dvh-13rem)] min-h-[34rem] max-h-[52rem] flex-col lg:flex-row">
         <MailFolderRail />
         <RouterView />
       </div>
