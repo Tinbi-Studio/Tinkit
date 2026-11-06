@@ -1,3 +1,5 @@
+import tinkitSymbol from '@/assets/brand/tinkit-symbol-ink.png?inline'
+
 export interface ExportColumn {
   key: string
   label: string
@@ -18,7 +20,7 @@ function escapeHtml(value: unknown): string {
 export function exportToCSV<T extends Record<string, any>>(
   columns: ExportColumn[],
   rows: T[],
-  filename = 'beejir-export',
+  filename = 'tinkit-export',
 ) {
   if (!rows.length) return
 
@@ -50,9 +52,9 @@ export function exportToXLSX<T extends Record<string, any>>(
 ) {
   if (!rows.length) return
 
-  const filename = options?.filename ?? 'beejir-data'
+  const filename = options?.filename ?? 'tinkit-data'
   const sheetName = options?.sheetName ?? 'Data Export'
-  const reportTitle = options?.title ?? 'BeeJir Enterprise Data Report'
+  const reportTitle = options?.title ?? 'Tinkit Enterprise Data Report'
 
   const headerCellsXml = columns
     .map(
@@ -89,15 +91,15 @@ export function exportToXLSX<T extends Record<string, any>>(
  <Styles>
   <Style ss:ID="Default" ss:Name="Normal">
    <Alignment ss:Vertical="Center"/>
-   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#262B43"/>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#222831"/>
   </Style>
   <Style ss:ID="sTitle">
-   <Font ss:FontName="Calibri" ss:Size="14" ss:Bold="1" ss:Color="#666CFF"/>
+   <Font ss:FontName="Calibri" ss:Size="14" ss:Bold="1" ss:Color="#222831"/>
    <Alignment ss:Vertical="Center"/>
   </Style>
   <Style ss:ID="sHeader">
    <Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1" ss:Color="#FFFFFF"/>
-   <Interior ss:Color="#666CFF" ss:Pattern="Solid"/>
+   <Interior ss:Color="#222831" ss:Pattern="Solid"/>
    <Alignment ss:Vertical="Center" ss:Horizontal="Left"/>
    <Borders>
     <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#4E54D4"/>
@@ -151,7 +153,7 @@ export function exportToPDF<T extends Record<string, any>>(
 ) {
   if (!rows.length) return
 
-  const title = options?.title ?? 'BeeJir Enterprise Data Report'
+  const title = options?.title ?? 'Tinkit Enterprise Data Report'
   const subtitle =
     options?.subtitle ??
     `Dicetak pada ${new Date().toLocaleString('id-ID')} • Total ${rows.length} baris data`
@@ -169,6 +171,11 @@ export function exportToPDF<T extends Record<string, any>>(
     )
     .join('')
 
+  const reportFont = typeof document === 'undefined'
+    ? "'Inter', system-ui, sans-serif"
+    : getComputedStyle(document.documentElement).getPropertyValue('--font-sans').trim()
+      || "'Inter', system-ui, sans-serif"
+
   const htmlDoc = `<!DOCTYPE html>
 <html lang="id">
 <head>
@@ -176,31 +183,31 @@ export function exportToPDF<T extends Record<string, any>>(
   <title>${escapeHtml(title)}</title>
   <style>
     @page { size: A4 landscape; margin: 14mm; }
-    * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-    body { margin: 0; color: #262b43; background: #fff; font-size: 12px; }
-    .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #666cff; padding-bottom: 12px; margin-bottom: 16px; }
+    * { box-sizing: border-box; font-family: ${reportFont}; }
+    body { margin: 0; color: #222831; background: #fff; font-size: 12px; }
+    .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #222831; padding-bottom: 12px; margin-bottom: 16px; }
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-badge { width: 32px; height: 32px; border-radius: 8px; background: #666cff; color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 15px; }
-    h1 { margin: 0; font-size: 18px; font-weight: 700; color: #262b43; }
+    .brand-symbol { width: 46px; height: 28px; object-fit: contain; }
+    h1 { margin: 0; font-size: 18px; font-weight: 700; color: #222831; }
     p.sub { margin: 3px 0 0; font-size: 11px; color: #6d728a; }
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th { background: #f3f4f8; color: #262b43; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.05em; font-weight: 700; text-align: left; padding: 9px 10px; border-bottom: 1.5px solid #d8dae5; }
+    th { background: #f3f4f8; color: #222831; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.05em; font-weight: 700; text-align: left; padding: 9px 10px; border-bottom: 1.5px solid #d8dae5; }
     td { padding: 8px 10px; border-bottom: 1px solid #eceef4; color: #3b4056; font-size: 11.5px; }
     tr:nth-child(even) td { background: #fafafd; }
-    .footer { margin-top: 16px; font-size: 10px; color: #8c91a7; display: flex; justify-content: space-between; }
+    .footer { margin-top: 16px; font-size: 11px; color: #56606d; display: flex; justify-content: space-between; }
   </style>
 </head>
 <body>
   <div class="header">
     <div class="brand">
-      <div class="brand-badge">B</div>
+      <img class="brand-symbol" src="${tinkitSymbol}" alt="" />
       <div>
         <h1>${escapeHtml(title)}</h1>
         <p class="sub">${escapeHtml(subtitle)}</p>
       </div>
     </div>
     <div style="text-align:right;font-size:11px;color:#6d728a;">
-      <strong>BeeJir Workspace</strong><br/>CONFIDENTIAL REPORT
+      <strong>Tinkit Workspace</strong><br/>CONFIDENTIAL REPORT
     </div>
   </div>
   <table>
@@ -208,14 +215,16 @@ export function exportToPDF<T extends Record<string, any>>(
     <tbody>${tbodyHtml}</tbody>
   </table>
   <div class="footer">
-    <span>Generated by BeeJir Enterprise UI</span>
+    <span>Generated by Tinkit Enterprise UI</span>
     <span>Total Records: ${rows.length}</span>
   </div>
   <script>
-    window.onload = function() {
-      setTimeout(function() {
-        window.print();
-      }, 250);
+    window.onload = async function() {
+      await Promise.all([
+        document.fonts?.ready ?? Promise.resolve(),
+        new Promise(function(resolve) { setTimeout(resolve, 250); }),
+      ]);
+      window.print();
     };
   </script>
 </body>

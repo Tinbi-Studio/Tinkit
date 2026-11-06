@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', '"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        sans: ['var(--font-sans)'],
+        mono: ['var(--font-mono)'],
       },
       spacing: {
         68: '16.5rem',
@@ -31,18 +31,22 @@ export default {
           DEFAULT: 'rgb(var(--p) / <alpha-value>)',
           content: 'rgb(var(--pc) / <alpha-value>)',
           hover: 'rgb(var(--p-hover, var(--p)) / <alpha-value>)',
+          ink: 'rgb(var(--p-ink, var(--p)) / <alpha-value>)',
         },
         secondary: {
           DEFAULT: 'rgb(var(--s) / <alpha-value>)',
           content: 'rgb(var(--sc) / <alpha-value>)',
+          ink: 'rgb(var(--s-ink, var(--s)) / <alpha-value>)',
         },
         accent: {
           DEFAULT: 'rgb(var(--a) / <alpha-value>)',
           content: 'rgb(var(--ac) / <alpha-value>)',
+          ink: 'rgb(var(--a-ink, var(--a)) / <alpha-value>)',
         },
         neutral: {
           DEFAULT: 'rgb(var(--n) / <alpha-value>)',
           content: 'rgb(var(--nc) / <alpha-value>)',
+          ink: 'rgb(var(--n-ink, var(--n)) / <alpha-value>)',
         },
         base: {
           100: 'rgb(var(--b1) / <alpha-value>)',

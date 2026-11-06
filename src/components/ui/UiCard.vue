@@ -57,7 +57,7 @@ const accentBorderClass = computed(() => {
         <div>
           <slot name="header">
             <h5 v-if="title" class="card-title">{{ title }}</h5>
-            <p v-if="subtitle" class="mt-0.5 text-xs text-base-content/55">
+            <p v-if="subtitle" class="card-subtitle mt-0.5">
               {{ subtitle }}
             </p>
           </slot>

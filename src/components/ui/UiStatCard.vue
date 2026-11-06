@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, type Component } from 'vue'
+import { type Component } from 'vue'
 import { ChevronUp, ChevronDown } from 'lucide-vue-next'
 import type { ColorVariant } from '@/types/theme'
 
@@ -15,7 +15,7 @@ export interface UiStatCardProps {
   layout?: 'vertical' | 'horizontal'
 }
 
-const props = withDefaults(defineProps<UiStatCardProps>(), {
+withDefaults(defineProps<UiStatCardProps>(), {
   change: undefined,
   trend: 'up',
   description: undefined,
@@ -24,20 +24,6 @@ const props = withDefaults(defineProps<UiStatCardProps>(), {
   icon: undefined,
   layout: 'horizontal',
 })
-
-const avatarSoftClass = computed(() => {
-  const map: Record<ColorVariant, string> = {
-    primary: 'bg-primary/15 text-primary',
-    secondary: 'bg-secondary/15 text-secondary',
-    accent: 'bg-accent/15 text-accent',
-    neutral: 'bg-neutral/15 text-neutral dark:text-base-content',
-    info: 'bg-info/15 text-info',
-    success: 'bg-success/15 text-success',
-    warning: 'bg-warning/15 text-warning',
-    error: 'bg-error/15 text-error',
-  }
-  return map[props.variant]
-})
 </script>
 
 <template>
@@ -45,13 +31,11 @@ const avatarSoftClass = computed(() => {
   <div v-if="layout === 'vertical'" class="card h-full">
     <div class="card-body p-5 flex flex-col justify-between gap-4">
       <div class="flex items-start justify-between gap-2">
-        <div
+        <component
           v-if="icon"
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn"
-          :class="avatarSoftClass"
-        >
-          <component :is="icon" class="h-5 w-5" />
-        </div>
+          :is="icon"
+          class="h-5 w-5 shrink-0 text-[var(--text-muted)]"
+        />
 
         <div
           v-if="change"
@@ -87,7 +71,7 @@ const avatarSoftClass = computed(() => {
     </div>
   </div>
 
-  <!-- Layout 2: BeeJir Horizontal Stat Card (Left: Title, Value + Change, Description | Right: Soft Square Avatar Icon) -->
+  <!-- Layout 2: Tinkit Horizontal Stat Card (Left: Title, Value + Change, Description | Right: Soft Square Avatar Icon) -->
   <div v-else class="card h-full">
     <div class="card-body p-5 flex flex-row items-start justify-between gap-3">
       <div class="space-y-1">
@@ -117,13 +101,11 @@ const avatarSoftClass = computed(() => {
         </p>
       </div>
 
-      <div
+      <component
         v-if="icon"
-        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn"
-        :class="avatarSoftClass"
-      >
-        <component :is="icon" class="h-5 w-5" />
-      </div>
+        :is="icon"
+        class="h-5 w-5 shrink-0 text-[var(--text-muted)]"
+      />
     </div>
   </div>
 </template>

@@ -90,7 +90,7 @@ function nextStep() {
 
 <template>
   <div class="w-full">
-    <!-- BeeJir Numbered Wizard Header -->
+    <!-- Tinkit Numbered Wizard Header -->
     <div class="px-2 py-3 sm:px-4">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div
@@ -113,12 +113,12 @@ function nextStep() {
             "
             @click="goToStep(idx)"
           >
-            <!-- BeeJir Refined Square Step Avatar -->
+            <!-- Tinkit Refined Square Step Avatar -->
             <div
               class="flex h-9 w-9 shrink-0 items-center justify-center rounded-btn font-bold text-xs transition-all duration-150"
               :class="[
                 idx === currentStep
-                  ? 'bg-[var(--accent-soft)] text-[var(--accent)] border border-[var(--accent)] shadow-[0_0_14px_-2px_var(--ring)]'
+                  ? 'bg-primary text-primary-content border border-primary shadow-none'
                   : idx < currentStep
                     ? 'bg-[var(--accent-soft)] text-[var(--accent)] border border-[var(--ring)]'
                     : isStepAccessible(idx)
@@ -128,7 +128,7 @@ function nextStep() {
             >
               <Check v-if="idx < currentStep" class="h-3.5 w-3.5 stroke-[2.4]" />
               <component :is="step.icon" v-else-if="step.icon" class="h-4 w-4 shrink-0 stroke-[1.9]" />
-              <span v-else class="text-[11px] font-mono font-semibold">{{ String(idx + 1).padStart(2, '0') }}</span>
+              <span v-else class="text-[11px] font-semibold">{{ idx + 1 }}</span>
             </div>
 
             <!-- Step Number + Title + Subtitle -->
@@ -157,7 +157,7 @@ function nextStep() {
             </div>
           </div>
 
-          <!-- Chevron Connector (BeeJir Style) -->
+          <!-- Chevron Connector (Tinkit Style) -->
           <ChevronRight
             v-if="idx < steps.length - 1"
             class="hidden md:block h-5 w-5 text-[var(--text-faint)] shrink-0"

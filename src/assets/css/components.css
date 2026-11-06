@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BeeJir Semantic Component Classes (Neutral-Tinted Dark & Clean Light Style)
+   Tinkit Semantic Component Classes (Neutral-Tinted Dark & Clean Light Style)
    ========================================================================== */
 
 @layer components {
@@ -72,18 +72,18 @@
            shadow-sm hover:bg-error/90;
   }
 
-  /* Soft Pastel Variants (BeeJir .btn-label-* Style) */
+  /* Soft Pastel Variants (Tinkit .btn-label-* Style) */
   .btn-soft {
-    @apply border-transparent bg-base-200 text-base-content/80 shadow-none hover:bg-base-300/80;
+    @apply border-transparent bg-base-200 text-[var(--text-muted)] shadow-none hover:bg-base-300/80;
   }
   .btn-soft.btn-primary {
-    @apply border-transparent bg-primary/15 text-primary shadow-none hover:bg-primary/25 hover:shadow-none;
+    @apply border-transparent bg-primary/15 text-primary-ink shadow-none hover:bg-primary/25 hover:shadow-none;
   }
   .btn-soft.btn-secondary {
-    @apply border-transparent bg-secondary/15 text-secondary shadow-none hover:bg-secondary/25 hover:shadow-none;
+    @apply border-transparent bg-secondary/15 text-secondary-ink shadow-none hover:bg-secondary/25 hover:shadow-none;
   }
   .btn-soft.btn-accent {
-    @apply border-transparent bg-accent/15 text-accent shadow-none hover:bg-accent/25 hover:shadow-none;
+    @apply border-transparent bg-accent/15 text-accent-ink shadow-none hover:bg-accent/25 hover:shadow-none;
   }
   .btn-soft.btn-info {
     @apply border-transparent bg-info/15 text-info shadow-none hover:bg-info/25 hover:shadow-none;
@@ -100,13 +100,13 @@
 
   /* Outline Variants */
   .btn-outline {
-    @apply bg-transparent shadow-none border-base-300 text-base-content/80 hover:bg-base-200 hover:text-base-content;
+    @apply bg-transparent shadow-none border-base-300 text-[var(--text-muted)] hover:bg-base-200 hover:text-[var(--text)];
   }
   html.dark .btn-outline {
     border-color: var(--border);
     color: var(--text);
   }
-  html.dark .btn-outline:hover:not(:disabled) {
+  html.dark .btn-outline:not(.btn-primary, .btn-secondary, .btn-accent, .btn-info, .btn-success, .btn-warning, .btn-error):hover:not(:disabled) {
     background-color: var(--surface-raised);
     border-color: var(--border-strong);
     color: var(--text);
@@ -140,14 +140,8 @@
 
   /* Ghost Variant */
   .btn-ghost {
-    @apply border-transparent bg-transparent text-base-content/75 shadow-none
-           hover:bg-base-200 hover:text-base-content hover:border-transparent;
-  }
-
-  /* Ghost Variant */
-  .btn-ghost {
-    @apply border-transparent bg-transparent text-base-content/75 shadow-none
-           hover:bg-base-200 hover:text-base-content hover:border-transparent;
+    @apply border-transparent bg-transparent text-[var(--text-muted)] shadow-none
+           hover:bg-base-200 hover:text-[var(--text)] hover:border-transparent;
     background-image: none;
   }
   html.dark .btn-ghost:hover {
@@ -232,12 +226,37 @@
     @apply border-transparent;
   }
 
-  .btn-icon.btn-outline,
-  .btn-square.btn-outline,
-  .btn-circle.btn-outline {
-    @apply border border-base-300 bg-base-100 text-base-content/75
-           hover:border-primary/50 hover:text-primary hover:bg-primary/10;
-    border-color: var(--border);
+  .btn-active {
+    background-color: rgb(var(--p));
+    border-color: rgb(var(--p));
+    color: rgb(var(--pc));
+    box-shadow: none;
+  }
+
+  .btn-active:hover:not(:disabled) {
+    background-color: rgb(var(--p-hover, var(--p)));
+    border-color: rgb(var(--p-hover, var(--p)));
+    color: rgb(var(--pc));
+    box-shadow: none;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-accent,
+  .btn-neutral,
+  .btn-info,
+  .btn-success,
+  .btn-warning,
+  .btn-error,
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-accent:hover,
+  .btn-neutral:hover,
+  .btn-info:hover,
+  .btn-success:hover,
+  .btn-warning:hover,
+  .btn-error:hover {
+    box-shadow: none;
   }
 
   /* ------------------------------------------------------------------------
@@ -246,13 +265,13 @@
      ------------------------------------------------------------------------ */
   .card {
     @apply relative flex flex-col bg-base-100 text-base-content rounded-box
-           shadow-[0_4px_20px_-2px_rgba(38,43,67,0.06),0_2px_6px_-1px_rgba(38,43,67,0.04)]
-           transition-[shadow,transform] duration-200;
-    background-color: var(--surface-2);
+           transition-[background-color,border-color] duration-200;
+    background-color: var(--surface-card);
+    box-shadow: none;
   }
   html.dark .card {
     background-color: var(--surface-card);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.45), 0 4px 10px -3px rgba(0, 0, 0, 0.35);
+    box-shadow: none;
   }
 
   .card-bordered {
@@ -260,11 +279,7 @@
   }
 
   .card-hover {
-    @apply transition-all duration-200 hover:-translate-y-0.5
-           hover:shadow-[0_12px_28px_-4px_rgba(38,43,67,0.12),0_4px_10px_-2px_rgba(38,43,67,0.06)];
-  }
-  html.dark .card-hover:hover {
-    box-shadow: 0 16px 38px -6px rgba(0, 0, 0, 0.55), 0 6px 16px -4px rgba(0, 0, 0, 0.42);
+    @apply transition-colors duration-200 hover:bg-[var(--surface-raised)];
   }
 
   .card-body {
@@ -290,7 +305,7 @@
   }
 
   /* ------------------------------------------------------------------------
-     2B. BEEJIR SOFT TINT AVATARS (.avatar-soft-*)
+     2B. TINKIT SOFT TINT AVATARS (.avatar-soft-*)
      ------------------------------------------------------------------------ */
   .avatar-soft {
     @apply inline-flex items-center justify-center shrink-0 rounded-field font-semibold select-none;
@@ -324,7 +339,7 @@
   .badge {
     @apply inline-flex items-center justify-center gap-1.5 rounded-badge
            px-2.5 py-0.5 text-xs font-medium leading-5
-           border border-transparent bg-base-200 text-base-content/85
+           border border-transparent bg-base-200 text-[var(--text-muted)]
            transition-colors duration-150;
   }
 
@@ -356,15 +371,13 @@
 
   /* Soft Pastel Badges (15% alpha tint) */
   .badge-soft.badge-primary {
-    @apply border-transparent;
-    background-color: var(--accent-soft);
-    color: var(--accent);
+    @apply border-transparent bg-primary/15 text-primary-ink;
   }
   .badge-soft.badge-secondary {
-    @apply border-transparent bg-secondary/15 text-secondary;
+    @apply border-transparent bg-secondary/15 text-secondary-ink;
   }
   .badge-soft.badge-accent {
-    @apply border-transparent bg-accent/15 text-accent;
+    @apply border-transparent bg-accent/15 text-accent-ink;
   }
   .badge-soft.badge-info {
     @apply border-transparent bg-info/15 text-info;
@@ -384,13 +397,13 @@
     @apply bg-transparent;
   }
   .badge-outline.badge-primary {
-    @apply text-primary border-primary/45;
+    @apply text-primary-ink border-primary/45;
   }
   .badge-outline.badge-secondary {
-    @apply text-secondary border-secondary/45;
+    @apply text-secondary-ink border-secondary/45;
   }
   .badge-outline.badge-accent {
-    @apply text-accent border-accent/45;
+    @apply text-accent-ink border-accent/45;
   }
   .badge-outline.badge-info {
     @apply text-info border-info/45;
@@ -727,13 +740,12 @@
   }
 
   .table thead th {
-    @apply bg-base-200/80 px-5 py-3.5 text-xs font-semibold uppercase tracking-wider
-           border-b;
+    @apply px-5 py-3 text-xs font-medium border-b;
     color: var(--text-muted);
     border-color: var(--border);
   }
   html.dark .table thead th {
-    background-color: var(--surface-1);
+    background-color: transparent;
   }
 
   .table tbody td {

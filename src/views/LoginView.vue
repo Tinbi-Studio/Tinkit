@@ -13,6 +13,7 @@ import {
   ShoppingCart,
 } from 'lucide-vue-next'
 import ThemeCustomizerDrawer from '@/components/layout/ThemeCustomizerDrawer.vue'
+import AppBrand from '@/components/brand/AppBrand.vue'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -24,7 +25,7 @@ const loading = ref(false)
 
 const form = ref({
   name: '',
-  email: 'arif.budiman@beejir.id',
+  email: 'arif.budiman@tinkit.example',
   password: 'Password123!',
   remember: true,
 })
@@ -47,33 +48,10 @@ function handleSubmit() {
     <!-- Top-left Brand Logo (Shared across Cover & Form) -->
     <RouterLink
       to="/"
-      class="fixed left-6 top-6 z-30 flex items-center gap-2.5 group"
+      class="fixed left-6 top-6 z-30 flex items-center group"
+      aria-label="Tinkit dashboard"
     >
-      <span class="flex h-8 w-8 items-center justify-center shrink-0">
-        <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon
-            points="16,2 29,9.5 29,22.5 16,30 3,22.5 3,9.5"
-            fill="rgb(var(--p))"
-          />
-          <polygon
-            points="16,4.5 26.5,10.6 26.5,21.4 16,27.5 5.5,21.4 5.5,10.6"
-            fill="rgb(var(--p))"
-            fill-opacity="0.25"
-          />
-          <circle cx="16" cy="11" r="2.8" fill="white" />
-          <ellipse cx="11.2" cy="13.2" rx="3.5" ry="2.2" transform="rotate(-28 11.2 13.2)" fill="white" fill-opacity="0.85" />
-          <ellipse cx="20.8" cy="13.2" rx="3.5" ry="2.2" transform="rotate(28 20.8 13.2)" fill="white" fill-opacity="0.85" />
-          <path
-            d="M13 14.8C13 13.8 19 13.8 19 14.8V20C19 21.6 17.5 23.5 16 24.5C14.5 23.5 13 21.6 13 20V14.8Z"
-            fill="#181a20"
-          />
-          <path d="M13 16.5H19" stroke="#fdb528" stroke-width="1.4" stroke-linecap="round" />
-          <path d="M13.4 19.2H18.6" stroke="#fdb528" stroke-width="1.4" stroke-linecap="round" />
-        </svg>
-      </span>
-      <span class="text-xl font-bold tracking-tight text-base-content">
-        Bee<span class="text-primary">Jir</span>
-      </span>
+      <AppBrand size="md" />
     </RouterLink>
 
     <!-- Floating Top-Right Theme Controls -->
@@ -94,7 +72,7 @@ function handleSubmit() {
       </button>
     </div>
 
-    <!-- LEFT 7/12 PANEL: BeeJir Authentication Cover Showcase (bg-base-200) -->
+    <!-- LEFT 7/12 PANEL: Tinkit Authentication Cover Showcase (bg-base-200) -->
     <div class="hidden lg:flex lg:w-7/12 xl:w-8/12 relative items-center justify-center overflow-hidden bg-base-200 p-12">
       <!-- Subtle bottom decorative wave/tree mask -->
       <svg
@@ -128,7 +106,7 @@ function handleSubmit() {
         <div class="card p-6 sm:p-8 shadow-xl">
           <div class="flex items-center justify-between border-b border-base-300/70 pb-4 mb-6">
             <div>
-              <h5 class="card-title">BeeJir Enterprise CRM Analytics</h5>
+              <h5 class="card-title">Tinkit Enterprise CRM Analytics</h5>
               <p class="card-subtitle">Real-time performance & multi-theme workspace</p>
             </div>
             <span class="badge badge-soft badge-primary px-3 py-1 text-xs font-medium">
@@ -212,14 +190,14 @@ function handleSubmit() {
       </div>
     </div>
 
-    <!-- RIGHT 5/12 PANEL: BeeJir Clean Authentication Form (bg-base-100) -->
+    <!-- RIGHT 5/12 PANEL: Tinkit Clean Authentication Form (bg-base-100) -->
     <div class="flex w-full lg:w-5/12 xl:w-4/12 items-center justify-center bg-base-100 p-6 sm:p-12">
       <div class="w-full max-w-sm space-y-6">
         <!-- Heading -->
         <div>
-          <h4 class="text-2xl font-semibold text-base-content">
-            {{ isRegister ? 'Adventure starts here 🚀' : 'Welcome to BeeJir! 👋' }}
-          </h4>
+          <h1 class="text-2xl font-semibold text-base-content">
+            {{ isRegister ? 'Adventure starts here' : 'Welcome to Tinkit' }}
+          </h1>
           <p class="mt-1.5 text-sm text-base-content/60">
             {{
               isRegister

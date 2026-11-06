@@ -60,14 +60,14 @@ const styleClasses = computed(() => {
 
   if (isSolid.value) {
     const map: Record<ColorVariant, string> = {
-      primary: 'bg-primary text-slate-950 border-primary/40 shadow-sm shadow-primary/20 dark:bg-primary/20 dark:text-slate-100 dark:border-primary/40 dark:shadow-none',
-      secondary: 'bg-secondary text-slate-950 border-secondary/40 shadow-sm shadow-secondary/20 dark:bg-secondary/20 dark:text-slate-100 dark:border-secondary/40 dark:shadow-none',
-      accent: 'bg-accent text-slate-950 border-accent/40 shadow-sm shadow-accent/20 dark:bg-accent/20 dark:text-slate-100 dark:border-accent/40 dark:shadow-none',
-      neutral: 'bg-base-300 text-slate-950 border-base-300 shadow-sm dark:bg-base-300 dark:text-base-content dark:border-base-300',
-      info: 'bg-info text-slate-950 border-info/40 shadow-sm shadow-info/20 dark:bg-info/20 dark:text-slate-100 dark:border-info/40 dark:shadow-none',
-      success: 'bg-success text-slate-950 border-success/40 shadow-sm shadow-success/20 dark:bg-success/20 dark:text-slate-100 dark:border-success/40 dark:shadow-none',
-      warning: 'bg-warning text-slate-950 border-warning/50 shadow-sm shadow-warning/20 dark:bg-warning/20 dark:text-slate-100 dark:border-warning/40 dark:shadow-none',
-      error: 'bg-error text-slate-950 border-error/40 shadow-sm shadow-error/20 dark:bg-error/20 dark:text-slate-100 dark:border-error/40 dark:shadow-none',
+      primary: 'bg-primary text-primary-content border-primary',
+      secondary: 'bg-secondary text-secondary-content border-secondary',
+      accent: 'bg-accent text-accent-content border-accent',
+      neutral: 'bg-neutral text-neutral-content border-neutral',
+      info: 'bg-info text-info-content border-info',
+      success: 'bg-success text-success-content border-success',
+      warning: 'bg-warning text-warning-content border-warning',
+      error: 'bg-error text-error-content border-error',
     }
     return `${map[v]} border`
   }
@@ -118,27 +118,27 @@ const iconBoxClasses = computed(() => {
   const v = props.variant
   if (isSolid.value) {
     const solidIconMap: Record<ColorVariant, string> = {
-      primary: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-primary dark:text-slate-950 font-bold',
-      secondary: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-secondary dark:text-slate-950 font-bold',
-      accent: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-accent dark:text-slate-950 font-bold',
-      neutral: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-slate-200 dark:text-slate-900 font-bold',
-      info: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-info dark:text-slate-950 font-bold',
-      success: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-success dark:text-slate-950 font-bold',
-      warning: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-warning dark:text-slate-950 font-bold',
-      error: 'bg-white text-slate-950 shadow-xs ring-1 ring-black/15 dark:bg-error dark:text-slate-950 font-bold',
+      primary: 'bg-primary-content text-primary font-bold',
+      secondary: 'bg-secondary-content text-secondary font-bold',
+      accent: 'bg-accent-content text-accent font-bold',
+      neutral: 'bg-neutral-content text-neutral font-bold',
+      info: 'bg-info-content text-info font-bold',
+      success: 'bg-success-content text-success font-bold',
+      warning: 'bg-warning-content text-warning font-bold',
+      error: 'bg-error-content text-error font-bold',
     }
     return solidIconMap[v]
   }
 
   const map: Record<ColorVariant, string> = {
-    primary: 'bg-primary/15 text-indigo-700 dark:text-primary',
-    secondary: 'bg-secondary/15 text-pink-700 dark:text-secondary',
-    accent: 'bg-accent/15 text-teal-800 dark:text-accent',
-    neutral: 'bg-neutral/15 text-slate-800 dark:text-neutral',
-    info: 'bg-info/15 text-sky-800 dark:text-info',
-    success: 'bg-success/15 text-emerald-800 dark:text-success',
-    warning: 'bg-warning/20 text-amber-900 dark:text-warning',
-    error: 'bg-error/15 text-rose-700 dark:text-error',
+    primary: 'bg-primary/15 text-primary-ink',
+    secondary: 'bg-secondary/15 text-secondary-ink',
+    accent: 'bg-accent/15 text-accent-ink',
+    neutral: 'bg-neutral/15 text-neutral-ink',
+    info: 'bg-info/15 text-info',
+    success: 'bg-success/15 text-success',
+    warning: 'bg-warning/20 text-warning',
+    error: 'bg-error/15 text-error',
   }
   return map[v]
 })
@@ -160,7 +160,7 @@ function handleDismiss() {
   >
     <div
       v-if="visible"
-      class="flex w-full items-start gap-3.5 rounded-box p-4 text-sm transition-all shadow-xs"
+      class="flex w-full items-start gap-3.5 rounded-box p-4 text-sm transition-all shadow-none"
       :class="styleClasses"
       role="alert"
     >
@@ -175,13 +175,13 @@ function handleDismiss() {
         <h5
           v-if="title"
           class="font-bold tracking-tight mb-1"
-          :class="isSolid ? 'text-slate-950 dark:text-slate-100' : 'text-base-content'"
+          :class="isSolid ? 'text-current' : 'text-base-content'"
         >
           {{ title }}
         </h5>
         <div
           class="leading-relaxed"
-          :class="isSolid ? 'text-slate-900/95 dark:text-slate-200' : 'text-base-content/80'"
+          :class="isSolid ? 'text-current opacity-95' : 'text-[var(--text-muted)]'"
         >
           <slot />
         </div>
@@ -194,7 +194,7 @@ function handleDismiss() {
         v-if="dismissible"
         type="button"
         class="btn btn-ghost btn-xs btn-circle shrink-0"
-        :class="isSolid ? 'text-slate-950/70 hover:text-slate-950 hover:bg-black/10 dark:text-slate-300 dark:hover:text-white dark:hover:bg-white/10' : 'text-base-content/50 hover:text-base-content'"
+        :class="isSolid ? 'text-current hover:bg-black/10' : 'text-[var(--text-muted)] hover:text-[var(--text)]'"
         aria-label="Tutup pesan"
         @click="handleDismiss"
       >

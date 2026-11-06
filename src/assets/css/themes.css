@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BeeJir Theme Engine: Modern, Clean & Professional Neutral-Tinted Presets
+   Tinkit Theme Engine: Modern, Clean & Professional Neutral-Tinted Presets
    - Light Mode: Crisp, high-contrast surface paper with colorful accents
    - Dark Mode: Calm, low-saturation neutral-tinted dark surfaces (10-20% sat)
      Elevation hierarchy: bg < surface-1 < surface-2 < surface-raised
@@ -10,6 +10,60 @@
    1. LIGHT MODE BASE & PRESETS
    -------------------------------------------------------------------------- */
 :root,
+[data-theme="tinkit"] {
+  color-scheme: light;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --bg: #F3F5F8;
+  --surface-1: #FFFFFF;
+  --surface-2: #FFFFFF;
+  --surface-card: #FFFFFF;
+  --surface-raised: #E9EDF2;
+  --surface-input: #FFFFFF;
+  --surface-overlay: #FFFFFF;
+  --border: rgba(34, 40, 49, 0.12);
+  --border-strong: rgba(34, 40, 49, 0.22);
+  --text: #222831;
+  --text-muted: #56606D;
+  --text-faint: #66717F;
+  --accent: #222831;
+  --accent-hover: #3A4552;
+  --accent-soft: rgba(34, 40, 49, 0.12);
+  --ring: rgba(34, 40, 49, 0.25);
+
+  --p: 34 40 49;
+  --p-hover: 58 69 82;
+  --pc: 201 222 255;
+  --p-ink: 34 40 49;
+  --s: 82 101 122;
+  --sc: 255 255 255;
+  --s-ink: 70 88 107;
+  --a: 34 40 49;
+  --ac: 201 222 255;
+  --a-ink: 34 40 49;
+  --n: 34 40 49;
+  --nc: 201 222 255;
+  --n-ink: 34 40 49;
+  --b1: 255 255 255;
+  --b2: 243 245 248;
+  --b3: 225 230 237;
+  --bc: 34 40 49;
+  --in: 3 105 161;
+  --inc: 255 255 255;
+  --su: 24 121 78;
+  --suc: 255 255 255;
+  --wa: 161 92 7;
+  --wac: 255 255 255;
+  --er: 196 50 10;
+  --erc: 255 255 255;
+
+  --rounded-box: 0.625rem;
+  --rounded-btn: 0.5rem;
+  --rounded-badge: 0.5rem;
+  --rounded-field: min(var(--rounded-btn), 0.75rem);
+  --rounded-panel: min(var(--rounded-box), 0.875rem);
+}
+
 [data-theme="daybreak"] {
   color-scheme: light;
   /* Elevation & Design Tokens */
@@ -342,6 +396,119 @@
   --erc: 255 255 255;
 }
 
+/* Accessible light-mode normalization shared by the retained presets. */
+[data-theme="daybreak"],
+[data-theme="midnight"],
+[data-theme="aurora"],
+[data-theme="nebula"],
+[data-theme="sunset"],
+[data-theme="ocean"],
+[data-theme="matcha"],
+[data-theme="berry"] {
+  --surface-card: #FFFFFF;
+  --surface-overlay: #FFFFFF;
+  --text-muted: #56606D;
+  --text-faint: #66717F;
+  --p-ink: var(--p);
+  --n-ink: var(--n);
+  --in: 3 105 161;
+  --inc: 255 255 255;
+  --su: 24 121 78;
+  --suc: 255 255 255;
+  --wa: 161 92 7;
+  --wac: 255 255 255;
+  --er: 196 50 10;
+  --erc: 255 255 255;
+}
+
+[data-theme="daybreak"] {
+  --p: 81 86 214;
+  --p-hover: 63 69 184;
+  --s: 232 62 140;
+  --sc: 17 19 24;
+  --s-ink: 190 24 93;
+  --a: 32 201 151;
+  --ac: 17 19 24;
+  --a-ink: 15 118 110;
+}
+
+[data-theme="midnight"] {
+  --p: 37 99 235;
+  --p-hover: 29 78 216;
+  --s: 6 182 212;
+  --sc: 17 19 24;
+  --s-ink: 3 105 161;
+  --a: 79 70 229;
+  --ac: 255 255 255;
+  --a-ink: 79 70 229;
+}
+
+[data-theme="aurora"] {
+  --p: 4 120 87;
+  --p-hover: 6 95 70;
+  --s: 6 182 212;
+  --sc: 17 19 24;
+  --s-ink: 3 105 161;
+  --a: 20 184 166;
+  --ac: 17 19 24;
+  --a-ink: 15 118 110;
+}
+
+[data-theme="nebula"] {
+  --p: 124 58 237;
+  --p-hover: 109 40 217;
+  --s: 168 85 247;
+  --sc: 17 19 24;
+  --s-ink: 126 34 206;
+  --a: 236 72 153;
+  --ac: 17 19 24;
+  --a-ink: 190 24 93;
+}
+
+[data-theme="sunset"] {
+  --p: 194 65 12;
+  --p-hover: 154 52 18;
+  --s: 225 29 72;
+  --sc: 255 255 255;
+  --s-ink: 225 29 72;
+  --a: 124 58 237;
+  --ac: 255 255 255;
+  --a-ink: 109 40 217;
+}
+
+[data-theme="ocean"] {
+  --p: 3 105 161;
+  --p-hover: 7 89 133;
+  --s: 6 182 212;
+  --sc: 17 19 24;
+  --s-ink: 3 105 161;
+  --a: 244 63 94;
+  --ac: 17 19 24;
+  --a-ink: 190 18 60;
+}
+
+[data-theme="matcha"] {
+  --p: 4 120 87;
+  --p-hover: 6 95 70;
+  --s: 13 148 136;
+  --sc: 17 19 24;
+  --s-ink: 15 118 110;
+  --a: 217 119 6;
+  --ac: 17 19 24;
+  --a-ink: 146 64 14;
+}
+
+[data-theme="berry"] {
+  --p: 124 58 237;
+  --p-hover: 109 40 217;
+  --s: 217 70 239;
+  --sc: 17 19 24;
+  --s-ink: 162 28 175;
+  --a: 245 158 11;
+  --ac: 17 19 24;
+  --a-ink: 146 64 14;
+}
+
 /* --------------------------------------------------------------------------
    2. DARK MODE BASELINE & COMMON TOKENS
    - Neutral tinted, low saturation (10-20%)
@@ -353,8 +520,8 @@ html.dark {
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.14);
   --text: #E8EAF0;
-  --text-muted: #A0A6B5;
-  --text-faint: #7C8294;
+  --text-muted: #B4BECB;
+  --text-faint: #96A1AF;
 
   /* Consistent Desaturated Semantics (Anti-glare on Dark) */
   --su: 52 211 153;   /* #34D399 */
@@ -362,9 +529,13 @@ html.dark {
   --wa: 251 191 36;   /* #FBBF24 */
   --wac: 18 13 11;
   --er: 248 113 113;  /* #F87171 */
-  --erc: 255 255 255;
+  --erc: 17 19 24;
   --in: 96 165 250;   /* #60A5FA */
   --inc: 12 14 24;
+  --p-ink: var(--p);
+  --s-ink: var(--s);
+  --a-ink: var(--a);
+  --n-ink: var(--n);
 
   /* Fallback geometry */
   --rounded-box: 0.625rem;
@@ -378,9 +549,39 @@ html.dark {
    3. THE 8 REDESIGNED DARK THEME PRESETS
    -------------------------------------------------------------------------- */
 
-/* PRESET 1: Daybreak Indigo (Royal Indigo on Neutral Indigo Slate) */
-html.dark[data-theme="daybreak"],
+/* PRESET 1: Tinkit Studio (Ink and pale blue on neutral off-black) */
+html.dark[data-theme="tinkit"],
 html.dark:not([data-theme]) {
+  --bg: #111318;
+  --surface-1: #16191F;
+  --surface-2: #1A1E25;
+  --surface-card: #20252E;
+  --surface-raised: #272D37;
+  --surface-input: #14171D;
+  --accent: #C9DEFF;
+  --accent-hover: #DCE9FF;
+  --accent-soft: rgba(201, 222, 255, 0.15);
+  --ring: rgba(201, 222, 255, 0.3);
+
+  --p: 201 222 255;
+  --p-hover: 220 233 255;
+  --pc: 34 40 49;
+  --p-ink: 201 222 255;
+  --s: 156 176 205;
+  --sc: 34 40 49;
+  --s-ink: 156 176 205;
+  --a: 201 222 255;
+  --ac: 34 40 49;
+  --a-ink: 201 222 255;
+
+  --b1: 26 30 37;
+  --b2: 17 19 24;
+  --b3: 39 45 55;
+  --bc: 242 245 250;
+}
+
+/* PRESET 2: Daybreak Indigo (Royal Indigo on Neutral Indigo Slate) */
+html.dark[data-theme="daybreak"] {
   --bg: #0C0E18;
   --surface-1: #101322;
   --surface-2: #121526;

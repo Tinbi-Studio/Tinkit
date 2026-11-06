@@ -40,7 +40,7 @@ function getDotClasses(variant: ColorVariant = 'primary') {
       :key="item.id"
       class="relative pl-7"
     >
-      <!-- BeeJir Timeline Point -->
+      <!-- Tinkit Timeline Point -->
       <span
         class="absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full ring-4"
         :class="getDotClasses(item.variant)"

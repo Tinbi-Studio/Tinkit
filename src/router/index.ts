@@ -27,7 +27,7 @@ const router = createRouter({
       component: DashboardView,
       meta: {
         title: 'Dashboard Overview',
-        subtitle: 'Ringkasan analitik, performa, dan aktivitas sistem BeeJir',
+        subtitle: 'Ringkasan analitik, performa, dan aktivitas sistem Tinkit',
       },
     },
     {

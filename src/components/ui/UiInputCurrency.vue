@@ -485,7 +485,7 @@ onUnmounted(() => {
               </button>
             </div>
 
-            <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--text-faint)]">
+            <div class="px-2 py-1 text-[10px] font-bold text-[var(--text-faint)]">
               Daftar Mata Uang ({{ filteredCurrencies.length }})
             </div>
 

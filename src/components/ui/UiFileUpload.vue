@@ -752,7 +752,8 @@ onUnmounted(() => {
                   <button
                     type="button"
                     class="btn btn-ghost btn-xs btn-circle h-7 w-7 hover:bg-base-300/60"
-                    :class="isFlippedH ? 'bg-primary/20 text-primary' : ''"
+                    :class="isFlippedH ? 'btn-active' : ''"
+                    :aria-pressed="isFlippedH"
                     aria-label="Balik Horizontal"
                     @click="toggleFlipHorizontal"
                   >

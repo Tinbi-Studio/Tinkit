@@ -372,19 +372,20 @@ function handleCardAction(widgetName: string, item: DropdownItem) {
 
 <template>
   <div class="space-y-6">
-    <!-- ROW 1: Top 12-Col CRM Summary Grid (Matches BeeJir dashboards-crm.html) -->
+    <h1 class="text-2xl font-bold text-[var(--text)]">Dashboard</h1>
+    <!-- ROW 1: Top 12-Col CRM Summary Grid (Matches Tinkit dashboards-crm.html) -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12">
       <!-- 1. Congratulations Card (lg:col-span-4) -->
       <div class="card relative overflow-hidden p-5 lg:col-span-4 flex flex-col justify-between">
         <div class="relative z-10 pr-24">
           <h5 class="text-[1.0625rem] font-medium text-base-content leading-snug">
-            Congratulations <span class="font-bold">Arif!</span> 🎉
+            Congratulations <span class="font-bold">Arif!</span>
           </h5>
           <p class="mt-1 text-[0.8125rem] text-base-content/55">Best seller of the month</p>
 
           <div class="mt-4">
             <h4 class="text-2xl font-bold text-primary tracking-tight">Rp 42,8 Jt</h4>
-            <p class="mt-0.5 text-[0.8125rem] text-base-content/60">78% of target 🚀</p>
+            <p class="mt-0.5 text-[0.8125rem] text-base-content/60">78% of target</p>
           </div>
 
           <button
@@ -731,9 +732,7 @@ function handleCardAction(widgetName: string, item: DropdownItem) {
                 :key="proj.title"
                 class="flex items-center gap-3.5"
               >
-                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-field" :class="proj.avatarClass">
-                  <component :is="proj.icon" class="h-5 w-5" />
-                </div>
+                <component :is="proj.icon" class="h-5 w-5 shrink-0 text-[var(--text-muted)]" />
                 <div class="min-w-0 flex-1">
                   <h6 class="text-sm font-semibold text-base-content truncate">{{ proj.title }}</h6>
                   <p class="text-xs text-base-content/55">{{ proj.tasks }}</p>
@@ -799,7 +798,7 @@ function handleCardAction(widgetName: string, item: DropdownItem) {
           <div class="flex items-center gap-4 mb-4">
             <h4 class="text-2xl font-bold text-base-content">62%</h4>
             <p class="text-[0.8125rem] text-base-content/65 leading-snug">
-              Your sales performance is 35% 😎 better compared to last month
+              Your sales performance is 35% better compared to last month
             </p>
           </div>
           <button

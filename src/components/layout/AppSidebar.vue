@@ -22,6 +22,7 @@ import {
 import { useThemeStore } from '@/stores/theme'
 import type { ColorVariant } from '@/types/theme'
 import UiTooltip from '@/components/ui/UiTooltip.vue'
+import AppBrand from '@/components/brand/AppBrand.vue'
 
 const route = useRoute()
 const themeStore = useThemeStore()
@@ -146,7 +147,7 @@ function isActive(path: string): boolean {
     />
   </Transition>
 
-  <!-- Sidebar Panel (BeeJir Vertical Menu Style) -->
+  <!-- Sidebar Panel (Tinkit Vertical Menu Style) -->
   <aside
     class="fixed inset-y-0 left-0 z-40 flex flex-col bg-[var(--surface-1)] border-r border-[var(--border)] shadow-[0_0.125rem_0.625rem_0_rgba(38,43,67,0.06)] dark:shadow-[0_0.125rem_0.625rem_0_rgba(0,0,0,0.28)] transition-all duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:max-h-screen shrink-0"
     :class="[
@@ -156,56 +157,24 @@ function isActive(path: string): boolean {
         : '-translate-x-full w-[260px] lg:translate-x-0',
     ]"
   >
-    <!-- Brand Header (BeeJir app-brand style) -->
+    <!-- Brand Header (Tinkit app-brand style) -->
     <div
       class="flex h-16 shrink-0 items-center transition-all"
       :class="themeStore.sidebarCollapsed ? 'justify-center px-2' : 'justify-between px-5'"
     >
       <RouterLink
         to="/"
-        class="flex items-center gap-2.5 overflow-hidden"
+        class="flex items-center overflow-hidden"
+        aria-label="Tinkit dashboard"
         @click="themeStore.mobileSidebarOpen = false"
       >
-        <!-- BeeJir Hexagon Bee Emblem Logo -->
-        <span class="shrink-0 flex items-center justify-center">
-          <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Modern Hexagon Shield Base -->
-            <polygon
-              points="16,2 29,9.5 29,22.5 16,30 3,22.5 3,9.5"
-              fill="rgb(var(--p))"
-              class="transition-colors"
-            />
-            <!-- Hexagon Soft Inner Glow -->
-            <polygon
-              points="16,4.5 26.5,10.6 26.5,21.4 16,27.5 5.5,21.4 5.5,10.6"
-              fill="rgb(var(--p))"
-              fill-opacity="0.25"
-            />
-            <!-- Bee Head -->
-            <circle cx="16" cy="11" r="2.8" fill="white" />
-            <!-- Bee Wings -->
-            <ellipse cx="11.2" cy="13.2" rx="3.5" ry="2.2" transform="rotate(-28 11.2 13.2)" fill="white" fill-opacity="0.85" />
-            <ellipse cx="20.8" cy="13.2" rx="3.5" ry="2.2" transform="rotate(28 20.8 13.2)" fill="white" fill-opacity="0.85" />
-            <!-- Bee Abdomen Body -->
-            <path
-              d="M13 14.8C13 13.8 19 13.8 19 14.8V20C19 21.6 17.5 23.5 16 24.5C14.5 23.5 13 21.6 13 20V14.8Z"
-              fill="#181a20"
-            />
-            <!-- Honey Golden Stripes -->
-            <path d="M13 16.5H19" stroke="#fdb528" stroke-width="1.4" stroke-linecap="round" />
-            <path d="M13.4 19.2H18.6" stroke="#fdb528" stroke-width="1.4" stroke-linecap="round" />
-          </svg>
-        </span>
-
-        <span
-          v-show="!themeStore.sidebarCollapsed || themeStore.mobileSidebarOpen"
-          class="text-[1.25rem] font-bold tracking-tight text-base-content"
-        >
-          Bee<span class="text-primary">Jir</span>
-        </span>
+        <AppBrand
+          :icon-only="themeStore.sidebarCollapsed && !themeStore.mobileSidebarOpen"
+          size="sm"
+        />
       </RouterLink>
 
-      <!-- Desktop Collapse Toggle (Double Chevron like BeeJir) -->
+      <!-- Desktop Collapse Toggle (Double Chevron like Tinkit) -->
       <button
         v-show="!themeStore.sidebarCollapsed"
         type="button"
@@ -247,7 +216,7 @@ function isActive(path: string): boolean {
       <div>
         <div
           v-show="!themeStore.sidebarCollapsed || themeStore.mobileSidebarOpen"
-          class="flex items-center gap-2 px-3 mb-2 text-[11px] font-medium uppercase tracking-wider text-[var(--text-faint)]"
+          class="flex items-center gap-2 px-3 mb-2 text-xs font-medium text-[var(--text-muted)]"
         >
           <span>Dashboards &amp; Apps</span>
           <span class="h-px flex-1 bg-[var(--border)]" />
@@ -265,10 +234,11 @@ function isActive(path: string): boolean {
             >
               <RouterLink
                 :to="item.to"
+                :aria-current="isActive(item.to) ? 'page' : undefined"
                 class="group relative flex items-center justify-center h-10 w-10 rounded-btn text-[14px] transition-colors duration-150 border"
                 :class="[
                   isActive(item.to)
-                    ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                    ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                     : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
                 ]"
                 @click="themeStore.mobileSidebarOpen = false"
@@ -276,7 +246,7 @@ function isActive(path: string): boolean {
                 <component
                   :is="item.icon"
                   class="h-[19px] w-[19px] shrink-0"
-                  :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                  :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
                 />
               </RouterLink>
             </UiTooltip>
@@ -285,10 +255,11 @@ function isActive(path: string): boolean {
             <RouterLink
               v-else
               :to="item.to"
+              :aria-current="isActive(item.to) ? 'page' : undefined"
               class="group relative flex items-center justify-start gap-3 px-3.5 py-2 w-full rounded-btn text-[14px] transition-colors duration-150 border"
               :class="[
                 isActive(item.to)
-                  ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                  ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                   : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
               ]"
               @click="themeStore.mobileSidebarOpen = false"
@@ -296,7 +267,7 @@ function isActive(path: string): boolean {
               <component
                 :is="item.icon"
                 class="h-[19px] w-[19px] shrink-0"
-                :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
               />
               <span class="flex-1 truncate">
                 {{ item.label }}
@@ -317,7 +288,7 @@ function isActive(path: string): boolean {
       <div>
         <div
           v-show="!themeStore.sidebarCollapsed || themeStore.mobileSidebarOpen"
-          class="flex items-center gap-2 px-3 mb-2 text-[11px] font-medium uppercase tracking-wider text-[var(--text-faint)]"
+          class="flex items-center gap-2 px-3 mb-2 text-xs font-medium text-[var(--text-muted)]"
         >
           <span>Commerce &amp; Workspace</span>
           <span class="h-px flex-1 bg-[var(--border)]" />
@@ -335,10 +306,11 @@ function isActive(path: string): boolean {
             >
               <RouterLink
                 :to="item.to"
+                :aria-current="isActive(item.to) ? 'page' : undefined"
                 class="group relative flex items-center justify-center h-10 w-10 rounded-btn text-[14px] transition-colors duration-150 border"
                 :class="[
                   isActive(item.to)
-                    ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                    ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                     : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
                 ]"
                 @click="themeStore.mobileSidebarOpen = false"
@@ -346,7 +318,7 @@ function isActive(path: string): boolean {
                 <component
                   :is="item.icon"
                   class="h-[19px] w-[19px] shrink-0"
-                  :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                  :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
                 />
               </RouterLink>
             </UiTooltip>
@@ -355,10 +327,11 @@ function isActive(path: string): boolean {
             <RouterLink
               v-else
               :to="item.to"
+              :aria-current="isActive(item.to) ? 'page' : undefined"
               class="group relative flex items-center justify-start gap-3 px-3.5 py-2 w-full rounded-btn text-[14px] transition-colors duration-150 border"
               :class="[
                 isActive(item.to)
-                  ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                  ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                   : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
               ]"
               @click="themeStore.mobileSidebarOpen = false"
@@ -366,7 +339,7 @@ function isActive(path: string): boolean {
               <component
                 :is="item.icon"
                 class="h-[19px] w-[19px] shrink-0"
-                :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
               />
               <span class="flex-1 truncate">
                 {{ item.label }}
@@ -387,7 +360,7 @@ function isActive(path: string): boolean {
       <div>
         <div
           v-show="!themeStore.sidebarCollapsed || themeStore.mobileSidebarOpen"
-          class="flex items-center gap-2 px-3 mb-2 text-[11px] font-medium uppercase tracking-wider text-[var(--text-faint)]"
+          class="flex items-center gap-2 px-3 mb-2 text-xs font-medium text-[var(--text-muted)]"
         >
           <span>Pages &amp; Auth</span>
           <span class="h-px flex-1 bg-[var(--border)]" />
@@ -405,10 +378,11 @@ function isActive(path: string): boolean {
             >
               <RouterLink
                 :to="item.to"
+                :aria-current="isActive(item.to) ? 'page' : undefined"
                 class="group relative flex items-center justify-center h-10 w-10 rounded-btn text-[14px] transition-colors duration-150 border"
                 :class="[
                   isActive(item.to)
-                    ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                    ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                     : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
                 ]"
                 @click="themeStore.mobileSidebarOpen = false"
@@ -416,7 +390,7 @@ function isActive(path: string): boolean {
                 <component
                   :is="item.icon"
                   class="h-[19px] w-[19px] shrink-0"
-                  :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                  :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
                 />
               </RouterLink>
             </UiTooltip>
@@ -425,10 +399,11 @@ function isActive(path: string): boolean {
             <RouterLink
               v-else
               :to="item.to"
+              :aria-current="isActive(item.to) ? 'page' : undefined"
               class="group relative flex items-center justify-start gap-3 px-3.5 py-2 w-full rounded-btn text-[14px] transition-colors duration-150 border"
               :class="[
                 isActive(item.to)
-                  ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                  ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                   : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
               ]"
               @click="themeStore.mobileSidebarOpen = false"
@@ -436,7 +411,7 @@ function isActive(path: string): boolean {
               <component
                 :is="item.icon"
                 class="h-[19px] w-[19px] shrink-0"
-                :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
               />
               <span class="flex-1 truncate">
                 {{ item.label }}
@@ -457,7 +432,7 @@ function isActive(path: string): boolean {
       <div>
         <div
           v-show="!themeStore.sidebarCollapsed || themeStore.mobileSidebarOpen"
-          class="flex items-center gap-2 px-3 mb-2 text-[11px] font-medium uppercase tracking-wider text-[var(--text-faint)]"
+          class="flex items-center gap-2 px-3 mb-2 text-xs font-medium text-[var(--text-muted)]"
         >
           <span>Components &amp; UI</span>
           <span class="h-px flex-1 bg-[var(--border)]" />
@@ -475,10 +450,11 @@ function isActive(path: string): boolean {
             >
               <RouterLink
                 :to="item.to"
+                :aria-current="isActive(item.to) ? 'page' : undefined"
                 class="group relative flex items-center justify-center h-10 w-10 rounded-btn text-[14px] transition-colors duration-150 border"
                 :class="[
                   isActive(item.to)
-                    ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                    ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                     : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
                 ]"
                 @click="themeStore.mobileSidebarOpen = false"
@@ -486,7 +462,7 @@ function isActive(path: string): boolean {
                 <component
                   :is="item.icon"
                   class="h-[19px] w-[19px] shrink-0"
-                  :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                  :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
                 />
               </RouterLink>
             </UiTooltip>
@@ -495,10 +471,11 @@ function isActive(path: string): boolean {
             <RouterLink
               v-else
               :to="item.to"
+              :aria-current="isActive(item.to) ? 'page' : undefined"
               class="group relative flex items-center justify-start gap-3 px-3.5 py-2 w-full rounded-btn text-[14px] transition-colors duration-150 border"
               :class="[
                 isActive(item.to)
-                  ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border-[var(--ring)] shadow-xs'
+                  ? 'bg-primary text-primary-content font-semibold border-primary shadow-none'
                   : 'text-[var(--text-muted)] border-transparent hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
               ]"
               @click="themeStore.mobileSidebarOpen = false"
@@ -506,7 +483,7 @@ function isActive(path: string): boolean {
               <component
                 :is="item.icon"
                 class="h-[19px] w-[19px] shrink-0"
-                :class="isActive(item.to) ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
+                :class="isActive(item.to) ? 'text-primary-content' : 'text-[var(--text-muted)] group-hover:text-[var(--text)]'"
               />
               <span class="flex-1 truncate">
                 {{ item.label }}

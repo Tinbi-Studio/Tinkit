@@ -7,15 +7,16 @@
 
 @layer base {
   html {
-    font-family: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     font-size: 15px;
+    font-variant-numeric: tabular-nums;
     scroll-behavior: smooth;
   }
 
   /* Text selection follows theme accent token */
   ::selection {
-    background-color: var(--accent-soft);
-    color: var(--accent);
+    background-color: rgb(var(--p));
+    color: rgb(var(--pc));
   }
 
   /* Clean custom scrollbar */
@@ -33,4 +34,14 @@
   ::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
   }
+}
+
+[class~="text-[9px]"],
+[class~="text-[10px]"] {
+  font-size: 0.75rem !important;
+}
+
+[class~="uppercase"] {
+  text-transform: none !important;
+  letter-spacing: normal !important;
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   X,
   Palette,
@@ -9,7 +9,7 @@ import {
   Sparkles,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
-import type { RadiusScale, ContentWidth } from '@/types/theme'
+import type { ContentWidth, FontFamilyId, RadiusScale } from '@/types/theme'
 
 const themeStore = useThemeStore()
 const copied = ref(false)
@@ -20,6 +20,11 @@ const contentWidthOptions: Array<{ id: ContentWidth; label: string; desc: string
   { id: 'wide', label: 'Wide', desc: 'Maks. 1720px' },
   { id: 'full', label: 'Full Width', desc: '100% Layar Penuh' },
 ]
+
+const fontKeys: FontFamilyId[] = ['inter', 'plus-jakarta-sans', 'system']
+const contentWidthLabel = computed(
+  () => contentWidthOptions.find((option) => option.id === themeStore.contentWidth)?.label ?? 'Compact',
+)
 
 async function copyCssConfig() {
   try {
@@ -94,10 +99,10 @@ async function copyCssConfig() {
           <!-- 1. Theme Presets -->
           <div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                1. Preset Palet Tema
+              <span class="text-sm font-semibold text-[var(--text-muted)]">
+                Theme Presets
               </span>
-              <span class="badge badge-sm badge-soft badge-primary">8 Presets</span>
+              <span class="badge badge-sm badge-soft badge-primary">{{ themeStore.presets.length }} Presets</span>
             </div>
 
             <div class="grid grid-cols-2 gap-2.5">
@@ -105,21 +110,27 @@ async function copyCssConfig() {
                 v-for="preset in themeStore.presets"
                 :key="preset.id"
                 type="button"
-                class="group flex flex-col gap-2 rounded-btn border p-3 text-left transition-all cursor-pointer"
+                class="group flex flex-col gap-2 rounded-btn border p-3 text-left transition-colors cursor-pointer"
                 :class="
                   themeStore.activeTheme === preset.id
-                    ? 'border-[var(--accent)] bg-[var(--accent-soft)] ring-2 ring-[var(--ring)]'
+                    ? 'border-[rgb(var(--p))] bg-[var(--surface-raised)]'
                     : 'border-[var(--border)] bg-[var(--surface-2)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-raised)]'
                 "
+                :aria-pressed="themeStore.activeTheme === preset.id"
                 @click="themeStore.setTheme(preset.id)"
               >
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-[var(--text)]">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="min-w-0 truncate text-xs font-bold text-[var(--text)]">
                     {{ preset.name }}
                   </span>
                   <span
-                    class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[var(--surface-input)] text-[var(--text-muted)]"
+                    v-if="themeStore.activeTheme === preset.id"
+                    class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-primary-content"
+                    aria-hidden="true"
                   >
+                    <Check class="h-3.5 w-3.5" />
+                  </span>
+                  <span v-else class="text-[11px] font-medium text-[var(--text-muted)]">
                     {{ themeStore.themeMode }}
                   </span>
                 </div>
@@ -149,8 +160,8 @@ async function copyCssConfig() {
           <!-- 2. Live Custom Color Overrides -->
           <div class="border-t border-base-300/70 pt-5">
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-base-content/60">
-                2. Custom Warna Brand (Live)
+              <span class="text-sm font-semibold text-[var(--text-muted)]">
+                Custom Brand Colors
               </span>
               <span
                 v-if="themeStore.customColors.enabled"
@@ -160,10 +171,10 @@ async function copyCssConfig() {
               </span>
             </div>
 
-            <p class="text-xs text-base-content/60 mb-3">
-              Ubah variabel CSS <code class="font-mono text-primary">--p</code>,
-              <code class="font-mono text-secondary">--s</code>, dan
-              <code class="font-mono text-accent">--a</code> secara langsung:
+            <p class="text-sm text-[var(--text-muted)] mb-3">
+              Ubah variabel CSS <code class="font-mono text-primary-ink">--p</code>,
+              <code class="font-mono text-secondary-ink">--s</code>, dan
+              <code class="font-mono text-accent-ink">--a</code> secara langsung:
             </p>
 
             <div class="grid grid-cols-3 gap-2.5">
@@ -183,7 +194,7 @@ async function copyCssConfig() {
                   "
                 />
                 <span class="text-[11px] font-bold text-base-content">Primary</span>
-                <span class="font-mono text-[10px] text-base-content/50">
+                <span class="font-mono text-[11px] text-[var(--text-muted)]">
                   {{ themeStore.customColors.primary }}
                 </span>
               </label>
@@ -204,7 +215,7 @@ async function copyCssConfig() {
                   "
                 />
                 <span class="text-[11px] font-bold text-base-content">Secondary</span>
-                <span class="font-mono text-[10px] text-base-content/50">
+                <span class="font-mono text-[11px] text-[var(--text-muted)]">
                   {{ themeStore.customColors.secondary }}
                 </span>
               </label>
@@ -225,7 +236,7 @@ async function copyCssConfig() {
                   "
                 />
                 <span class="text-[11px] font-bold text-base-content">Accent</span>
-                <span class="font-mono text-[10px] text-base-content/50">
+                <span class="font-mono text-[11px] text-[var(--text-muted)]">
                   {{ themeStore.customColors.accent }}
                 </span>
               </label>
@@ -235,11 +246,11 @@ async function copyCssConfig() {
           <!-- 3. Adjustable Border Radius -->
           <div class="border-t border-base-300/70 pt-5">
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-base-content/60">
-                3. Kelengkungan Sudut (Radius)
+              <span class="text-sm font-semibold text-[var(--text-muted)]">
+                Corner Radius
               </span>
-              <span class="font-mono text-xs text-primary font-semibold">
-                {{ themeStore.radiusScale.toUpperCase() }}
+              <span class="text-sm font-semibold text-primary-ink">
+                {{ themeStore.radiusOptions[themeStore.radiusScale].label }}
               </span>
             </div>
 
@@ -250,11 +261,8 @@ async function copyCssConfig() {
                 type="button"
                 class="btn btn-sm"
                 :title="themeStore.radiusOptions[scale].label"
-                :class="
-                  themeStore.radiusScale === scale
-                    ? 'btn-primary'
-                    : 'btn-ghost border border-base-300'
-                "
+                :class="themeStore.radiusScale === scale ? 'btn-active' : 'btn-ghost border border-[var(--border)]'"
+                :aria-pressed="themeStore.radiusScale === scale"
                 @click="themeStore.setRadius(scale)"
               >
                 {{ scale }}
@@ -262,14 +270,37 @@ async function copyCssConfig() {
             </div>
           </div>
 
-          <!-- 4. Content Width (Compact / Wide / Full) -->
+          <div class="border-t border-[var(--border)] pt-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-sm font-semibold text-[var(--text-muted)]">Typography</span>
+              <span class="text-sm font-semibold text-primary-ink">
+                {{ themeStore.fontOptions[themeStore.fontFamily].label }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+              <button
+                v-for="fontId in fontKeys"
+                :key="fontId"
+                type="button"
+                class="btn btn-sm"
+                :class="themeStore.fontFamily === fontId ? 'btn-active' : 'btn-ghost border border-[var(--border)]'"
+                :aria-pressed="themeStore.fontFamily === fontId"
+                @click="themeStore.setFontFamily(fontId)"
+              >
+                {{ themeStore.fontOptions[fontId].label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Content Width -->
           <div class="border-t border-base-300/70 pt-5">
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-base-content/60">
-                4. Lebar Konten Layar
+              <span class="text-sm font-semibold text-[var(--text-muted)]">
+                Content Width
               </span>
-              <span class="badge badge-sm badge-soft badge-primary font-mono text-[10px]">
-                {{ themeStore.contentWidth.toUpperCase() }}
+              <span class="text-sm font-semibold text-primary-ink">
+                {{ contentWidthLabel }}
               </span>
             </div>
 
@@ -278,12 +309,9 @@ async function copyCssConfig() {
                 v-for="opt in contentWidthOptions"
                 :key="opt.id"
                 type="button"
-                class="flex flex-col items-center justify-center p-2.5 rounded-btn border text-center transition-all cursor-pointer"
-                :class="
-                  themeStore.contentWidth === opt.id
-                    ? 'border-primary bg-primary/10 ring-2 ring-primary/25 text-primary'
-                    : 'border-base-300 hover:border-base-content/30 text-base-content/75 hover:bg-base-200/50'
-                "
+                class="btn flex-col items-center justify-center gap-1 p-2.5 text-center"
+                :class="themeStore.contentWidth === opt.id ? 'btn-active' : 'btn-outline'"
+                :aria-pressed="themeStore.contentWidth === opt.id"
                 @click="themeStore.setContentWidth(opt.id)"
               >
                 <div class="flex items-center justify-center mb-1.5">
@@ -299,23 +327,23 @@ async function copyCssConfig() {
                   />
                 </div>
                 <span class="text-xs font-bold leading-tight">{{ opt.label }}</span>
-                <span class="text-[9px] text-base-content/50 mt-0.5 leading-tight">{{ opt.desc }}</span>
+                <span class="text-[11px] leading-tight opacity-80">{{ opt.desc }}</span>
               </button>
             </div>
           </div>
 
           <!-- 5. Live Component Preview & CSS Export -->
           <div class="border-t border-base-300/70 pt-5 space-y-3">
-            <span class="text-xs font-bold uppercase tracking-wider text-base-content/60 block">
-              5. Export CSS Variables
+            <span class="text-sm font-semibold text-[var(--text-muted)] block">
+              Export CSS Variables
             </span>
             <pre
-              class="rounded-box bg-base-200 border border-base-300 p-3 font-mono text-[11px] text-base-content/80 overflow-x-auto leading-relaxed"
+              class="rounded-box bg-[var(--surface-input)] border border-[var(--border)] p-3 font-mono text-[11px] text-[var(--text)] overflow-x-auto leading-relaxed"
             >{{ themeStore.exportThemeCSS() }}</pre>
 
             <button
               type="button"
-              class="btn btn-soft btn-primary btn-sm btn-block"
+              class="btn btn-primary btn-sm btn-block"
               @click="copyCssConfig"
             >
               <Check v-if="copied" class="h-4 w-4 text-success" />

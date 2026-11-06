@@ -272,12 +272,13 @@ const charCount = computed(() => plainText.value.length)
           <button
             type="button"
             class="btn btn-xs gap-1"
-            :class="showSourceCode ? 'btn-primary' : 'btn-ghost'"
+            :class="showSourceCode ? 'btn-active' : 'btn-ghost'"
+            :aria-pressed="showSourceCode"
             title="Lihat / Edit Kode HTML"
             @click="toggleSource"
           >
             <FileCode class="h-3.5 w-3.5" />
-            <span class="text-[10px]">HTML</span>
+            <span class="text-[11px]">HTML</span>
           </button>
         </div>
       </div>
@@ -359,7 +360,7 @@ const charCount = computed(() => plainText.value.length)
   border: 1px solid var(--border);
   padding: 0.65rem;
   border-radius: var(--rounded-btn);
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   margin: 0.5rem 0;
   color: var(--text);

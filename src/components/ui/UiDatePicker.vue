@@ -484,9 +484,9 @@ onUnmounted(() => {
               class="h-8 w-full rounded-btn text-xs font-semibold flex items-center justify-center transition-all cursor-pointer"
               :class="[
                 cell.isSelected
-                  ? 'bg-primary text-primary-content font-bold shadow-[0_2px_6px_0_rgb(var(--p)/0.45)]'
+                  ? 'bg-primary text-primary-content font-bold shadow-none'
                   : cell.isToday
-                    ? 'border border-[var(--accent)] text-[var(--accent)] font-bold bg-[var(--accent-soft)]'
+                    ? 'border border-[var(--border-strong)] text-[var(--text)] font-bold bg-[var(--surface-raised)]'
                     : cell.isCurrentMonth
                       ? 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'
                       : 'text-[var(--text-faint)] opacity-60 hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.04]',

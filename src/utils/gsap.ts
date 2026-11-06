@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 
 /**
- * Polished GSAP 3 Animation System for BeeJir Enterprise UI
+ * Polished GSAP 3 Animation System for Tinkit Enterprise UI
  * Uses custom cubic/expo/back curves and automatic reduced-motion safety.
  */
 

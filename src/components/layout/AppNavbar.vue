@@ -26,6 +26,7 @@ import {
   BarChart3,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
+import GitHubStarButton from '@/components/layout/GitHubStarButton.vue'
 
 interface NotificationItem {
   id: string
@@ -133,7 +134,7 @@ const shortcuts = [
 const notifications = ref<NotificationItem[]>([
   {
     id: '1',
-    title: 'Congratulation Arif! 🎉',
+    title: 'Congratulation Arif!',
     description: 'Won the monthly best seller gold badge ($42.8k target)',
     time: '1h ago',
     unread: true,
@@ -142,7 +143,7 @@ const notifications = ref<NotificationItem[]>([
   },
   {
     id: '2',
-    title: 'Whoo! You have new order 🛒',
+    title: 'Whoo! You have a new order',
     description: 'ACME Inc. made new enterprise order Rp 14.500.000',
     time: '3h ago',
     unread: true,
@@ -184,7 +185,7 @@ function markAsRead(id: string) {
 </script>
 
 <template>
-  <!-- BeeJir Detached Sticky Navbar Container -->
+  <!-- Tinkit Detached Sticky Navbar Container -->
   <header
     class="sticky top-0 z-30 pt-4 sm:pt-5 w-full transition-all duration-200"
     :class="navbarWidthClass"
@@ -192,7 +193,7 @@ function markAsRead(id: string) {
     <nav
       class="flex h-16 items-center justify-between gap-4 rounded-box bg-[var(--surface-1)] px-4 sm:px-5 backdrop-blur-md border border-[var(--border)] shadow-[0_0.25rem_0.875rem_0_rgba(38,43,67,0.08)] dark:shadow-[0_0.25rem_0.875rem_0_rgba(0,0,0,0.32)]"
     >
-      <!-- Left: Hamburger + Clean BeeJir Search Bar -->
+      <!-- Left: Hamburger + Clean Tinkit Search Bar -->
       <div class="flex items-center gap-3 flex-1">
         <button
           type="button"
@@ -219,7 +220,7 @@ function markAsRead(id: string) {
         </div>
       </div>
 
-      <!-- Right: BeeJir Icon Actions (Theme, Shortcuts, Notifications, User Avatar) -->
+      <!-- Right: Tinkit Icon Actions (Theme, Shortcuts, Notifications, User Avatar) -->
       <div class="flex items-center gap-1 sm:gap-1.5">
         <!-- Backdrop when any dropdown is open -->
         <div
@@ -227,6 +228,9 @@ function markAsRead(id: string) {
           class="fixed inset-0 z-40"
           @click="closeAllMenus"
         />
+
+        <!-- 0. GitHub Repository & Live Stars -->
+        <GitHubStarButton />
 
         <!-- 1. Theme Preset Switcher -->
         <div class="relative z-50">
@@ -257,7 +261,7 @@ function markAsRead(id: string) {
               v-if="showPresetMenu"
               class="absolute right-0 mt-2.5 w-60 rounded-panel border border-[var(--border)] bg-[var(--surface-overlay)] p-2 shadow-xl"
             >
-              <div class="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--text-faint)]">
+              <div class="px-2.5 py-1.5 text-xs font-medium text-[var(--text-muted)]">
                 Theme Presets
               </div>
               <div class="space-y-0.5">
@@ -268,8 +272,8 @@ function markAsRead(id: string) {
                   class="flex w-full items-center justify-between rounded-btn px-2.5 py-2 text-left text-xs font-medium transition-colors cursor-pointer"
                   :class="
                     themeStore.activeTheme === preset.id
-                      ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold'
-                      : 'text-[var(--text)] hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]'
+                      ? 'bg-primary text-primary-content font-semibold'
+                      : 'text-[var(--text)] hover:bg-[var(--surface-raised)]'
                   "
                   @click="themeStore.setTheme(preset.id); showPresetMenu = false"
                 >
@@ -321,7 +325,7 @@ function markAsRead(id: string) {
           <Moon v-else class="h-[19px] w-[19px] text-base-content/75" />
         </button>
 
-        <!-- 3. Quick Shortcuts Grid Dropdown (BeeJir Style) -->
+        <!-- 3. Quick Shortcuts Grid Dropdown (Tinkit Style) -->
         <div class="relative z-50">
           <button
             type="button"
@@ -376,7 +380,7 @@ function markAsRead(id: string) {
           </Transition>
         </div>
 
-        <!-- 4. Notifications Dropdown (BeeJir Style) -->
+        <!-- 4. Notifications Dropdown (Tinkit Style) -->
         <div class="relative z-50">
           <button
             type="button"
@@ -476,7 +480,7 @@ function markAsRead(id: string) {
           </Transition>
         </div>
 
-        <!-- 5. User Profile Avatar Dropdown (BeeJir avatar-online style) -->
+        <!-- 5. User Profile Avatar Dropdown (Tinkit avatar-online style) -->
         <div class="relative z-50 ml-1">
           <button
             type="button"

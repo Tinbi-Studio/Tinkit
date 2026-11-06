@@ -1,4 +1,5 @@
 export type ThemeId =
+  | 'tinkit'
   | 'daybreak'
   | 'midnight'
   | 'aurora'
@@ -13,6 +14,8 @@ export type ThemeMode = 'light' | 'dark'
 export type RadiusScale = 'none' | 'sm' | 'md' | 'lg' | 'full'
 
 export type ContentWidth = 'compact' | 'wide' | 'full'
+
+export type FontFamilyId = 'inter' | 'plus-jakarta-sans' | 'system'
 
 export type ColorVariant =
   | 'primary'

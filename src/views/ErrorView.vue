@@ -33,7 +33,7 @@ watch(
 const errorConfigs = {
   '404': {
     code: '404',
-    title: 'Page Not Found ⚠️',
+    title: 'Page Not Found',
     subtitle: "We couldn't find the page you are looking for",
     badge: 'HTTP 404 Not Found',
     avatarClass: 'avatar-soft-primary',
@@ -41,7 +41,7 @@ const errorConfigs = {
   },
   '403': {
     code: '403',
-    title: 'You are not authorized! 🔐',
+    title: 'You are not authorized',
     subtitle: "You don't have permission to access this page. Go Home!",
     badge: 'HTTP 403 Forbidden',
     avatarClass: 'avatar-soft-warning',
@@ -49,7 +49,7 @@ const errorConfigs = {
   },
   '500': {
     code: '500',
-    title: 'Internal server error 👨🏻‍💻',
+    title: 'Internal server error',
     subtitle: 'Oops, something went wrong on our server. Please try again later.',
     badge: 'HTTP 500 Server Error',
     avatarClass: 'avatar-soft-error',
@@ -62,7 +62,7 @@ const currentError = computed(() => errorConfigs[activeCode.value])
 
 <template>
   <div class="relative min-h-screen flex flex-col items-center justify-center bg-base-200 p-6 text-center overflow-hidden">
-    <!-- Subtle Bottom Decorative Wave Mask (BeeJir misc-bg) -->
+    <!-- Subtle Bottom Decorative Wave Mask (Tinkit misc-bg) -->
     <svg
       class="pointer-events-none absolute bottom-0 left-0 right-0 w-full h-44 text-base-300/60"
       viewBox="0 0 1440 200"
@@ -94,7 +94,7 @@ const currentError = computed(() => errorConfigs[activeCode.value])
         </button>
       </div>
 
-      <!-- Large BeeJir Error Code + Title + Subtitle -->
+      <!-- Large Tinkit Error Code + Title + Subtitle -->
       <div>
         <h1 class="text-7xl sm:text-8xl font-extrabold tracking-tight text-base-content leading-none">
           {{ currentError.code }}
@@ -119,7 +119,7 @@ const currentError = computed(() => errorConfigs[activeCode.value])
           {{ currentError.badge }}
         </span>
         <p class="mt-2 text-xs text-base-content/50">
-          Request ID: <code class="font-mono">BJR-{{ activeCode }}-9821X</code>
+          Request ID: <code class="font-mono">TNK-{{ activeCode }}-9821X</code>
         </p>
       </div>
 

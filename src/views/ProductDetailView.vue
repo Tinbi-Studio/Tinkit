@@ -214,7 +214,7 @@ const filteredReviews = computed(() => {
   return reviews
 })
 
-const seller: MessageAuthor = { name: 'BeeJir Official Store', status: 'online' }
+const seller: MessageAuthor = { name: 'Tinkit Official Store', status: 'online' }
 const buyer: MessageAuthor = { name: 'Fajar Nugroho', status: 'away' }
 
 const qaMessages = [
@@ -276,7 +276,7 @@ const productFiles = ref<UploadedFileItem[]>([
     name: 'panduan-migrasi-firmware.txt',
     size: 8192,
     type: 'text/plain',
-    url: 'data:text/plain;charset=utf-8,Langkah%20update%20firmware%20Aurora%20Pro%3A%201.%20Buka%20aplikasi%20BeeJir%20Audio.%202.%20Hubungkan%20headphone.%203.%20Pilih%20Firmware%20Update.',
+    url: 'data:text/plain;charset=utf-8,Langkah%20update%20firmware%20Aurora%20Pro%3A%201.%20Buka%20aplikasi%20Tinkit%20Audio.%202.%20Hubungkan%20headphone.%203.%20Pilih%20Firmware%20Update.',
     progress: 100,
     status: 'done',
   },
@@ -477,7 +477,7 @@ function savePricing() {
           <!-- Overview -->
           <template #overview>
             <div class="space-y-6">
-              <div class="prose-beejir text-sm leading-relaxed text-base-content/80" v-html="product.description" />
+              <div class="prose-tinkit text-sm leading-relaxed text-base-content/80" v-html="product.description" />
 
               <div class="flex flex-wrap gap-2">
                 <UiBadge v-for="tag in product.tags" :key="tag" variant="primary" soft>{{ tag }}</UiBadge>
@@ -781,9 +781,10 @@ function savePricing() {
                   class="flex items-center gap-2 rounded-btn border px-3 py-1.5 text-xs font-semibold transition-all"
                   :class="
                     selectedColor === option.value
-                      ? 'border-primary bg-primary/10 text-primary'
-                      : 'border-base-300 text-base-content/70 hover:border-base-content/40'
+                      ? 'border-primary bg-primary text-primary-content'
+                      : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]'
                   "
+                  :aria-pressed="selectedColor === option.value"
                   @click="selectedColor = option.value"
                 >
                   <span class="h-3.5 w-3.5 rounded-full border border-black/10" :style="{ backgroundColor: option.color }" />
@@ -833,13 +834,13 @@ function savePricing() {
           </div>
         </UiCard>
 
-        <UiCard title="Info Penjual" subtitle="Toko resmi terverifikasi BeeJir" accent-top="accent">
+        <UiCard title="Info Penjual" subtitle="Toko resmi terverifikasi Tinkit" accent-top="accent">
           <div class="flex items-center gap-3">
             <div class="flex h-12 w-12 items-center justify-center rounded-box bg-primary/12 text-primary">
               <Sparkles class="h-6 w-6" />
             </div>
             <div class="min-w-0">
-              <p class="text-sm font-bold text-base-content">BeeJir Official Store</p>
+              <p class="text-sm font-bold text-base-content">Tinkit Official Store</p>
               <p class="text-xs text-base-content/55">Jakarta · Bergabung 2021</p>
             </div>
           </div>

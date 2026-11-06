@@ -16,6 +16,7 @@ export interface UiButtonProps {
   icon?: any
   loading?: boolean
   disabled?: boolean
+  active?: boolean
   type?: 'button' | 'submit' | 'reset'
   title?: string
 }
@@ -32,6 +33,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   icon: undefined,
   loading: false,
   disabled: false,
+  active: undefined,
   type: 'button',
   title: undefined,
 })
@@ -90,6 +92,7 @@ const classes = computed(() => {
     sizeMap[props.size],
     props.soft ? 'btn-soft' : '',
     props.outline ? 'btn-outline' : '',
+    props.active === true ? 'btn-active' : '',
     props.block && !isIconButton.value ? 'btn-block' : '',
     props.circle ? 'btn-circle' : '',
     props.square ? 'btn-square' : '',
@@ -107,6 +110,7 @@ const classes = computed(() => {
     :disabled="disabled || loading"
     :title="title"
     :aria-label="title"
+    :aria-pressed="active"
     @click="handleClick"
   >
     <Loader2 v-if="loading" class="animate-spin shrink-0" :class="iconSizeClass" />

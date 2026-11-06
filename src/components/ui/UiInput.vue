@@ -68,7 +68,7 @@ function onInput(event: Event) {
     <span v-if="error" class="text-xs font-medium text-error">
       {{ error }}
     </span>
-    <span v-else-if="hint" class="text-xs text-base-content/55">
+    <span v-else-if="hint" class="label-text-alt">
       {{ hint }}
     </span>
   </label>

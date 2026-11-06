@@ -130,14 +130,14 @@ const conversations = ref<Conversation[]>([
         id: 4,
         role: 'assistant',
         content:
-          'Sudah saya order kemarin lewat marketplace, nomor BJR-10481. Kira-kira kapan dikirim ya?',
+          'Sudah saya order kemarin lewat marketplace, nomor TNK-10481. Kira-kira kapan dikirim ya?',
         time: '09:18',
       },
       {
         id: 5,
         role: 'user',
         content:
-          'Pesanan BJR-10481 sudah kami serahkan ke JNE REG hari ini. Resi: JKT-BDG-8821. Estimasi 1-2 hari kerja ke Bandung.',
+          'Pesanan TNK-10481 sudah kami serahkan ke JNE REG hari ini. Resi: JKT-BDG-8821. Estimasi 1-2 hari kerja ke Bandung.',
         time: '09:21',
         status: 'delivered',
       },
@@ -149,8 +149,8 @@ const conversations = ref<Conversation[]>([
       },
     ],
     orders: [
-      { id: 'BJR-10481', date: '2026-10-26', total: 1450000, status: 'Shipped' },
-      { id: 'BJR-10392', date: '2026-09-11', total: 8250000, status: 'Completed' },
+      { id: 'TNK-10481', date: '2026-10-26', total: 1450000, status: 'Shipped' },
+      { id: 'TNK-10392', date: '2026-09-11', total: 8250000, status: 'Completed' },
     ],
   },
   {
@@ -189,13 +189,13 @@ const conversations = ref<Conversation[]>([
       {
         id: 13,
         role: 'assistant',
-        content: 'Invoice BJR-10480. Foto sudah saya kirim lewat email ya kak.',
+        content: 'Invoice TNK-10480. Foto sudah saya kirim lewat email ya kak.',
         time: '11:08',
       },
     ],
     orders: [
-      { id: 'BJR-10480', date: '2026-10-24', total: 17549000, status: 'Completed' },
-      { id: 'BJR-10375', date: '2026-08-19', total: 24800000, status: 'Completed' },
+      { id: 'TNK-10480', date: '2026-10-24', total: 17549000, status: 'Completed' },
+      { id: 'TNK-10375', date: '2026-08-19', total: 24800000, status: 'Completed' },
     ],
   },
   {
@@ -243,7 +243,7 @@ const conversations = ref<Conversation[]>([
         time: '15:13',
       },
     ],
-    orders: [{ id: 'BJR-10479', date: '2026-10-23', total: 3799000, status: 'Processing' }],
+    orders: [{ id: 'TNK-10479', date: '2026-10-23', total: 3799000, status: 'Processing' }],
   },
   {
     id: 4,
@@ -308,7 +308,7 @@ const conversations = ref<Conversation[]>([
       {
         id: 41,
         role: 'assistant',
-        content: 'Refund untuk pesanan BJR-10477 sudah saya terima. Terima kasih responnya cepat.',
+        content: 'Refund untuk pesanan TNK-10477 sudah saya terima. Terima kasih responnya cepat.',
         time: '16:02',
       },
       {
@@ -319,7 +319,7 @@ const conversations = ref<Conversation[]>([
         status: 'read',
       },
     ],
-    orders: [{ id: 'BJR-10477', date: '2026-10-21', total: 5890000, status: 'Completed' }],
+    orders: [{ id: 'TNK-10477', date: '2026-10-21', total: 5890000, status: 'Completed' }],
   },
 ])
 
@@ -493,7 +493,7 @@ const newConversation = ref({
   channel: 'Website',
   priority: 'normal' as string | number,
   tags: [] as string[],
-  message: '<p>Halo, terima kasih telah menghubungi BeeJir Support.</p>',
+  message: '<p>Halo, terima kasih telah menghubungi Tinkit Support.</p>',
   greeting: true,
   files: [] as UploadedFileItem[],
 })
@@ -558,7 +558,7 @@ function authorFor(message: InboxMessage): MessageAuthor | undefined {
   if (message.role === 'assistant') {
     return { name: conversation.name, status: conversation.status }
   }
-  return { name: 'Anda · BeeJir Support', status: 'online' }
+  return { name: 'Anda · Tinkit Support', status: 'online' }
 }
 
 function scrollToLatest() {
@@ -608,7 +608,7 @@ function handleConversationAction(action: DropdownItem) {
 
 function applyQuickReply(value: string | number | undefined) {
   const templates: Record<string, string> = {
-    greeting: 'Halo! Terima kasih telah menghubungi BeeJir Support. Ada yang bisa kami bantu?',
+    greeting: 'Halo! Terima kasih telah menghubungi Tinkit Support. Ada yang bisa kami bantu?',
     stock: 'Stok saat ini tersedia dan siap dikirim dalam 1x24 jam setelah pembayaran.',
     shipping: 'Paket akan diserahkan ke kurir hari ini. Nomor resi dikirim otomatis via email.',
     closing: 'Terima kasih atas kepercayaan Anda. Semoga harinya menyenangkan!',
@@ -717,7 +717,7 @@ function openCompose() {
     channel: 'Website',
     priority: 'normal',
     tags: [],
-    message: '<p>Halo, terima kasih telah menghubungi BeeJir Support.</p>',
+    message: '<p>Halo, terima kasih telah menghubungi Tinkit Support.</p>',
     greeting: true,
     files: [],
   }
@@ -748,7 +748,7 @@ function createConversation() {
     messages.push({
       id: nextMessageId(),
       role: 'user',
-      content: `Halo ${form.name.split(' ')[0]}, terima kasih telah menghubungi BeeJir Support. Ada yang bisa kami bantu?`,
+      content: `Halo ${form.name.split(' ')[0]}, terima kasih telah menghubungi Tinkit Support. Ada yang bisa kami bantu?`,
       time: currentTime(),
       status: 'delivered',
     })
@@ -1187,7 +1187,7 @@ onUnmounted(() => {
 
               <div class="rounded-box border border-base-300 p-3.5">
                 <div class="mb-1.5 flex items-center justify-between">
-                  <p class="text-[11px] font-semibold uppercase tracking-wider text-base-content/45">
+                  <p class="text-[11px] font-semibold text-base-content/45">
                     Loyalty Tier
                   </p>
                   <UiBadge variant="warning" soft size="sm">Gold</UiBadge>
@@ -1250,7 +1250,7 @@ onUnmounted(() => {
                   <UiEmptyState
                     v-else
                     title="Belum Ada Pesanan"
-                    description="Pelanggan ini belum pernah menyelesaikan transaksi di BeeJir."
+                    description="Pelanggan ini belum pernah menyelesaikan transaksi di Tinkit."
                     :icon="ShoppingBag"
                     compact
                   />
@@ -1334,7 +1334,7 @@ onUnmounted(() => {
         <UiCheckbox
           v-model="newConversation.greeting"
           label="Sertakan sapaan otomatis"
-          description="Template salam BeeJir Support ditambahkan di awal percakapan."
+          description="Template salam Tinkit Support ditambahkan di awal percakapan."
           variant="primary"
         />
       </div>

@@ -75,7 +75,7 @@ const toast = useToast()
 
 const orders = ref<Order[]>([
   {
-    id: 'BJR-10482',
+    id: 'TNK-10482',
     customer: 'Arif Budiman',
     email: 'arif.budiman@acme.id',
     city: 'Jakarta Selatan',
@@ -94,7 +94,7 @@ const orders = ref<Order[]>([
     tracking: 'Menunggu pickup kurir',
   },
   {
-    id: 'BJR-10481',
+    id: 'TNK-10481',
     customer: 'Rina Kartika',
     email: 'rina.kartika@studio.io',
     city: 'Bandung',
@@ -110,7 +110,7 @@ const orders = ref<Order[]>([
     tracking: 'JNE REG · JKT-BDG-8821',
   },
   {
-    id: 'BJR-10480',
+    id: 'TNK-10480',
     customer: 'Dimas Pratama',
     email: 'dimas.pratama@nusantara.co',
     city: 'Surabaya',
@@ -130,7 +130,7 @@ const orders = ref<Order[]>([
     tracking: 'Diterima penerima',
   },
   {
-    id: 'BJR-10479',
+    id: 'TNK-10479',
     customer: 'Nadia Putri',
     email: 'nadia.putri@product.id',
     city: 'Yogyakarta',
@@ -146,7 +146,7 @@ const orders = ref<Order[]>([
     tracking: 'Menunggu konfirmasi pembayaran',
   },
   {
-    id: 'BJR-10478',
+    id: 'TNK-10478',
     customer: 'Fajar Nugroho',
     email: 'fajar.nugroho@marketing.id',
     city: 'Semarang',
@@ -165,7 +165,7 @@ const orders = ref<Order[]>([
     tracking: 'SiCepat · SMG-7729',
   },
   {
-    id: 'BJR-10477',
+    id: 'TNK-10477',
     customer: 'Siti Aminah',
     email: 'siti.aminah@finance.id',
     city: 'Jakarta Pusat',
@@ -181,7 +181,7 @@ const orders = ref<Order[]>([
     tracking: 'Refund selesai 24 Okt 2026',
   },
   {
-    id: 'BJR-10476',
+    id: 'TNK-10476',
     customer: 'Hendra Wijaya',
     email: 'hendra.wijaya@eng.id',
     city: 'Bekasi',
@@ -200,7 +200,7 @@ const orders = ref<Order[]>([
     tracking: 'Diterima penerima',
   },
   {
-    id: 'BJR-10475',
+    id: 'TNK-10475',
     customer: 'Maya Sari',
     email: 'maya.sari@cs.id',
     city: 'Denpasar',
@@ -219,7 +219,7 @@ const orders = ref<Order[]>([
     tracking: 'Anteraja · DPS-4102',
   },
   {
-    id: 'BJR-10474',
+    id: 'TNK-10474',
     customer: 'Reza Rahadian',
     email: 'reza.rahadian@design.io',
     city: 'Malang',
@@ -235,7 +235,7 @@ const orders = ref<Order[]>([
     tracking: 'Menunggu verifikasi transfer',
   },
   {
-    id: 'BJR-10473',
+    id: 'TNK-10473',
     customer: 'Larasati Dewi',
     email: 'larasati.dewi@product.id',
     city: 'Makassar',
@@ -254,7 +254,7 @@ const orders = ref<Order[]>([
     tracking: 'Dibatalkan oleh pelanggan',
   },
   {
-    id: 'BJR-10472',
+    id: 'TNK-10472',
     customer: 'Bima Sakti',
     email: 'bima.sakti@cloud.id',
     city: 'Tangerang',
@@ -274,7 +274,7 @@ const orders = ref<Order[]>([
     tracking: 'Diterima penerima',
   },
   {
-    id: 'BJR-10471',
+    id: 'TNK-10471',
     customer: 'Putri Ayu',
     email: 'putri.ayu@marketing.id',
     city: 'Medan',
@@ -675,9 +675,10 @@ function refreshOrders() {
             class="inline-flex items-center gap-1.5 rounded-btn border px-3 py-1.5 text-xs font-semibold transition-all"
             :class="
               activeStatus === tab.id
-                ? 'border-primary bg-primary/12 text-primary shadow-xs'
-                : 'border-base-300 text-base-content/65 hover:border-base-content/40 hover:text-base-content'
+                ? 'border-primary bg-primary text-primary-content shadow-none'
+                : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]'
             "
+            :aria-pressed="activeStatus === tab.id"
             @click="activeStatus = tab.id"
           >
             {{ tab.label }}
@@ -709,7 +710,7 @@ function refreshOrders() {
       :items="filteredOrders"
       :initial-page-size="5"
       :page-size-options="[5, 10, 25]"
-      export-title="BeeJir Orders & Invoices Report"
+      export-title="Tinkit Orders & Invoices Report"
       @bulk-delete="handleBulkDelete"
     >
       <template #cell-order="{ item }">
@@ -802,15 +803,15 @@ function refreshOrders() {
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div class="rounded-box border border-base-300 bg-base-200/35 p-3.5">
-            <p class="text-[11px] font-semibold uppercase tracking-wider text-base-content/45">Status</p>
+            <p class="text-[11px] font-semibold text-base-content/45">Status</p>
             <UiBadge :variant="statusBadge(selectedOrder.status)" soft dot class="mt-1.5">{{ selectedOrder.status }}</UiBadge>
           </div>
           <div class="rounded-box border border-base-300 bg-base-200/35 p-3.5">
-            <p class="text-[11px] font-semibold uppercase tracking-wider text-base-content/45">Pembayaran</p>
+            <p class="text-[11px] font-semibold text-base-content/45">Pembayaran</p>
             <UiBadge :variant="paymentBadge(selectedOrder.payment)" soft class="mt-1.5">{{ selectedOrder.payment }}</UiBadge>
           </div>
           <div class="rounded-box border border-base-300 bg-base-200/35 p-3.5">
-            <p class="text-[11px] font-semibold uppercase tracking-wider text-base-content/45">Total</p>
+            <p class="text-[11px] font-semibold text-base-content/45">Total</p>
             <p class="mt-1 font-mono text-base font-extrabold text-base-content">{{ formatIDR(selectedOrder.total) }}</p>
           </div>
         </div>
@@ -819,7 +820,7 @@ function refreshOrders() {
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div class="rounded-box border border-base-300 p-4">
-            <div class="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-base-content/50">
+            <div class="mb-2 flex items-center gap-2 text-xs font-bold text-base-content/50">
               <MapPin class="h-3.5 w-3.5 text-primary" />
               Alamat Pengiriman
             </div>
@@ -831,7 +832,7 @@ function refreshOrders() {
             </p>
           </div>
           <div class="rounded-box border border-base-300 p-4">
-            <div class="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-base-content/50">
+            <div class="mb-2 flex items-center gap-2 text-xs font-bold text-base-content/50">
               <Truck class="h-3.5 w-3.5 text-info" />
               Informasi Kurir
             </div>

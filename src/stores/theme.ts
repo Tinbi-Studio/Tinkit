@@ -1,8 +1,36 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
-import type { ThemeId, ThemeMode, RadiusScale, ContentWidth, ThemePreset, CustomColorOverrides } from '@/types/theme'
+import type {
+  ThemeId,
+  ThemeMode,
+  RadiusScale,
+  ContentWidth,
+  FontFamilyId,
+  ThemePreset,
+  CustomColorOverrides,
+} from '@/types/theme'
 
 export const THEME_PRESETS: ThemePreset[] = [
+  {
+    id: 'tinkit',
+    name: 'Tinkit Studio',
+    tagline: 'Neutral ink dengan aksen pale blue yang tenang dan nyaman',
+    mode: 'dark',
+    preview: {
+      bg: '#111318',
+      card: '#20252E',
+      primary: '#C9DEFF',
+      secondary: '#9CB0CD',
+      accent: '#C9DEFF',
+    },
+    lightPreview: {
+      bg: '#F3F5F8',
+      card: '#FFFFFF',
+      primary: '#222831',
+      secondary: '#52657A',
+      accent: '#222831',
+    },
+  },
   {
     id: 'daybreak',
     name: 'Daybreak Indigo',
@@ -18,7 +46,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     lightPreview: {
       bg: '#f7f7f9',
       card: '#ffffff',
-      primary: '#666cff',
+      primary: '#5156D6',
       secondary: '#e83e8c',
       accent: '#20c997',
     },
@@ -38,9 +66,9 @@ export const THEME_PRESETS: ThemePreset[] = [
     lightPreview: {
       bg: '#f4f7fc',
       card: '#ffffff',
-      primary: '#3b82f6',
+      primary: '#2563EB',
       secondary: '#0ea5e9',
-      accent: '#6366f1',
+      accent: '#4F46E5',
     },
   },
   {
@@ -58,7 +86,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     lightPreview: {
       bg: '#f5faf8',
       card: '#ffffff',
-      primary: '#10b981',
+      primary: '#047857',
       secondary: '#06b6d4',
       accent: '#14b8a6',
     },
@@ -98,7 +126,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     lightPreview: {
       bg: '#f9f7f6',
       card: '#ffffff',
-      primary: '#f97316',
+      primary: '#C2410C',
       secondary: '#e11d48',
       accent: '#8b5cf6',
     },
@@ -118,7 +146,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     lightPreview: {
       bg: '#f5f8fb',
       card: '#ffffff',
-      primary: '#0284c7',
+      primary: '#0369A1',
       secondary: '#06b6d4',
       accent: '#f43f5e',
     },
@@ -138,7 +166,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     lightPreview: {
       bg: '#f6f9f7',
       card: '#ffffff',
-      primary: '#059669',
+      primary: '#047857',
       secondary: '#0d9488',
       accent: '#d97706',
     },
@@ -173,26 +201,61 @@ const RADIUS_MAP: Record<RadiusScale, { box: string; btn: string; badge: string;
   full: { box: '1.5rem', btn: '9999px', badge: '9999px', label: 'Pill / Full' },
 }
 
+export const FONT_FAMILY_OPTIONS: Record<FontFamilyId, { label: string; stack: string }> = {
+  inter: {
+    label: 'Inter',
+    stack: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  },
+  'plus-jakarta-sans': {
+    label: 'Plus Jakarta Sans',
+    stack: "'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  },
+  system: {
+    label: 'System UI',
+    stack: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  },
+}
+
+const MONO_STACK = "'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace"
 const RADIUS_DERIVED = {
   field: 'min(var(--rounded-btn), 0.75rem)',
   panel: 'min(var(--rounded-box), 0.875rem)',
 } as const
 
-/**
- * Converts a #RRGGBB hex string into space-separated RGB channels: "R G B"
- */
+const THEME_IDS = THEME_PRESETS.map((preset) => preset.id)
+const THEME_MODES: ThemeMode[] = ['light', 'dark']
+const RADIUS_IDS = Object.keys(RADIUS_MAP) as RadiusScale[]
+const CONTENT_WIDTHS: ContentWidth[] = ['compact', 'wide', 'full']
+const FONT_IDS = Object.keys(FONT_FAMILY_OPTIONS) as FontFamilyId[]
+const HEX_PATTERN = /^#[0-9a-fA-F]{6}$/
+
+function isOneOf<T extends string>(value: string | null, values: readonly T[]): value is T {
+  return value !== null && values.includes(value as T)
+}
+
+function readStorage(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function writeStorage(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value)
+  } catch {
+    return
+  }
+}
+
 export function hexToRgbChannels(hex: string): string {
-  const clean = hex.replace('#', '').trim()
-  if (clean.length !== 6) return '114 117 246'
-  const r = parseInt(clean.slice(0, 2), 16)
-  const g = parseInt(clean.slice(2, 4), 16)
-  const b = parseInt(clean.slice(4, 6), 16)
-  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) return '114 117 246'
-  return `${r} ${g} ${b}`
+  const clean = HEX_PATTERN.test(hex) ? hex.slice(1) : '222831'
+  return `${parseInt(clean.slice(0, 2), 16)} ${parseInt(clean.slice(2, 4), 16)} ${parseInt(clean.slice(4, 6), 16)}`
 }
 
 function hexToHsl(hex: string): [number, number, number] {
-  const clean = hex.replace('#', '').trim()
+  const clean = HEX_PATTERN.test(hex) ? hex.slice(1) : '222831'
   const r = parseInt(clean.slice(0, 2), 16) / 255
   const g = parseInt(clean.slice(2, 4), 16) / 255
   const b = parseInt(clean.slice(4, 6), 16) / 255
@@ -204,7 +267,7 @@ function hexToHsl(hex: string): [number, number, number] {
 
   if (max !== min) {
     const d = max - min
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    s = l > 0.5 ? d / (2 - max - min) : d / (max - min)
     switch (max) {
       case r:
         h = (g - b) / d + (g < b ? 6 : 0)
@@ -212,193 +275,246 @@ function hexToHsl(hex: string): [number, number, number] {
       case g:
         h = (b - r) / d + 2
         break
-      case b:
+      default:
         h = (r - g) / d + 4
-        break
     }
     h /= 6
   }
+
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)]
 }
 
 function hslToHex(h: number, s: number, l: number): string {
-  const sNorm = s / 100
-  const lNorm = l / 100
+  const sNorm = Math.min(100, Math.max(0, s)) / 100
+  const lNorm = Math.min(100, Math.max(0, l)) / 100
   const c = (1 - Math.abs(2 * lNorm - 1)) * sNorm
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
   const m = lNorm - c / 2
   let r = 0
   let g = 0
   let b = 0
+
   if (h >= 0 && h < 60) [r, g, b] = [c, x, 0]
-  else if (h >= 60 && h < 120) [r, g, b] = [x, c, 0]
-  else if (h >= 120 && h < 180) [r, g, b] = [0, c, x]
-  else if (h >= 180 && h < 240) [r, g, b] = [0, x, c]
-  else if (h >= 240 && h < 300) [r, g, b] = [x, 0, c]
+  else if (h < 120) [r, g, b] = [x, c, 0]
+  else if (h < 180) [r, g, b] = [0, c, x]
+  else if (h < 240) [r, g, b] = [0, x, c]
+  else if (h < 300) [r, g, b] = [x, 0, c]
   else [r, g, b] = [c, 0, x]
 
-  const toHex = (v: number) =>
-    Math.round((v + m) * 255)
-      .toString(16)
-      .padStart(2, '0')
-      .toUpperCase()
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+  const toHex = (value: number) => Math.round((value + m) * 255).toString(16).padStart(2, '0')
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase()
 }
 
-/**
- * Automatically derives low-saturation dark neutrals (bg, surface-1, surface-2, raised, input)
- * and hover/contrast tokens from any custom primary accent hex according to low-saturation (10-20%)
- * and elevation hierarchy principles.
- */
+function relativeLuminance(hex: string): number {
+  const channels = hexToRgbChannels(hex).split(' ').map((value) => Number(value) / 255)
+  const [r, g, b] = channels.map((channel) =>
+    channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4),
+  )
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+
+function contrastRatio(first: string, second: string): number {
+  const lighter = Math.max(relativeLuminance(first), relativeLuminance(second))
+  const darker = Math.min(relativeLuminance(first), relativeLuminance(second))
+  return (lighter + 0.05) / (darker + 0.05)
+}
+
+function readableContent(fill: string): string {
+  return contrastRatio(fill, '#111318') >= contrastRatio(fill, '#FFFFFF') ? '#111318' : '#FFFFFF'
+}
+
+function readableInk(color: string, surface: string, mode: ThemeMode): string {
+  if (contrastRatio(color, surface) >= 4.5) return color.toUpperCase()
+  const [h, s, initialLightness] = hexToHsl(color)
+  for (let step = 1; step <= 20; step += 1) {
+    const lightness = mode === 'dark'
+      ? Math.min(100, initialLightness + step * 4)
+      : Math.max(0, initialLightness - step * 4)
+    const candidate = hslToHex(h, s, lightness)
+    if (contrastRatio(candidate, surface) >= 4.5) return candidate
+  }
+  return mode === 'dark' ? '#FFFFFF' : '#111318'
+}
+
+function hoverColor(color: string, mode: ThemeMode): string {
+  const [h, s, lightness] = hexToHsl(color)
+  return hslToHex(h, Math.min(100, s + 4), lightness + (mode === 'dark' ? 10 : -10))
+}
+
+function softColor(color: string, opacity: number): string {
+  return `rgba(${hexToRgbChannels(color).split(' ').join(', ')}, ${opacity})`
+}
+
 export function deriveDarkTokensFromAccent(primaryHex: string) {
-  const [h, s, l] = hexToHsl(primaryHex)
-  const bg = hslToHex(h, 15, 5)
-  const surface1 = hslToHex(h, 16, 7.5)
-  const surface2 = hslToHex(h, 16, 9)
-  const surfaceRaised = hslToHex(h, 16, 13)
-  const surfaceInput = hslToHex(h, 16, 6.5)
-  const hover = hslToHex(h, Math.min(100, s + 8), Math.min(86, l + 10))
+  const [h] = hexToHsl(primaryHex)
+  const bg = hslToHex(h, 12, 6)
+  const surface1 = hslToHex(h, 13, 8)
+  const surface2 = hslToHex(h, 14, 10)
+  const surfaceCard = hslToHex(h, 14, 12)
+  const surfaceRaised = hslToHex(h, 14, 16)
+  const surfaceInput = hslToHex(h, 13, 8)
+  const hover = hoverColor(primaryHex, 'dark')
 
-  // WCAG relative luminance check for button text contrast
-  const clean = primaryHex.replace('#', '').trim()
-  const r = parseInt(clean.slice(0, 2), 16) / 255
-  const g = parseInt(clean.slice(2, 4), 16) / 255
-  const b = parseInt(clean.slice(4, 6), 16) / 255
-  const toLin = (c: number) => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
-  const lum = 0.2126 * toLin(r) + 0.7152 * toLin(g) + 0.0722 * toLin(b)
-  const cWhite = 1.05 / (lum + 0.05)
-  const pc = cWhite >= 4.5 ? '#FFFFFF' : bg
-
-  const rgb = hexToRgbChannels(primaryHex).split(' ').join(', ')
-  const accentSoft = `rgba(${rgb}, 0.15)`
-  const ring = `rgba(${rgb}, 0.30)`
-
-  return { bg, surface1, surface2, surfaceRaised, surfaceInput, hover, pc, accent: primaryHex, accentHover: hover, accentSoft, ring }
+  return {
+    bg,
+    surface1,
+    surface2,
+    surfaceCard,
+    surfaceRaised,
+    surfaceInput,
+    surfaceOverlay: surfaceRaised,
+    hover,
+    pc: readableContent(primaryHex),
+    pInk: readableInk(primaryHex, surfaceCard, 'dark'),
+    accent: primaryHex,
+    accentHover: hover,
+    accentSoft: softColor(primaryHex, 0.15),
+    ring: softColor(primaryHex, 0.3),
+  }
 }
 
-const CUSTOM_DARK_VARS = [
-  '--p',
-  '--p-hover',
-  '--pc',
-  '--s',
-  '--a',
-  '--bg',
-  '--surface-1',
-  '--surface-2',
-  '--surface-raised',
-  '--surface-input',
-  '--accent',
-  '--accent-hover',
-  '--accent-soft',
-  '--ring',
-  '--b1',
-  '--b2',
+const CUSTOM_VARS = [
+  '--p', '--p-hover', '--pc', '--p-ink',
+  '--s', '--sc', '--s-ink',
+  '--a', '--ac', '--a-ink',
+  '--bg', '--surface-1', '--surface-2', '--surface-card', '--surface-raised',
+  '--surface-input', '--surface-overlay',
+  '--accent', '--accent-hover', '--accent-soft', '--ring',
+  '--b1', '--b2', '--b3', '--bc',
 ] as const
 
-export const useThemeStore = defineStore('beejir-theme', () => {
-  // Support URL query params for testing & deep-linking
-  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
-  const themeFromUrl = urlParams?.get('theme') as ThemeId | null
-  const modeFromUrl = urlParams?.get('mode') as ThemeMode | null
+const EXPORT_VARS = [
+  '--font-sans', '--font-mono',
+  '--bg', '--surface-1', '--surface-2', '--surface-card', '--surface-raised',
+  '--surface-input', '--surface-overlay', '--border', '--border-strong',
+  '--text', '--text-muted', '--text-faint',
+  '--accent', '--accent-hover', '--accent-soft', '--ring',
+  '--p', '--p-hover', '--pc', '--p-ink',
+  '--s', '--sc', '--s-ink', '--a', '--ac', '--a-ink', '--n', '--nc',
+  '--b1', '--b2', '--b3', '--bc',
+  '--in', '--inc', '--su', '--suc', '--wa', '--wac', '--er', '--erc',
+  '--rounded-box', '--rounded-btn', '--rounded-badge', '--rounded-field', '--rounded-panel',
+] as const
 
-  // State
+export const useThemeStore = defineStore('tinkit-theme', () => {
+  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
+  const themeParam = urlParams?.get('theme') ?? null
+  const modeParam = urlParams?.get('mode') ?? null
+  const storedTheme = readStorage('tinkit:theme')
+  const storedMode = readStorage('tinkit:mode')
+  const storedRadius = readStorage('tinkit:radius')
+  const storedWidth = readStorage('tinkit:content-width')
+  const storedFont = readStorage('tinkit:font-family')
+
   const activeTheme = ref<ThemeId>(
-    themeFromUrl || (localStorage.getItem('beejir:theme') as ThemeId) || 'daybreak'
+    isOneOf(themeParam, THEME_IDS) ? themeParam
+      : isOneOf(storedTheme, THEME_IDS) ? storedTheme
+        : 'tinkit',
   )
   const themeMode = ref<ThemeMode>(
-    modeFromUrl || (localStorage.getItem('beejir:mode') as ThemeMode) || 'dark'
+    isOneOf(modeParam, THEME_MODES) ? modeParam
+      : isOneOf(storedMode, THEME_MODES) ? storedMode
+        : 'dark',
   )
-  const radiusScale = ref<RadiusScale>(
-    (localStorage.getItem('beejir:radius') as RadiusScale) || 'md'
-  )
-  const contentWidth = ref<ContentWidth>(
-    (localStorage.getItem('beejir:content-width') as ContentWidth) || 'compact'
-  )
-  const sidebarCollapsed = ref<boolean>(
-    localStorage.getItem('beejir:sidebar-collapsed') === 'true'
-  )
+  const radiusScale = ref<RadiusScale>(isOneOf(storedRadius, RADIUS_IDS) ? storedRadius : 'md')
+  const contentWidth = ref<ContentWidth>(isOneOf(storedWidth, CONTENT_WIDTHS) ? storedWidth : 'compact')
+  const fontFamily = ref<FontFamilyId>(isOneOf(storedFont, FONT_IDS) ? storedFont : 'inter')
+  const sidebarCollapsed = ref<boolean>(readStorage('tinkit:sidebar-collapsed') === 'true')
   const mobileSidebarOpen = ref<boolean>(false)
   const customizerOpen = ref<boolean>(false)
 
   const customColors = ref<CustomColorOverrides>({
     enabled: false,
-    primary: '#5E61F0',
-    secondary: '#818CF8',
-    accent: '#38BDF8',
+    primary: '#C9DEFF',
+    secondary: '#9CB0CD',
+    accent: '#C9DEFF',
   })
 
-  // Load saved custom colors if any
-  const savedCustom = localStorage.getItem('beejir:custom-colors')
+  const savedCustom = readStorage('tinkit:custom-colors')
   if (savedCustom) {
     try {
-      customColors.value = JSON.parse(savedCustom)
+      const parsed = JSON.parse(savedCustom) as Partial<CustomColorOverrides>
+      customColors.value = {
+        enabled: parsed.enabled === true,
+        primary: typeof parsed.primary === 'string' && HEX_PATTERN.test(parsed.primary) ? parsed.primary : '#C9DEFF',
+        secondary: typeof parsed.secondary === 'string' && HEX_PATTERN.test(parsed.secondary) ? parsed.secondary : '#9CB0CD',
+        accent: typeof parsed.accent === 'string' && HEX_PATTERN.test(parsed.accent) ? parsed.accent : '#C9DEFF',
+      }
     } catch {
-      // ignore corrupted storage
+      customColors.value.enabled = false
     }
   }
 
   const currentPreset = computed<ThemePreset>(() => {
-    const base =
-      THEME_PRESETS.find((t) => t.id === activeTheme.value) ?? THEME_PRESETS[0]
+    const base = THEME_PRESETS.find((theme) => theme.id === activeTheme.value) ?? THEME_PRESETS[0]
     return {
       ...base,
       mode: themeMode.value,
       preview: themeMode.value === 'dark' ? base.preview : base.lightPreview,
     }
   })
-
   const isDark = computed(() => themeMode.value === 'dark')
 
-  // Apply theme attributes and CSS variables to <html>
   function applyThemeToDom() {
+    if (typeof document === 'undefined') return
     const root = document.documentElement
     root.setAttribute('data-theme', activeTheme.value)
     root.classList.toggle('dark', isDark.value)
+    root.setAttribute('data-font-family', fontFamily.value)
+    root.style.setProperty('--font-sans', FONT_FAMILY_OPTIONS[fontFamily.value].stack)
+    root.style.setProperty('--font-mono', MONO_STACK)
 
-    // Apply radius variables
-    const radius = RADIUS_MAP[radiusScale.value] ?? RADIUS_MAP.md
+    const radius = RADIUS_MAP[radiusScale.value]
     root.style.setProperty('--rounded-box', radius.box)
     root.style.setProperty('--rounded-btn', radius.btn)
     root.style.setProperty('--rounded-badge', radius.badge)
     root.style.setProperty('--rounded-field', RADIUS_DERIVED.field)
     root.style.setProperty('--rounded-panel', RADIUS_DERIVED.panel)
 
-    // Apply or clear custom color overrides
-    if (customColors.value.enabled) {
-      root.style.setProperty('--p', hexToRgbChannels(customColors.value.primary))
-      root.style.setProperty('--s', hexToRgbChannels(customColors.value.secondary))
-      root.style.setProperty('--a', hexToRgbChannels(customColors.value.accent))
+    for (const property of CUSTOM_VARS) root.style.removeProperty(property)
+    if (!customColors.value.enabled) return
 
-      if (isDark.value) {
-        const derived = deriveDarkTokensFromAccent(customColors.value.primary)
-        root.style.setProperty('--p-hover', hexToRgbChannels(derived.hover))
-        root.style.setProperty('--pc', hexToRgbChannels(derived.pc))
-        root.style.setProperty('--bg', derived.bg)
-        root.style.setProperty('--surface-1', derived.surface1)
-        root.style.setProperty('--surface-2', derived.surface2)
-        root.style.setProperty('--surface-raised', derived.surfaceRaised)
-        root.style.setProperty('--surface-input', derived.surfaceInput)
-        root.style.setProperty('--accent', derived.accent)
-        root.style.setProperty('--accent-hover', derived.accentHover)
-        root.style.setProperty('--accent-soft', derived.accentSoft)
-        root.style.setProperty('--ring', derived.ring)
-        root.style.setProperty('--b1', hexToRgbChannels(derived.surface2))
-        root.style.setProperty('--b2', hexToRgbChannels(derived.bg))
-      } else {
-        for (const prop of CUSTOM_DARK_VARS) {
-          root.style.removeProperty(prop)
-        }
-      }
-    } else {
-      for (const prop of CUSTOM_DARK_VARS) {
-        root.style.removeProperty(prop)
-      }
+    const primary = customColors.value.primary
+    const secondary = customColors.value.secondary
+    const accent = customColors.value.accent
+    const mode = themeMode.value
+    const darkTokens = deriveDarkTokensFromAccent(primary)
+    const surfaceForInk = isDark.value ? darkTokens.surfaceCard : '#FFFFFF'
+
+    root.style.setProperty('--p', hexToRgbChannels(primary))
+    root.style.setProperty('--p-hover', hexToRgbChannels(hoverColor(primary, mode)))
+    root.style.setProperty('--pc', hexToRgbChannels(readableContent(primary)))
+    root.style.setProperty('--p-ink', hexToRgbChannels(readableInk(primary, surfaceForInk, mode)))
+    root.style.setProperty('--s', hexToRgbChannels(secondary))
+    root.style.setProperty('--sc', hexToRgbChannels(readableContent(secondary)))
+    root.style.setProperty('--s-ink', hexToRgbChannels(readableInk(secondary, surfaceForInk, mode)))
+    root.style.setProperty('--a', hexToRgbChannels(accent))
+    root.style.setProperty('--ac', hexToRgbChannels(readableContent(accent)))
+    root.style.setProperty('--a-ink', hexToRgbChannels(readableInk(accent, surfaceForInk, mode)))
+    root.style.setProperty('--accent', primary)
+    root.style.setProperty('--accent-hover', hoverColor(primary, mode))
+    root.style.setProperty('--accent-soft', softColor(primary, isDark.value ? 0.15 : 0.12))
+    root.style.setProperty('--ring', softColor(primary, isDark.value ? 0.3 : 0.25))
+
+    if (isDark.value) {
+      root.style.setProperty('--bg', darkTokens.bg)
+      root.style.setProperty('--surface-1', darkTokens.surface1)
+      root.style.setProperty('--surface-2', darkTokens.surface2)
+      root.style.setProperty('--surface-card', darkTokens.surfaceCard)
+      root.style.setProperty('--surface-raised', darkTokens.surfaceRaised)
+      root.style.setProperty('--surface-input', darkTokens.surfaceInput)
+      root.style.setProperty('--surface-overlay', darkTokens.surfaceOverlay)
+      root.style.setProperty('--b1', hexToRgbChannels(darkTokens.surface2))
+      root.style.setProperty('--b2', hexToRgbChannels(darkTokens.bg))
+      root.style.setProperty('--b3', hexToRgbChannels(darkTokens.surfaceRaised))
+      root.style.setProperty('--bc', '232 234 240')
     }
   }
 
   function setTheme(themeId: ThemeId) {
+    if (!THEME_IDS.includes(themeId)) return
     activeTheme.value = themeId
-    const preset = THEME_PRESETS.find((t) => t.id === themeId)
+    const preset = THEME_PRESETS.find((theme) => theme.id === themeId)
     if (preset && !customColors.value.enabled) {
       const palette = isDark.value ? preset.preview : preset.lightPreview
       customColors.value.primary = palette.primary
@@ -408,7 +524,7 @@ export const useThemeStore = defineStore('beejir-theme', () => {
   }
 
   function setMode(mode: ThemeMode) {
-    themeMode.value = mode
+    if (THEME_MODES.includes(mode)) themeMode.value = mode
   }
 
   function toggleDarkLight() {
@@ -416,101 +532,65 @@ export const useThemeStore = defineStore('beejir-theme', () => {
   }
 
   function setRadius(scale: RadiusScale) {
-    radiusScale.value = scale
+    if (RADIUS_IDS.includes(scale)) radiusScale.value = scale
   }
 
   function setContentWidth(width: ContentWidth) {
-    contentWidth.value = width
+    if (CONTENT_WIDTHS.includes(width)) contentWidth.value = width
+  }
+
+  function setFontFamily(font: FontFamilyId) {
+    if (FONT_IDS.includes(font)) fontFamily.value = font
   }
 
   function setCustomColor(key: 'primary' | 'secondary' | 'accent', hex: string) {
+    if (!HEX_PATTERN.test(hex)) return
     customColors.value.enabled = true
     customColors.value[key] = hex
   }
 
   function resetCustomizations() {
     customColors.value.enabled = false
-    const preset = currentPreset.value
-    customColors.value.primary = preset.preview.primary
-    customColors.value.secondary = preset.preview.secondary
-    customColors.value.accent = preset.preview.accent
+    const palette = currentPreset.value.preview
+    customColors.value.primary = palette.primary
+    customColors.value.secondary = palette.secondary
+    customColors.value.accent = palette.accent
     radiusScale.value = 'md'
     contentWidth.value = 'compact'
+    fontFamily.value = 'inter'
     applyThemeToDom()
   }
 
   function exportThemeCSS(): string {
-    const preset = currentPreset.value
-    const primaryHex = customColors.value.enabled
-      ? customColors.value.primary
-      : preset.preview.primary
-    const p = hexToRgbChannels(primaryHex)
-    const s = customColors.value.enabled
-      ? hexToRgbChannels(customColors.value.secondary)
-      : hexToRgbChannels(preset.preview.secondary)
-    const a = customColors.value.enabled
-      ? hexToRgbChannels(customColors.value.accent)
-      : hexToRgbChannels(preset.preview.accent)
-    const radius = RADIUS_MAP[radiusScale.value]
-    const derived = deriveDarkTokensFromAccent(primaryHex)
-
-    if (isDark.value) {
-      return `[data-theme="${activeTheme.value}-custom"] {
-  color-scheme: dark;
-  --bg: ${customColors.value.enabled ? derived.bg : preset.preview.bg};
-  --surface-1: ${derived.surface1};
-  --surface-2: ${customColors.value.enabled ? derived.surface2 : preset.preview.card};
-  --surface-raised: ${derived.surfaceRaised};
-  --surface-input: ${derived.surfaceInput};
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --text: #E8EAF0;
-  --text-muted: #A0A6B5;
-  --text-faint: #7C8294;
-  --accent: ${primaryHex};
-  --accent-hover: ${derived.hover};
-  --accent-soft: rgb(var(--p) / 0.15);
-  --ring: rgb(var(--p) / 0.30);
-  --p: ${p};
-  --s: ${s};
-  --a: ${a};
-  --rounded-box: ${radius.box};
-  --rounded-btn: ${radius.btn};
-  --rounded-badge: ${radius.badge};
-  --rounded-field: ${RADIUS_DERIVED.field};
-  --rounded-panel: ${RADIUS_DERIVED.panel};
-}`
-    }
-
-    return `[data-theme="${activeTheme.value}-custom"] {
-  color-scheme: light;
-  --p: ${p};
-  --s: ${s};
-  --a: ${a};
-  --rounded-box: ${radius.box};
-  --rounded-btn: ${radius.btn};
-  --rounded-badge: ${radius.badge};
-  --rounded-field: ${RADIUS_DERIVED.field};
-  --rounded-panel: ${RADIUS_DERIVED.panel};
-}`
+    applyThemeToDom()
+    if (typeof document === 'undefined') return ''
+    const styles = getComputedStyle(document.documentElement)
+    const declarations = EXPORT_VARS
+      .map((property) => {
+        const value = styles.getPropertyValue(property).trim()
+        return value ? `  ${property}: ${value};` : ''
+      })
+      .filter(Boolean)
+      .join('\n')
+    return `[data-theme="${activeTheme.value}-custom"] {\n  color-scheme: ${themeMode.value};\n${declarations}\n}`
   }
 
-  // Watchers for persistence & DOM sync
   watch(
-    [activeTheme, themeMode, radiusScale, contentWidth, customColors],
+    [activeTheme, themeMode, radiusScale, contentWidth, fontFamily, customColors],
     () => {
-      localStorage.setItem('beejir:theme', activeTheme.value)
-      localStorage.setItem('beejir:mode', themeMode.value)
-      localStorage.setItem('beejir:radius', radiusScale.value)
-      localStorage.setItem('beejir:content-width', contentWidth.value)
-      localStorage.setItem('beejir:custom-colors', JSON.stringify(customColors.value))
+      writeStorage('tinkit:theme', activeTheme.value)
+      writeStorage('tinkit:mode', themeMode.value)
+      writeStorage('tinkit:radius', radiusScale.value)
+      writeStorage('tinkit:content-width', contentWidth.value)
+      writeStorage('tinkit:font-family', fontFamily.value)
+      writeStorage('tinkit:custom-colors', JSON.stringify(customColors.value))
       applyThemeToDom()
     },
-    { deep: true, immediate: true }
+    { deep: true, immediate: true },
   )
 
-  watch(sidebarCollapsed, (val) => {
-    localStorage.setItem('beejir:sidebar-collapsed', String(val))
+  watch(sidebarCollapsed, (value) => {
+    writeStorage('tinkit:sidebar-collapsed', String(value))
   })
 
   return {
@@ -518,6 +598,7 @@ export const useThemeStore = defineStore('beejir-theme', () => {
     themeMode,
     radiusScale,
     contentWidth,
+    fontFamily,
     sidebarCollapsed,
     mobileSidebarOpen,
     customizerOpen,
@@ -526,11 +607,13 @@ export const useThemeStore = defineStore('beejir-theme', () => {
     isDark,
     presets: THEME_PRESETS,
     radiusOptions: RADIUS_MAP,
+    fontOptions: FONT_FAMILY_OPTIONS,
     setTheme,
     setMode,
     toggleDarkLight,
     setRadius,
     setContentWidth,
+    setFontFamily,
     setCustomColor,
     resetCustomizations,
     exportThemeCSS,

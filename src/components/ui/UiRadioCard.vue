@@ -86,8 +86,8 @@ function select(option: RadioCardOption) {
       class="group relative flex flex-col justify-between rounded-box border p-5 sm:p-5.5 transition-all duration-200 cursor-pointer select-none"
       :class="[
         modelValue === opt.value
-          ? 'border-[var(--accent)] bg-[var(--accent-soft)] shadow-sm shadow-[var(--ring)] ring-2 ring-[var(--ring)]'
-          : 'border-[var(--border)] bg-[var(--surface-input)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-raised)] hover:shadow-sm',
+          ? 'border-[rgb(var(--p))] bg-[var(--surface-raised)] shadow-none'
+          : 'border-[var(--border)] bg-[var(--surface-input)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-raised)]',
         (disabled || opt.disabled) && 'opacity-50 cursor-not-allowed pointer-events-none'
       ]"
       @click="select(opt)"
@@ -104,18 +104,11 @@ function select(option: RadioCardOption) {
       <!-- Header: Icon/Avatar + Radio Button / Check + Title & Badge -->
       <div>
         <div class="flex items-start justify-between gap-3">
-          <!-- Icon / Avatar Box -->
-          <div
+          <component
             v-if="opt.icon"
-            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-field border transition-colors"
-            :class="
-              modelValue === opt.value
-                ? 'border-[var(--ring)] bg-[var(--accent-soft)] text-[var(--accent)] shadow-xs'
-                : 'border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-muted)] group-hover:border-[var(--border-strong)] group-hover:text-[var(--text)]'
-            "
-          >
-            <component :is="opt.icon" class="h-5.5 w-5.5 stroke-[1.8]" />
-          </div>
+            :is="opt.icon"
+            class="h-5 w-5 shrink-0 stroke-[1.8] text-[var(--text-muted)]"
+          />
 
           <!-- Custom Radio Indicator (Pill or Ring Check) -->
           <div class="ms-auto flex items-center pt-0.5">
@@ -123,7 +116,7 @@ function select(option: RadioCardOption) {
               class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-all duration-200"
               :class="
                 modelValue === opt.value
-                  ? 'border-[var(--accent)] bg-[var(--accent)] text-primary-content shadow-xs'
+                  ? 'border-primary bg-primary text-primary-content shadow-none'
                   : 'border-[var(--border)] bg-[var(--surface-input)] group-hover:border-[var(--border-strong)]'
               "
             >

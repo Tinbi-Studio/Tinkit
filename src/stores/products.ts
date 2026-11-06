@@ -23,7 +23,7 @@ function compareAtFor(price: number, discount: number): number {
   return Math.round(price / (1 - discount / 100))
 }
 
-export const useProductStore = defineStore('beejir-products', () => {
+export const useProductStore = defineStore('tinkit-products', () => {
   const products = ref<Product[]>(
     PRODUCTS.map((product) => ({
       ...product,

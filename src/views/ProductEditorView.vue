@@ -272,7 +272,7 @@ function save() {
 
           <div class="mt-4 grid grid-cols-1 gap-3 rounded-box border border-base-300 bg-base-200/40 p-4 sm:grid-cols-3">
             <div>
-              <p class="text-[11px] font-semibold uppercase tracking-wide text-base-content/45">Harga Normal</p>
+              <p class="text-[11px] font-semibold  text-base-content/45">Harga Normal</p>
               <p
                 class="mt-1 font-mono text-sm font-semibold"
                 :class="discountValue > 0 ? 'text-base-content/60 line-through' : 'text-base-content'"
@@ -281,11 +281,11 @@ function save() {
               </p>
             </div>
             <div>
-              <p class="text-[11px] font-semibold uppercase tracking-wide text-base-content/45">Harga Setelah Diskon</p>
+              <p class="text-[11px] font-semibold  text-base-content/45">Harga Setelah Diskon</p>
               <p class="mt-1 font-mono text-sm font-bold text-primary">{{ formatIDR(finalPrice) }}</p>
             </div>
             <div>
-              <p class="text-[11px] font-semibold uppercase tracking-wide text-base-content/45">Hemat Pelanggan</p>
+              <p class="text-[11px] font-semibold  text-base-content/45">Hemat Pelanggan</p>
               <p class="mt-1 font-mono text-sm font-bold text-success">{{ formatIDR(savings) }}</p>
             </div>
           </div>

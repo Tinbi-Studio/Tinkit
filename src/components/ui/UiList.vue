@@ -67,13 +67,11 @@ function getIconClasses(variant: ColorVariant = 'primary') {
         <!-- Left: Avatar / Icon + Text -->
         <div class="flex items-center gap-3.5 min-w-0">
           <!-- Avatar Text/Initials or Icon -->
-          <div
+          <component
             v-if="item.icon"
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn"
-            :class="getIconClasses(item.variant)"
-          >
-            <component :is="item.icon" class="h-5 w-5" />
-          </div>
+            :is="item.icon"
+            class="h-5 w-5 shrink-0 text-[var(--text-muted)]"
+          />
           <div
             v-else-if="item.avatar"
             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-extrabold text-xs uppercase shadow-xs"

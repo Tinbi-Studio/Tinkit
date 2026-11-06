@@ -316,7 +316,7 @@ function goToCreate() {
       :items="filteredProducts"
       :initial-page-size="5"
       :page-size-options="[5, 10, 25]"
-      export-title="BeeJir Product Catalog Report"
+      export-title="Tinkit Product Catalog Report"
       @bulk-delete="handleBulkDelete"
     >
       <template #toolbar-right>

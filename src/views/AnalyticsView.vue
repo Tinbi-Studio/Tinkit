@@ -349,7 +349,7 @@ const scheduleForm = ref({
   time: '08:00',
   formats: ['pdf'] as string[],
   threshold: 10 as number | null,
-  recipients: ['analytics@beejir.id'] as string[],
+  recipients: ['analytics@tinkit.example'] as string[],
 })
 
 const frequencyOptions: RadioCardOption[] = [
@@ -388,11 +388,11 @@ const timeOptions = [
 ]
 
 const recipientOptions = [
-  'analytics@beejir.id',
-  'finance@beejir.id',
-  'ops@beejir.id',
-  'growth@beejir.id',
-  'ceo@beejir.id',
+  'analytics@tinkit.example',
+  'finance@tinkit.example',
+  'ops@tinkit.example',
+  'growth@tinkit.example',
+  'ceo@tinkit.example',
 ]
 
 const distributionOptions = ref({ rawCsv: true, slack: false })
@@ -414,7 +414,7 @@ function openSchedule() {
     time: '08:00',
     formats: ['pdf'],
     threshold: 10,
-    recipients: ['analytics@beejir.id'],
+    recipients: ['analytics@tinkit.example'],
   }
   showSchedule.value = true
 }
@@ -733,7 +733,7 @@ onUnmounted(() => {
           <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
             <div class="card p-5">
               <div class="flex items-center justify-between">
-                <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45">
+                <p class="text-xs font-semibold text-base-content/45">
                   Drop-off Terbesar
                 </p>
                 <UiBadge variant="error" soft size="sm">Kritis</UiBadge>
@@ -745,7 +745,7 @@ onUnmounted(() => {
             </div>
             <div class="card p-5">
               <div class="flex items-center justify-between">
-                <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45">
+                <p class="text-xs font-semibold text-base-content/45">
                   Keranjang Terabaikan
                 </p>
                 <UiBadge variant="warning" soft size="sm">-2.4 pt</UiBadge>
@@ -757,7 +757,7 @@ onUnmounted(() => {
             </div>
             <div class="card p-5">
               <div class="flex items-center justify-between">
-                <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45">
+                <p class="text-xs font-semibold text-base-content/45">
                   Pembayaran Sukses
                 </p>
                 <UiBadge variant="success" soft size="sm">+3.1%</UiBadge>
@@ -839,7 +839,7 @@ onUnmounted(() => {
                 label="Jam Pengiriman Default"
               />
               <UiInput
-                :model-value="'analytics@beejir.id'"
+                :model-value="'analytics@tinkit.example'"
                 label="Email Pengirim"
                 hint="Alamat ini digunakan sebagai pengirim laporan otomatis."
                 disabled

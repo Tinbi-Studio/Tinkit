@@ -3,7 +3,6 @@ import { computed, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from '@/stores/toast'
 import {
-  Sparkles,
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
@@ -28,6 +27,7 @@ import {
 } from 'lucide-vue-next'
 import { formatIDR } from '@/data/products'
 import UiStepper from '@/components/ui/UiStepper.vue'
+import AppBrand from '@/components/brand/AppBrand.vue'
 import UiButton from '@/components/ui/UiButton.vue'
 import UiBadge from '@/components/ui/UiBadge.vue'
 import UiInput from '@/components/ui/UiInput.vue'
@@ -65,8 +65,8 @@ const steps = [
 ]
 
 const form = ref({
-  name: 'BeeJir Commerce',
-  slug: 'beejir-commerce',
+  name: 'Tinkit Commerce',
+  slug: 'tinkit-commerce',
   industry: 'ecommerce',
   companySize: '11-50',
   businessModel: 'ecommerce' as string | number,
@@ -74,13 +74,13 @@ const form = ref({
   margin: 32 as number | null,
   launchDate: '2026-12-01',
   description:
-    '<p>BeeJir Commerce menjual perangkat audio, perkakas kerja, dan furnitur premium untuk kreator dan tim remote di Indonesia.</p>',
+    '<p>Tinkit Commerce menjual perangkat audio, perkakas kerja, dan furnitur premium untuk kreator dan tim remote di Indonesia.</p>',
   logo: [] as UploadedFileItem[],
-  team: ['rina.kartika@beejir.id', 'dimas.pratama@beejir.id'],
+  team: ['rina.kartika@tinkit.example', 'dimas.pratama@tinkit.example'],
   role: 'admin',
   features: ['analytics', 'automation'] as string[],
   welcomeNote:
-    '<p>Selamat datang di BeeJir! Tim kami akan membantu proses migrasi katalog dan pelatihan penggunaan dashboard.</p>',
+    '<p>Selamat datang di Tinkit! Tim kami akan membantu proses migrasi katalog dan pelatihan penggunaan dashboard.</p>',
   useSampleData: true,
   agreeTerms: false,
 })
@@ -108,12 +108,12 @@ const roleOptions = [
 ]
 
 const teamSuggestions = [
-  'rina.kartika@beejir.id',
-  'dimas.pratama@beejir.id',
-  'nadia.putri@beejir.id',
-  'fajar.nugroho@beejir.id',
-  'siti.aminah@beejir.id',
-  'hendra.wijaya@beejir.id',
+  'rina.kartika@tinkit.example',
+  'dimas.pratama@tinkit.example',
+  'nadia.putri@tinkit.example',
+  'fajar.nugroho@tinkit.example',
+  'siti.aminah@tinkit.example',
+  'hendra.wijaya@tinkit.example',
 ]
 
 const businessModelOptions: RadioCardOption[] = [
@@ -172,7 +172,7 @@ const helpChannels: ListItem[] = [
   },
   {
     id: 'email',
-    title: 'onsite@beejir.id',
+    title: 'onsite@tinkit.example',
     subtitle: 'Implementasi dan migrasi data',
     icon: Mail,
     variant: 'info',
@@ -346,7 +346,7 @@ function finish() {
   finishing.value = true
   timer.value = window.setTimeout(() => {
     finishing.value = false
-    toast.success('Workspace Aktif!', `${form.value.name} siap digunakan. Selamat datang di BeeJir.`)
+    toast.success('Workspace Aktif!', `${form.value.name} siap digunakan. Selamat datang di Tinkit.`)
     router.push('/')
   }, 1600)
 }
@@ -376,13 +376,8 @@ onUnmounted(() => {
       <!-- Brand Header -->
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-          <span class="flex h-10 w-10 items-center justify-center rounded-btn bg-primary text-primary-content shadow-sm">
-            <Sparkles class="h-5 w-5" />
-          </span>
-          <div>
-            <p class="text-base font-extrabold tracking-tight text-[var(--text)]">BeeJir</p>
-            <p class="text-[11px] text-[var(--text-muted)]">Workspace setup wizard</p>
-          </div>
+          <AppBrand size="md" />
+          <p class="text-[11px] text-[var(--text-muted)]">Workspace setup wizard</p>
         </div>
         <div class="flex items-center gap-2.5">
           <UiBadge variant="primary" soft>{{ stepLabel }}</UiBadge>
@@ -392,6 +387,8 @@ onUnmounted(() => {
           </UiButton>
         </div>
       </div>
+
+      <h1 class="text-2xl font-bold text-[var(--text)]">Workspace Setup</h1>
 
       <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
         <!-- Wizard Card -->
@@ -418,8 +415,8 @@ onUnmounted(() => {
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <UiInput v-model="form.name" label="Nama Toko / Workspace" placeholder="BeeJir Commerce" />
-              <UiInput v-model="form.slug" label="Slug URL" hint="beejir.app/{slug}" />
+              <UiInput v-model="form.name" label="Nama Toko / Workspace" placeholder="Tinkit Commerce" />
+              <UiInput v-model="form.slug" label="Slug URL" hint="tinkit.example/{slug}" />
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -573,7 +570,7 @@ onUnmounted(() => {
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div class="space-y-2.5 rounded-box border border-base-300 bg-base-200/30 p-4">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-base-content/45">
+                <p class="text-[11px] font-semibold text-base-content/45">
                   Workspace
                 </p>
                 <div class="space-y-1.5 text-sm text-base-content">
@@ -585,7 +582,7 @@ onUnmounted(() => {
               </div>
 
               <div class="space-y-2.5 rounded-box border border-base-300 bg-base-200/30 p-4">
-                <p class="text-[11px] font-semibold uppercase tracking-wider text-base-content/45">
+                <p class="text-[11px] font-semibold text-base-content/45">
                   Tim & Konfigurasi
                 </p>
                 <div class="space-y-1.5 text-sm text-base-content">
@@ -598,7 +595,7 @@ onUnmounted(() => {
             </div>
 
             <div class="rounded-box border border-base-300 p-4">
-              <p class="mb-3 text-[11px] font-semibold uppercase tracking-wider text-base-content/45">
+              <p class="mb-3 text-[11px] font-semibold text-base-content/45">
                 Yang terjadi setelah aktivasi
               </p>
               <UiTimeline :items="activationTimeline" />
@@ -606,7 +603,7 @@ onUnmounted(() => {
 
             <UiCheckbox
               v-model="form.agreeTerms"
-              label="Saya menyetujui Syarat Layanan dan Kebijakan Privasi BeeJir"
+              label="Saya menyetujui Syarat Layanan dan Kebijakan Privasi Tinkit"
               description="Termasuk pemrosesan data pelanggan sesuai regulasi PDP Indonesia."
               variant="primary"
             />
@@ -666,7 +663,7 @@ onUnmounted(() => {
         <aside class="space-y-5">
           <div class="card p-5">
             <div class="flex items-center justify-between">
-              <p class="text-xs font-bold uppercase tracking-wider text-base-content/45">Ringkasan</p>
+              <p class="text-xs font-bold text-base-content/45">Ringkasan</p>
               <UiTooltip text="Ringkasan diperbarui setiap kali Anda mengisi formulir">
                 <HelpCircle class="h-3.5 w-3.5 text-base-content/40" />
               </UiTooltip>

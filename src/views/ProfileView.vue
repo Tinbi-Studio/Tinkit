@@ -46,7 +46,7 @@ const profile = ref({
   firstName: 'Arif',
   lastName: 'Budiman',
   role: 'Principal Product Designer & Frontend Architect',
-  email: 'arif.budiman@beejir.id',
+  email: 'arif.budiman@tinkit.example',
   phone: '+62 812-3456-7890',
   location: 'Jakarta Selatan, Indonesia',
   birthDate: '1995-08-17',
@@ -105,7 +105,7 @@ const timelineActivities: TimelineItem[] = [
   {
     id: 3,
     title: 'Create a new project for client',
-    description: '6 team members in a project — repositori BeeJir Enterprise UI Kit.',
+    description: '6 team members in a project — repositori Tinkit Enterprise UI Kit.',
     time: '2 Day Ago',
     badge: '6 Members',
     variant: 'info',
@@ -153,7 +153,7 @@ function updatePassword() {
 
 <template>
   <div class="space-y-6">
-    <!-- 1. BeeJir Profile Header Card (Ref: pages-profile-user.html) -->
+    <!-- 1. Tinkit Profile Header Card (Ref: pages-profile-user.html) -->
     <div class="card overflow-hidden">
       <!-- Top Colorful Banner -->
       <div
@@ -218,7 +218,7 @@ function updatePassword() {
       </div>
     </div>
 
-    <!-- 2. BeeJir Horizontal Navigation Pills -->
+    <!-- 2. Tinkit Horizontal Navigation Pills -->
     <div class="flex flex-wrap items-center gap-2">
       <button
         v-for="tab in profileTabs"
@@ -237,14 +237,14 @@ function updatePassword() {
       </button>
     </div>
 
-    <!-- TAB 1: PROFILE OVERVIEW (Matches BeeJir pages-profile-user.html 4-col + 8-col layout) -->
+    <!-- TAB 1: PROFILE OVERVIEW (Matches Tinkit pages-profile-user.html 4-col + 8-col layout) -->
     <div v-if="activeTab === 'overview'" class="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <!-- Left Column (lg:col-span-4): ABOUT Card + OVERVIEW Card -->
       <div class="space-y-6 lg:col-span-4">
         <!-- About & Contacts Card -->
         <div class="card p-5 space-y-5">
           <div>
-            <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45 mb-3">
+            <p class="text-xs font-semibold text-base-content/45 mb-3">
               About
             </p>
             <ul class="space-y-3 text-sm text-base-content/80">
@@ -277,7 +277,7 @@ function updatePassword() {
           </div>
 
           <div class="border-t border-base-300/70 pt-4">
-            <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45 mb-3">
+            <p class="text-xs font-semibold text-base-content/45 mb-3">
               Contacts
             </p>
             <ul class="space-y-3 text-sm text-base-content/80">
@@ -300,7 +300,7 @@ function updatePassword() {
           </div>
 
           <div class="border-t border-base-300/70 pt-4">
-            <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45 mb-3">
+            <p class="text-xs font-semibold text-base-content/45 mb-3">
               Skills
             </p>
             <div class="flex flex-wrap gap-1.5">
@@ -317,7 +317,7 @@ function updatePassword() {
 
         <!-- Overview Stats Card -->
         <div class="card p-5">
-          <p class="text-xs font-semibold uppercase tracking-wider text-base-content/45 mb-3">
+          <p class="text-xs font-semibold text-base-content/45 mb-3">
             Overview
           </p>
           <ul class="space-y-3 text-sm text-base-content/80">

@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<UiDataTableProps<T>>(), {
   pageSizeOptions: () => [5, 10, 25, 50],
   initialPageSize: 5,
   rowKey: 'id',
-  exportTitle: 'BeeJir Enterprise Data Report',
+  exportTitle: 'Tinkit Enterprise Data Report',
 })
 
 const emit = defineEmits<{
@@ -173,7 +173,7 @@ const exportColumns = computed(() =>
 
 function handleExportXLSX() {
   exportToXLSX(exportColumns.value, sortedItems.value, {
-    filename: 'beejir-datatable',
+    filename: 'tinkit-datatable',
     sheetName: 'Data Export',
     title: props.exportTitle,
   })
@@ -186,7 +186,7 @@ function handleExportPDF() {
 }
 
 function handleExportCSV() {
-  exportToCSV(exportColumns.value, sortedItems.value, 'beejir-datatable')
+  exportToCSV(exportColumns.value, sortedItems.value, 'tinkit-datatable')
 }
 </script>
 
@@ -404,9 +404,10 @@ function handleExportCSV() {
             class="rounded-btn px-2 py-0.5 text-[11px] font-semibold transition-all"
             :class="
               pageSize === size
-                ? 'bg-primary text-primary-content shadow-xs'
-                : 'text-base-content/60 hover:text-base-content'
+                ? 'bg-primary text-primary-content shadow-none'
+                : 'text-[var(--text-muted)] hover:text-[var(--text)]'
             "
+            :aria-pressed="pageSize === size"
             @click="pageSize = size"
           >
             {{ size }}
@@ -418,7 +419,8 @@ function handleExportCSV() {
       <div class="flex items-center gap-1 self-end sm:self-auto">
         <button
           type="button"
-          class="btn btn-xs btn-square bg-base-200/70 border-transparent text-base-content/70 hover:bg-primary/15 hover:text-primary shadow-none"
+          class="btn btn-xs btn-square bg-base-200/70 border-transparent text-[var(--text-muted)] hover:bg-[var(--surface-raised)] hover:text-[var(--text)] shadow-none"
+          aria-label="Previous page"
           :disabled="currentPage <= 1"
           @click="currentPage--"
         >
@@ -432,9 +434,10 @@ function handleExportCSV() {
           class="btn btn-xs h-7 min-w-7 rounded-btn font-medium"
           :class="
             p === currentPage
-              ? 'btn-primary'
-              : 'bg-base-200/70 border-transparent text-base-content/70 hover:bg-primary/15 hover:text-primary shadow-none'
+              ? 'btn-active'
+              : 'bg-base-200/70 border-transparent text-[var(--text-muted)] hover:bg-[var(--surface-raised)] hover:text-[var(--text)] shadow-none'
           "
+          :aria-current="p === currentPage ? 'page' : undefined"
           @click="currentPage = p"
         >
           {{ p }}
@@ -442,7 +445,8 @@ function handleExportCSV() {
 
         <button
           type="button"
-          class="btn btn-xs btn-square bg-base-200/70 border-transparent text-base-content/70 hover:bg-primary/15 hover:text-primary shadow-none"
+          class="btn btn-xs btn-square bg-base-200/70 border-transparent text-[var(--text-muted)] hover:bg-[var(--surface-raised)] hover:text-[var(--text)] shadow-none"
+          aria-label="Next page"
           :disabled="currentPage >= totalPages"
           @click="currentPage++"
         >

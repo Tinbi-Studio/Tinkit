@@ -119,8 +119,8 @@ function getTabButtonClasses(item: TabItem) {
       sizeClasses.value.tab,
       props.fullWidth ? 'flex-1 justify-center' : '',
       isActive
-        ? 'bg-[var(--surface-raised)] text-primary font-bold shadow-sm'
-        : 'text-base-content/70 hover:text-base-content hover:bg-base-200/50',
+        ? 'bg-primary text-primary-content font-semibold shadow-none'
+        : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-raised)]',
       item.disabled ? 'opacity-40 pointer-events-none' : '',
     ]
   }
@@ -131,15 +131,15 @@ function getTabButtonClasses(item: TabItem) {
     sizeClasses.value.tab,
     props.fullWidth ? 'flex-1 justify-center' : '',
     isActive
-      ? 'bg-primary text-primary-content font-bold shadow-sm'
-      : 'bg-transparent text-base-content/70 hover:bg-primary/10 hover:text-primary',
+      ? 'bg-primary text-primary-content font-semibold shadow-none'
+      : 'bg-transparent text-[var(--text-muted)] hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
     item.disabled ? 'opacity-40 pointer-events-none' : '',
   ]
 }
 
 const contentContainerClasses = computed(() => {
   if (props.variant === 'attached') {
-    return 'rounded-b-box rounded-tr-box border-x border-b border-[var(--border)] bg-[var(--surface-raised)] shadow-sm'
+    return 'rounded-b-box rounded-tr-box border-x border-b border-[var(--border)] bg-[var(--surface-raised)] shadow-none'
   }
   return 'mt-3'
 })

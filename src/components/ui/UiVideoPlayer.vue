@@ -10,6 +10,7 @@ import {
   RotateCcw,
   RotateCw,
   Settings,
+  Check,
 } from 'lucide-vue-next'
 import UiTooltip from '@/components/ui/UiTooltip.vue'
 
@@ -362,7 +363,7 @@ const aspectRatioClass = computed(() => {
                 @click="setPlaybackRate(rate)"
               >
                 <span>{{ rate }}x</span>
-                <span v-if="playbackRate === rate" class="text-primary font-bold">✓</span>
+                <Check v-if="playbackRate === rate" class="h-3.5 w-3.5 shrink-0 text-primary" />
               </button>
             </div>
           </div>

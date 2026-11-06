@@ -94,10 +94,10 @@ const shapeClasses = computed(() => {
 
 const variantFallbackClasses = computed(() => {
   const map: Record<ColorVariant, string> = {
-    primary: 'bg-primary/20 text-primary border border-primary/30',
-    secondary: 'bg-secondary/20 text-secondary border border-secondary/30',
-    accent: 'bg-accent/20 text-accent border border-accent/30',
-    neutral: 'bg-neutral/20 text-neutral-content border border-neutral/30',
+    primary: 'bg-primary/20 text-primary-ink border border-primary/30',
+    secondary: 'bg-secondary/20 text-secondary-ink border border-secondary/30',
+    accent: 'bg-accent/20 text-accent-ink border border-accent/30',
+    neutral: 'bg-[var(--surface-raised)] text-[var(--text)] border border-[var(--border)]',
     info: 'bg-info/20 text-info border border-info/30',
     success: 'bg-success/20 text-success border border-success/30',
     warning: 'bg-warning/20 text-warning border border-warning/30',

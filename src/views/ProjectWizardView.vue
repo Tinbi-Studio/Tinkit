@@ -39,8 +39,8 @@ const steps = [
 
 // Form State across steps
 const projectForm = ref({
-  name: 'BeeJir Cloud Console v2',
-  code: 'BJR-2026',
+  name: 'Tinkit Cloud Console v2',
+  code: 'TNK-2026',
   category: 'saas',
   priority: 'high',
   targetDate: '2026-08-15',
@@ -49,8 +49,8 @@ const projectForm = ref({
   cloudProvider: 'aws',
   techTags: ['Vue 3', 'TypeScript', 'Go', 'PostgreSQL', 'Docker', 'Kubernetes'],
   budgetRange: '150 - 300 Juta IDR',
-  leadEmail: 'arif.budiman@beejir.id',
-  members: ['rina.kartika@beejir.id', 'dimas.pratama@beejir.id'],
+  leadEmail: 'arif.budiman@tinkit.example',
+  members: ['rina.kartika@tinkit.example', 'dimas.pratama@tinkit.example'],
   enableCiCd: true,
   enableAuditLog: true,
   files: [] as UploadedFileItem[],
@@ -129,11 +129,11 @@ const techSuggestions = [
 ]
 
 const memberSuggestions = [
-  'rina.kartika@beejir.id',
-  'dimas.pratama@beejir.id',
-  'nadia.putri@beejir.id',
-  'fajar.nugroho@beejir.id',
-  'siti.aminah@beejir.id',
+  'rina.kartika@tinkit.example',
+  'dimas.pratama@tinkit.example',
+  'nadia.putri@tinkit.example',
+  'fajar.nugroho@tinkit.example',
+  'siti.aminah@tinkit.example',
 ]
 
 function nextStep() {
@@ -179,7 +179,7 @@ function submitProject() {
       </span>
     </div>
 
-    <!-- Unified BeeJir Form Wizard Card (Stepper Header + Active Form Body + Footer) -->
+    <!-- Unified Tinkit Form Wizard Card (Stepper Header + Active Form Body + Footer) -->
     <div class="card overflow-visible">
       <!-- Top Horizontal Stepper Header -->
       <div class="rounded-t-box border-b border-[var(--border)] bg-[var(--surface-2)] p-5 sm:px-6">
@@ -202,7 +202,7 @@ function submitProject() {
                 v-model="projectForm.name"
                 type="text"
                 class="input"
-                placeholder="Contoh: BeeJir Cloud Console v2"
+                placeholder="Contoh: Tinkit Cloud Console v2"
               />
             </div>
             <div class="form-control">
@@ -211,7 +211,7 @@ function submitProject() {
                 v-model="projectForm.code"
                 type="text"
                 class="input font-mono uppercase"
-                placeholder="BJR-2026"
+                placeholder="TNK-2026"
               />
             </div>
           </div>
@@ -343,7 +343,7 @@ function submitProject() {
 
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="rounded-box border border-[var(--border)] bg-[var(--surface-input)] p-4 space-y-2.5">
-              <h4 class="text-xs font-semibold uppercase tracking-wider text-[var(--text-faint)]">
+              <h4 class="text-xs font-semibold text-[var(--text-faint)]">
                 Identitas Proyek
               </h4>
               <div class="text-sm space-y-1.5 text-[var(--text)]">
@@ -355,7 +355,7 @@ function submitProject() {
             </div>
 
             <div class="rounded-box border border-[var(--border)] bg-[var(--surface-input)] p-4 space-y-2.5">
-              <h4 class="text-xs font-semibold uppercase tracking-wider text-[var(--text-faint)]">
+              <h4 class="text-xs font-semibold text-[var(--text-faint)]">
                 Infrastruktur & Tim
               </h4>
               <div class="text-sm space-y-1.5 text-[var(--text)]">
@@ -368,7 +368,7 @@ function submitProject() {
           </div>
 
           <div class="rounded-box border border-[var(--border)] p-4 bg-[var(--surface-input)]">
-            <h4 class="text-xs font-semibold uppercase tracking-wider text-[var(--text-faint)] mb-2.5">
+            <h4 class="text-xs font-semibold text-[var(--text-faint)] mb-2.5">
               Tech Stack Terpilih
             </h4>
             <div class="flex flex-wrap gap-1.5">

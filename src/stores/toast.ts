@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { ToastItem } from '@/types/toast'
 
-export const useToastStore = defineStore('beejir-toast', () => {
+export const useToastStore = defineStore('tinkit-toast', () => {
   const toasts = ref<ToastItem[]>([])
 
   function add(toast: Omit<ToastItem, 'id'>): string {

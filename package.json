@@ -1,8 +1,16 @@
 {
-  "name": "beejir-admin-template",
+  "name": "tinkit-admin-template",
   "version": "0.1.0",
   "private": false,
-  "description": "BeeJir - Clean, colorful, and theme-adjustable open-source Vue 3 + Vite + Bun + TypeScript Admin Template with custom semantic Tailwind CSS.",
+  "description": "Tinkit - Clean, colorful, and theme-adjustable open-source Vue 3 + Vite + Bun + TypeScript Admin Template with custom semantic Tailwind CSS.",
+  "homepage": "https://tinkit.tinbistudio.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tinbi-Studio/Tinkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tinbi-Studio/Tinkit/issues"
+  },
   "type": "module",
   "license": "MIT",
   "scripts": {

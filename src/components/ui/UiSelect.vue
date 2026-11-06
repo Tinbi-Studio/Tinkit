@@ -451,8 +451,8 @@ const sizeClasses = computed(() => {
             :class="[
               opt.disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
               isOptionSelected(opt)
-                ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-bold'
-                : 'text-base-content hover:bg-[var(--surface-raised)] dark:hover:bg-white/[0.06]',
+                ? 'bg-primary text-primary-content font-bold'
+                : 'text-[var(--text)] hover:bg-[var(--surface-raised)]',
               activeIndex === idx ? 'ring-1 ring-primary/40 bg-[var(--surface-raised)] dark:bg-white/[0.06]' : '',
             ]"
             @click="selectOption(opt)"
@@ -479,7 +479,7 @@ const sizeClasses = computed(() => {
               </div>
             </div>
 
-            <Check v-if="isOptionSelected(opt)" class="h-3.5 w-3.5 shrink-0 text-[var(--accent)]" />
+            <Check v-if="isOptionSelected(opt)" class="h-3.5 w-3.5 shrink-0 text-primary-content" />
           </button>
 
           <!-- Empty State -->

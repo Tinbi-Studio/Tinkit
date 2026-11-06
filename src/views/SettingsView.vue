@@ -107,15 +107,15 @@ const tabs = [
 
 // ---------- General ----------
 const workspace = ref({
-  name: 'BeeJir Studio',
-  slug: 'beejir-studio',
-  email: 'halo@beejir.id',
+  name: 'Tinkit Studio',
+  slug: 'tinkit-studio',
+  email: 'halo@tinkit.example',
   timezone: 'Asia/Jakarta',
   language: 'id',
   companySize: '51-200',
   tags: ['SaaS', 'E-commerce', 'Indonesia'],
   description:
-    '<p>BeeJir Studio membangun platform commerce dan tooling internal untuk brand premium di Asia Tenggara.</p>',
+    '<p>Tinkit Studio membangun platform commerce dan tooling internal untuk brand premium di Asia Tenggara.</p>',
   logo: [] as UploadedFileItem[],
 })
 
@@ -183,7 +183,7 @@ const billing = ref({
   renewalDate: '2026-12-01',
   autoRenew: true,
   invoiceCopy: true,
-  poNumber: 'PO-BJR-2026-118',
+  poNumber: 'PO-TNK-2026-118',
 })
 
 const plans: RadioCardOption[] = [
@@ -242,7 +242,7 @@ const invoiceColumns: TableColumn<Invoice>[] = [
 
 const showCardModal = ref(false)
 const cardForm = ref({
-  holder: 'BeeJir Studio',
+  holder: 'Tinkit Studio',
   number: '4111 1111 1111 1111',
   brand: 'visa',
   expiry: '2028-04-30',
@@ -279,7 +279,7 @@ function handleInvoiceAction(action: DropdownItem, invoice: Invoice) {
   if (action.value === 'pdf') {
     toast.success('Invoice Diunduh', `${invoice.id} tersimpan sebagai PDF.`)
   } else {
-    toast.info('Invoice Dikirim Ulang', `${invoice.id} dikirim ke finance@beejir.id.`)
+    toast.info('Invoice Dikirim Ulang', `${invoice.id} dikirim ke finance@tinkit.example.`)
   }
 }
 
@@ -436,7 +436,7 @@ const securityTimeline: TimelineItem[] = [
   {
     id: 'sec-2',
     title: 'API key production dirotasi',
-    description: 'Dilakukan oleh arif.budiman@beejir.id.',
+    description: 'Dilakukan oleh arif.budiman@tinkit.example.',
     time: 'Kemarin, 16:34',
     variant: 'info',
     icon: KeyRound,
@@ -481,7 +481,7 @@ const apiKeys = ref<ApiKey[]>([
   {
     id: 'key-prod',
     label: 'Production Server',
-    prefix: 'bjr_live_9f2c',
+    prefix: 'tnk_live_9f2c',
     scope: 'Full access',
     created: '2026-02-11',
     lastUsed: '2 jam lalu',
@@ -489,7 +489,7 @@ const apiKeys = ref<ApiKey[]>([
   {
     id: 'key-ci',
     label: 'CI/CD Pipeline',
-    prefix: 'bjr_live_41ad',
+    prefix: 'tnk_live_41ad',
     scope: 'Read + deploy',
     created: '2026-05-30',
     lastUsed: '12 jam lalu',
@@ -497,7 +497,7 @@ const apiKeys = ref<ApiKey[]>([
   {
     id: 'key-analytics',
     label: 'Analytics Worker',
-    prefix: 'bjr_read_77bd',
+    prefix: 'tnk_read_77bd',
     scope: 'Read only',
     created: '2026-08-04',
     lastUsed: '3 hari lalu',
@@ -532,7 +532,7 @@ function handleApiKeyAction(action: DropdownItem, key: ApiKey) {
 const webhooks = ref<WebhookRow[]>([
   {
     id: 1,
-    url: 'https://hooks.beejir.id/orders',
+    url: 'https://hooks.tinkit.example/orders',
     events: ['order.created', 'order.paid'],
     active: true,
   },
@@ -619,7 +619,7 @@ const apiFaq = [
     id: 'auth',
     title: 'Bagaimana cara autentikasi request API?',
     content:
-      'Sertakan header Authorization: Bearer <API_KEY> pada setiap request. Key production diawali bjr_live_, sedangkan key read-only diawali bjr_read_.',
+      'Sertakan header Authorization: Bearer <API_KEY> pada setiap request. Key production diawali tnk_live_, sedangkan key read-only diawali tnk_read_.',
     badge: 'Auth',
     badgeVariant: 'primary' as const,
   },
@@ -635,20 +635,20 @@ const apiFaq = [
     id: 'retry',
     title: 'Bagaimana penanganan retry webhook?',
     content:
-      'Kami mengirim ulang hingga 5 kali dengan exponential backoff ketika endpoint merespons non-2xx. Gunakan signature HMAC pada header X-BeeJir-Signature untuk verifikasi.',
+      'Kami mengirim ulang hingga 5 kali dengan exponential backoff ketika endpoint merespons non-2xx. Gunakan signature HMAC pada header X-Tinkit-Signature untuk verifikasi.',
     badge: 'Webhook',
     badgeVariant: 'info' as const,
   },
 ]
 
-const curlSample = `curl https://api.beejir.id/v1/orders \\
-  -H "Authorization: Bearer $BEEJIR_API_KEY" \\
+const curlSample = `curl https://api.tinkit.example/v1/orders \\
+  -H "Authorization: Bearer $TINKIT_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "customer_id": "cus_8f21",
     "channel": "website",
     "items": [
-      { "sku": "BJR-KEY-001", "qty": 2 }
+      { "sku": "TNK-KEY-001", "qty": 2 }
     ]
   }'`
 
@@ -682,7 +682,7 @@ onUnmounted(() => {
     <!-- Header -->
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h4 class="text-xl font-bold text-[var(--text)]">Workspace Settings</h4>
+        <h1 class="text-xl font-bold text-[var(--text)]">Workspace Settings</h1>
         <p class="mt-0.5 text-sm text-[var(--text-muted)]">
           Kelola identitas workspace, penagihan, notifikasi, keamanan, dan integrasi API.
         </p>
@@ -720,8 +720,8 @@ onUnmounted(() => {
 
               <div class="space-y-4">
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <UiInput v-model="workspace.name" label="Nama Workspace" placeholder="BeeJir Studio" />
-                  <UiInput v-model="workspace.slug" label="Slug URL" hint="beejir.app/{slug}" />
+                  <UiInput v-model="workspace.name" label="Nama Workspace" placeholder="Tinkit Studio" />
+                  <UiInput v-model="workspace.slug" label="Slug URL" hint="tinkit.example/{slug}" />
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -862,7 +862,7 @@ onUnmounted(() => {
                   <CreditCard class="h-5 w-5 text-base-content/40" />
                 </div>
                 <p class="mt-3 font-mono text-sm tracking-widest text-base-content">•••• •••• •••• 4242</p>
-                <p class="mt-1 text-[11px] text-base-content/50">BeeJir Studio · Exp 04/2028</p>
+                <p class="mt-1 text-[11px] text-base-content/50">Tinkit Studio · Exp 04/2028</p>
               </div>
               <UiButton variant="ghost" size="sm" class="mt-3 border border-base-300" block @click="showCardModal = true">
                 Ganti Kartu
@@ -929,7 +929,7 @@ onUnmounted(() => {
               />
               <UiCheckbox
                 v-model="billing.invoiceCopy"
-                label="Kirim invoice ke finance@beejir.id"
+                label="Kirim invoice ke finance@tinkit.example"
                 description="Salinan PDF dikirim setiap awal bulan."
                 variant="info"
               />
@@ -951,7 +951,7 @@ onUnmounted(() => {
                 <UiCheckbox
                   v-model="notifyChannels.email"
                   label="Email"
-                  description="Dikirim ke arif.budiman@beejir.id"
+                  description="Dikirim ke arif.budiman@tinkit.example"
                   variant="primary"
                 />
                 <UiCheckbox
@@ -1291,7 +1291,7 @@ onUnmounted(() => {
     <!-- Webhook Modal -->
     <UiModal v-model="showWebhookModal" title="Tambah Webhook" subtitle="Endpoint akan menerima POST bertanda tangan HMAC." max-width="lg">
       <div class="space-y-4">
-        <UiInput v-model="webhookForm.url" label="Endpoint URL" placeholder="https://api.perusahaan.id/beejir/webhook" hint="Wajib HTTPS dan merespons 2xx dalam 5 detik." />
+        <UiInput v-model="webhookForm.url" label="Endpoint URL" placeholder="https://api.perusahaan.id/tinkit/webhook" hint="Wajib HTTPS dan merespons 2xx dalam 5 detik." />
         <UiSelectTag
           v-model="webhookForm.events"
           :options="webhookEvents"
@@ -1303,7 +1303,7 @@ onUnmounted(() => {
           <UiCheckbox
             v-model="webhookForm.secret"
             label="Sertakan signature HMAC"
-            description="Header X-BeeJir-Signature untuk verifikasi payload."
+            description="Header X-Tinkit-Signature untuk verifikasi payload."
             variant="success"
           />
           <UiCheckbox

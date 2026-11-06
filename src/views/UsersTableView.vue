@@ -45,18 +45,18 @@ interface UserRecord {
 const toast = useToast()
 
 const users = ref<UserRecord[]>([
-  { id: 1, name: 'Arif Budiman', handle: '@arifb', email: 'arif.budiman@beejir.id', role: 'Admin', department: 'Engineering', plan: 'Enterprise', status: 'Active', joinedAt: '12 Jan 2024', avatarBg: 'avatar-soft-primary' },
-  { id: 2, name: 'Rina Kartika', handle: '@rinak', email: 'rina.kartika@beejir.id', role: 'Maintainer', department: 'Design Studio', plan: 'Team', status: 'Active', joinedAt: '04 Feb 2024', avatarBg: 'avatar-soft-info' },
-  { id: 3, name: 'Dimas Pratama', handle: '@dimasp', email: 'dimas.pratama@beejir.id', role: 'Editor', department: 'Engineering', plan: 'Company', status: 'Active', joinedAt: '19 Mar 2024', avatarBg: 'avatar-soft-warning' },
-  { id: 4, name: 'Nadia Putri', handle: '@nadiap', email: 'nadia.putri@beejir.id', role: 'Author', department: 'Product', plan: 'Basic', status: 'Pending', joinedAt: '28 Apr 2024', avatarBg: 'avatar-soft-error' },
-  { id: 5, name: 'Fajar Nugroho', handle: '@fajarn', email: 'fajar.nugroho@beejir.id', role: 'Subscriber', department: 'Marketing', plan: 'Basic', status: 'Active', joinedAt: '15 Mei 2024', avatarBg: 'avatar-soft-success' },
-  { id: 6, name: 'Siti Aminah', handle: '@sitia', email: 'siti.aminah@beejir.id', role: 'Admin', department: 'Finance', plan: 'Enterprise', status: 'Active', joinedAt: '02 Jun 2024', avatarBg: 'avatar-soft-primary' },
-  { id: 7, name: 'Hendra Wijaya', handle: '@hendraw', email: 'hendra.wijaya@beejir.id', role: 'Maintainer', department: 'Engineering', plan: 'Team', status: 'Inactive', joinedAt: '21 Jul 2024', avatarBg: 'avatar-soft-secondary' },
-  { id: 8, name: 'Maya Sari', handle: '@mayas', email: 'maya.sari@beejir.id', role: 'Editor', department: 'Customer Success', plan: 'Company', status: 'Active', joinedAt: '09 Agu 2024', avatarBg: 'avatar-soft-warning' },
-  { id: 9, name: 'Reza Rahadian', handle: '@rezar', email: 'reza.rahadian@beejir.id', role: 'Author', department: 'Design Studio', plan: 'Team', status: 'Active', joinedAt: '14 Sep 2024', avatarBg: 'avatar-soft-info' },
-  { id: 10, name: 'Larasati Dewi', handle: '@larasatid', email: 'larasati.dewi@beejir.id', role: 'Subscriber', department: 'Product', plan: 'Basic', status: 'Pending', joinedAt: '30 Okt 2024', avatarBg: 'avatar-soft-success' },
-  { id: 11, name: 'Bima Sakti', handle: '@bimas', email: 'bima.sakti@beejir.id', role: 'Editor', department: 'Engineering', plan: 'Enterprise', status: 'Active', joinedAt: '11 Nov 2024', avatarBg: 'avatar-soft-primary' },
-  { id: 12, name: 'Putri Ayu', handle: '@putria', email: 'putri.ayu@beejir.id', role: 'Subscriber', department: 'Marketing', plan: 'Basic', status: 'Inactive', joinedAt: '05 Des 2024', avatarBg: 'avatar-soft-error' },
+  { id: 1, name: 'Arif Budiman', handle: '@arifb', email: 'arif.budiman@tinkit.example', role: 'Admin', department: 'Engineering', plan: 'Enterprise', status: 'Active', joinedAt: '12 Jan 2024', avatarBg: 'avatar-soft-primary' },
+  { id: 2, name: 'Rina Kartika', handle: '@rinak', email: 'rina.kartika@tinkit.example', role: 'Maintainer', department: 'Design Studio', plan: 'Team', status: 'Active', joinedAt: '04 Feb 2024', avatarBg: 'avatar-soft-info' },
+  { id: 3, name: 'Dimas Pratama', handle: '@dimasp', email: 'dimas.pratama@tinkit.example', role: 'Editor', department: 'Engineering', plan: 'Company', status: 'Active', joinedAt: '19 Mar 2024', avatarBg: 'avatar-soft-warning' },
+  { id: 4, name: 'Nadia Putri', handle: '@nadiap', email: 'nadia.putri@tinkit.example', role: 'Author', department: 'Product', plan: 'Basic', status: 'Pending', joinedAt: '28 Apr 2024', avatarBg: 'avatar-soft-error' },
+  { id: 5, name: 'Fajar Nugroho', handle: '@fajarn', email: 'fajar.nugroho@tinkit.example', role: 'Subscriber', department: 'Marketing', plan: 'Basic', status: 'Active', joinedAt: '15 Mei 2024', avatarBg: 'avatar-soft-success' },
+  { id: 6, name: 'Siti Aminah', handle: '@sitia', email: 'siti.aminah@tinkit.example', role: 'Admin', department: 'Finance', plan: 'Enterprise', status: 'Active', joinedAt: '02 Jun 2024', avatarBg: 'avatar-soft-primary' },
+  { id: 7, name: 'Hendra Wijaya', handle: '@hendraw', email: 'hendra.wijaya@tinkit.example', role: 'Maintainer', department: 'Engineering', plan: 'Team', status: 'Inactive', joinedAt: '21 Jul 2024', avatarBg: 'avatar-soft-secondary' },
+  { id: 8, name: 'Maya Sari', handle: '@mayas', email: 'maya.sari@tinkit.example', role: 'Editor', department: 'Customer Success', plan: 'Company', status: 'Active', joinedAt: '09 Agu 2024', avatarBg: 'avatar-soft-warning' },
+  { id: 9, name: 'Reza Rahadian', handle: '@rezar', email: 'reza.rahadian@tinkit.example', role: 'Author', department: 'Design Studio', plan: 'Team', status: 'Active', joinedAt: '14 Sep 2024', avatarBg: 'avatar-soft-info' },
+  { id: 10, name: 'Larasati Dewi', handle: '@larasatid', email: 'larasati.dewi@tinkit.example', role: 'Subscriber', department: 'Product', plan: 'Basic', status: 'Pending', joinedAt: '30 Okt 2024', avatarBg: 'avatar-soft-success' },
+  { id: 11, name: 'Bima Sakti', handle: '@bimas', email: 'bima.sakti@tinkit.example', role: 'Editor', department: 'Engineering', plan: 'Enterprise', status: 'Active', joinedAt: '11 Nov 2024', avatarBg: 'avatar-soft-primary' },
+  { id: 12, name: 'Putri Ayu', handle: '@putria', email: 'putri.ayu@tinkit.example', role: 'Subscriber', department: 'Marketing', plan: 'Basic', status: 'Inactive', joinedAt: '05 Des 2024', avatarBg: 'avatar-soft-error' },
 ])
 
 // Filters & Sorting
@@ -128,16 +128,16 @@ const userExportCols = [
 
 function handleExportUsersXLSX() {
   exportToXLSX(userExportCols, filteredUsers.value, {
-    filename: 'beejir-users-list',
+    filename: 'tinkit-users-list',
     sheetName: 'Users Directory',
-    title: 'BeeJir Enterprise Users Directory',
+    title: 'Tinkit Enterprise Users Directory',
   })
   toast.success('Ekspor XLSX Berhasil', `${filteredUsers.value.length} data pengguna berhasil diekspor ke Excel.`)
 }
 
 function handleExportUsersPDF() {
   exportToPDF(userExportCols, filteredUsers.value, {
-    title: 'BeeJir Enterprise Users Directory',
+    title: 'Tinkit Enterprise Users Directory',
   })
   toast.info('Menyiapkan PDF', 'Jendela cetak laporan PDF telah dibuka.')
 }
@@ -388,7 +388,7 @@ function getInitials(name: string) {
                 v-if="showPageSizeMenu"
                 class="absolute left-0 top-full mt-1.5 z-[100] w-36 rounded-panel border border-base-300 bg-base-100 p-1.5 shadow-xl"
               >
-                <div class="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-base-content/45">
+                <div class="px-2.5 py-1 text-[10px] font-semibold text-base-content/45">
                   Rows Per Page
                 </div>
                 <button
@@ -460,7 +460,7 @@ function getInitials(name: string) {
         </div>
       </div>
 
-      <!-- 3. BeeJir Users Table -->
+      <!-- 3. Tinkit Users Table -->
       <div v-if="filteredUsers.length > 0" class="overflow-x-auto border-t border-base-300/80">
         <table class="table">
           <thead>
@@ -659,7 +659,7 @@ function getInitials(name: string) {
         </div>
         <div class="form-control">
           <label class="label"><span class="label-text">Email</span></label>
-          <input v-model="newUser.email" type="email" class="input" placeholder="jordan@beejir.id" required />
+          <input v-model="newUser.email" type="email" class="input" placeholder="jordan@tinkit.example" required />
         </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div class="form-control">

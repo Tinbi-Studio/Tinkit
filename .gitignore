@@ -40,3 +40,6 @@ bun.lockb
 # AI Agent Knowledge & Internal Docs (Ignored from public repository)
 .agents/
 .agents
+
+# Design lint/inspection artifacts
+.taste-skill/

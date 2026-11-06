@@ -1,18 +1,65 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="daybreak">
+<html lang="id" data-theme="tinkit" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BeeJir — Clean & Colorful Open-Source Admin Template</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      (() => {
+        const legacyPrefix = 'beejir:'
+        const prefix = 'tinkit:'
+        const keys = ['theme', 'mode', 'radius', 'content-width', 'custom-colors', 'sidebar-collapsed']
+
+        try {
+          for (const key of keys) {
+            if (localStorage.getItem(prefix + key) === null) {
+              const legacyValue = localStorage.getItem(legacyPrefix + key)
+              if (legacyValue !== null) {
+                localStorage.setItem(prefix + key, legacyValue)
+                localStorage.removeItem(legacyPrefix + key)
+              }
+            }
+          }
+        } catch {
+          // Appearance remains usable when storage is unavailable.
+        }
+
+        const themes = ['tinkit', 'daybreak', 'midnight', 'aurora', 'nebula', 'sunset', 'ocean', 'matcha', 'berry']
+        const modes = ['light', 'dark']
+        const fonts = ['inter', 'plus-jakarta-sans', 'system']
+        const stacks = {
+          inter: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          'plus-jakarta-sans': "'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          system: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        }
+        const params = new URLSearchParams(location.search)
+        const valid = (value, choices, fallback) => choices.includes(value || '') ? value : fallback
+        const read = (key) => {
+          try { return localStorage.getItem(prefix + key) } catch { return null }
+        }
+
+        const theme = valid(params.get('theme'), themes, valid(read('theme'), themes, 'tinkit'))
+        const mode = valid(params.get('mode'), modes, valid(read('mode'), modes, 'dark'))
+        const font = valid(read('font-family'), fonts, 'inter')
+        const root = document.documentElement
+
+        root.setAttribute('data-theme', theme)
+        root.classList.toggle('dark', mode === 'dark')
+        root.setAttribute('data-font-family', font)
+        root.style.setProperty('--font-sans', stacks[font])
+        root.style.setProperty('--font-mono', "'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace")
+      })()
+    </script>
+    <title>Tinkit — Clean & Colorful Open-Source Admin Template</title>
+    <link rel="icon" type="image/png" sizes="256x256" href="/brand/tinkit-favicon.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="bg-base-200 text-base-content antialiased selection:bg-primary/20 selection:text-primary">
+  <body class="bg-base-200 text-base-content antialiased selection:bg-primary selection:text-primary-content">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

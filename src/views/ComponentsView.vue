@@ -98,8 +98,8 @@ const variants: ColorVariant[] = [
 
 const demoModalOpen = ref(false)
 const loadingDemo = ref(false)
-const sampleName = ref('BeeJir Open Source')
-const sampleEmail = ref('hello@beejir.dev')
+const sampleName = ref('Tinkit Open Source')
+const sampleEmail = ref('hello@tinkit.example')
 const sampleNotes = ref('Rilis v0.3 menambahkan DataTable generik, Textarea auto-grow, dan perbaikan kontras dark mode.')
 const sampleAutoGrow = ref('')
 const togglePrimary = ref(true)
@@ -184,7 +184,7 @@ function triggerToast(type: 'success' | 'error' | 'warning' | 'info' | 'primary'
     case 'info':
       toast.info(
         'Pembaruan Sistem Tersedia',
-        'Versi BeeJir v0.2 siap diunduh dengan fitur form wizard baru.'
+        'Versi Tinkit v0.2 siap diunduh dengan fitur form wizard baru.'
       )
       break
     case 'primary':
@@ -262,7 +262,7 @@ const demoPercentValue = ref<number | null>(18.5)
 // Phase 3 New Components Demo State
 const demoDate = ref('2026-10-18')
 const demoRichText = ref(
-  '<h3>Catatan Rilis BeeJir v0.3</h3><p>Editor ini mendukung format <strong>tebal</strong>, <em>miring</em>, <u>garis bawah</u>, daftar poin, dan tampilan kode HTML langsung.</p><ul><li>Komponen Date Picker interaktif</li><li>Upload File Drag & Drop serta Galeri Multi-Foto</li><li>Wizard Stepper & Timeline</li></ul>'
+  '<h3>Catatan Rilis Tinkit v0.3</h3><p>Editor ini mendukung format <strong>tebal</strong>, <em>miring</em>, <u>garis bawah</u>, daftar poin, dan tampilan kode HTML langsung.</p><ul><li>Komponen Date Picker interaktif</li><li>Upload File Drag & Drop serta Galeri Multi-Foto</li><li>Wizard Stepper & Timeline</li></ul>'
 )
 
 const singleUploadFiles = ref<UploadedFileItem[]>([
@@ -280,7 +280,7 @@ const singleUploadFiles = ref<UploadedFileItem[]>([
     name: 'config-production.env',
     size: 1420,
     type: 'text/plain',
-    url: 'data:text/plain;charset=utf-8,APP_ENV=production%0APORT=8080%0ADATABASE_URL=postgresql://user:secret@localhost:5432/beejir%0ACACHE_TTL=3600%0ADEBUG=false',
+    url: 'data:text/plain;charset=utf-8,APP_ENV=production%0APORT=8080%0ADATABASE_URL=postgresql://user:secret@localhost:5432/tinkit%0ACACHE_TTL=3600%0ADEBUG=false',
     progress: 100,
     status: 'done',
   },
@@ -453,7 +453,7 @@ const demoTimelineItems: TimelineItem[] = [
     time: 'Kemarin',
     variant: 'secondary',
     badge: 'Init',
-    author: 'Tim Inti BeeJir',
+    author: 'Tim Inti Tinkit',
   },
 ]
 
@@ -471,8 +471,8 @@ const activeMultiAccordionIds = ref<(string | number)[]>(['multi-1', 'multi-2'])
 const demoAccordionItems: AccordionItem[] = [
   {
     id: 'acc-1',
-    title: 'Bagaimana cara mengganti preset tema di BeeJir?',
-    content: 'BeeJir menyediakan 8 preset warna bawaan (Daybreak, Midnight, Aurora, Nebula, Sunset, Ocean, Matcha, Berry) yang didukung mode terang & gelap. Anda dapat mengganti tema langsung melalui theme switcher di pojok kanan atas atau lewat API useThemeStore().',
+    title: 'Bagaimana cara mengganti preset tema di Tinkit?',
+    content: 'Tinkit menyediakan 8 preset warna bawaan (Daybreak, Midnight, Aurora, Nebula, Sunset, Ocean, Matcha, Berry) yang didukung mode terang & gelap. Anda dapat mengganti tema langsung melalui theme switcher di pojok kanan atas atau lewat API useThemeStore().',
     icon: Palette,
     badge: 'Populer',
     badgeVariant: 'primary',
@@ -480,7 +480,7 @@ const demoAccordionItems: AccordionItem[] = [
   {
     id: 'acc-2',
     title: 'Apakah seluruh komponen mendukung TypeScript dan aksesibilitas?',
-    content: 'Ya, seluruh pustaka komponen BeeJir dibangun 100% menggunakan TypeScript strictly-typed (diverifikasi via vue-tsc) dan dilengkapi atribut ARIA yang tepat untuk navigasi keyboard dan screen reader.',
+    content: 'Ya, seluruh pustaka komponen Tinkit dibangun 100% menggunakan TypeScript strictly-typed (diverifikasi via vue-tsc) dan dilengkapi atribut ARIA yang tepat untuk navigasi keyboard dan screen reader.',
     icon: ShieldCheck,
     badge: 'WCAG AA',
     badgeVariant: 'success',
@@ -488,7 +488,7 @@ const demoAccordionItems: AccordionItem[] = [
   {
     id: 'acc-3',
     title: 'Bagaimana cara menambahkan validasi form kustom?',
-    content: 'Anda dapat menggabungkan komponen form BeeJir dengan library validasi standar Vue seperti VeeValidate atau Zod, atau menggunakan reactive state bawaan Vue 3 dengan properti error dan hint yang telah disediakan.',
+    content: 'Anda dapat menggabungkan komponen form Tinkit dengan library validasi standar Vue seperti VeeValidate atau Zod, atau menggunakan reactive state bawaan Vue 3 dengan properti error dan hint yang telah disediakan.',
     icon: HelpIcon,
   },
 ]
@@ -600,7 +600,7 @@ export async function pingNodes(nodes: ClusterNode[]): Promise<boolean> {
     code: `from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI(title="BeeJir Intelligent Inference API", version="0.4.0")
+app = FastAPI(title="Tinkit Intelligent Inference API", version="0.4.0")
 
 class InferencePayload(BaseModel):
     prompt: str
@@ -616,11 +616,11 @@ async def execute_reasoning(payload: InferencePayload):
     language: 'markdown',
     filename: 'README.md',
     highlightLines: [3, 7],
-    code: `# BeeJir Admin Template
+    code: `# Tinkit Admin Template
 
 Clean & colorful open-source Vue 3 + Tailwind CSS admin dashboard.
 
-## 🚀 Quick Start
+## Quick Start
 
 \`\`\`bash
 # Install dependencies with Bun
@@ -684,7 +684,7 @@ const demoChatMessages = ref<DemoChatMessageItem[]>([
       status: 'online',
     },
     timestamp: '14:23',
-    content: 'Luar biasa cepat! Mari kita push ke branch release v0.4.0 sekarang 🚀',
+    content: 'Luar biasa cepat! Mari kita push ke branch release v0.4.0 sekarang',
   },
 ])
 
@@ -732,9 +732,9 @@ function sendDemoChatMessage() {
           <UiBadge variant="primary" soft>Dual-API System</UiBadge>
           <UiBadge variant="secondary" soft>Enterprise UI</UiBadge>
         </div>
-        <h2 class="text-xl font-bold text-base-content">
+        <h1 class="text-xl font-bold text-base-content">
           Katalog Komponen Semantik UI
-        </h2>
+        </h1>
         <p class="text-[0.8125rem] text-base-content/60 mt-0.5">
           Gunakan class CSS semantik seperti <code class="font-mono text-primary">.btn .btn-primary</code>
           atau komponen Vue bertipe <code class="font-mono text-secondary">&lt;UiButton variant="primary"&gt;</code>.
@@ -846,7 +846,7 @@ function sendDemoChatMessage() {
       accent-top="secondary"
     >
       <div class="space-y-3">
-        <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block">
+        <span class="text-xs font-bold text-base-content/50 block">
           Klik tombol di bawah untuk memicu Toast Notifications secara live:
         </span>
         <div class="flex flex-wrap items-center gap-3">
@@ -892,7 +892,7 @@ function sendDemoChatMessage() {
     >
       <div class="space-y-4">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block mb-2">
+          <span class="text-xs font-bold text-base-content/50 block mb-2">
             Varian Accent-Left (Garis Indikator Sisi Kiri - Elegan & Bersih)
           </span>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -932,7 +932,7 @@ function sendDemoChatMessage() {
         </div>
 
         <div class="pt-2 border-t border-base-300/70">
-          <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block mb-2">
+          <span class="text-xs font-bold text-base-content/50 block mb-2">
             Varian Glass & Soft Pastel (Tanpa Solid Background)
           </span>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -956,7 +956,7 @@ function sendDemoChatMessage() {
         </div>
 
         <div class="pt-2 border-t border-base-300/70">
-          <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block mb-2">
+          <span class="text-xs font-bold text-base-content/50 block mb-2">
             Varian Solid Background (Opsi solid=true)
           </span>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -1062,7 +1062,7 @@ function sendDemoChatMessage() {
       <div class="space-y-5">
         <!-- Solid Buttons -->
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+          <span class="text-xs font-bold text-base-content/50 block mb-2.5">
             Solid Semantic Variants
           </span>
           <div class="flex flex-wrap gap-2.5">
@@ -1080,7 +1080,7 @@ function sendDemoChatMessage() {
 
         <!-- Soft Pastel Buttons -->
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+          <span class="text-xs font-bold text-base-content/50 block mb-2.5">
             Soft Pastel Variants (.btn-soft)
           </span>
           <div class="flex flex-wrap gap-2.5">
@@ -1098,7 +1098,7 @@ function sendDemoChatMessage() {
 
         <!-- Sizes & Interactive States -->
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+          <span class="text-xs font-bold text-base-content/50 block mb-2.5">
             Sizes & Interactive States
           </span>
           <div class="flex flex-wrap items-center gap-3">
@@ -1126,7 +1126,7 @@ function sendDemoChatMessage() {
         <div class="pt-5 border-t border-base-300/80 dark:border-white/[0.08] space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-primary block">
+              <span class="text-xs font-bold text-primary block">
                 Konsep Icon Button (.btn-icon, .btn-square, .btn-circle)
               </span>
               <p class="text-xs text-base-content/65 mt-0.5">
@@ -1270,7 +1270,7 @@ function sendDemoChatMessage() {
 
           <!-- Theme-Aligned Textarea -->
           <div class="pt-2 border-t border-base-300/70 space-y-3">
-            <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block">
+            <span class="text-xs font-bold text-base-content/50 block">
               Textarea Bertema (&lt;UiTextarea&gt;)
             </span>
             <UiTextarea
@@ -1311,7 +1311,7 @@ function sendDemoChatMessage() {
 
           <!-- Checkboxes (Baru!) -->
           <div class="pt-2 border-t border-base-300/70 space-y-3">
-            <span class="text-xs font-bold uppercase tracking-wider text-base-content/50 block">
+            <span class="text-xs font-bold text-base-content/50 block">
               Theme-Aligned Checkboxes (.checkbox & &lt;UiCheckbox&gt;)
             </span>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1377,7 +1377,7 @@ function sendDemoChatMessage() {
 
           <!-- NEW: Currency & Percent Inputs -->
           <div class="pt-3 border-t border-base-300/70 space-y-3">
-            <span class="text-xs font-bold uppercase tracking-wider text-primary block">
+            <span class="text-xs font-bold text-primary block">
               Format Khusus: Currency &amp; Percentage (&lt;UiInputCurrency&gt; &amp; &lt;UiInputPercent&gt;)
             </span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1589,7 +1589,7 @@ function sendDemoChatMessage() {
         <div class="space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span class="text-xs font-semibold uppercase tracking-wider text-base-content/60">Pilih Mesin AI Utama</span>
+              <span class="text-xs font-semibold text-base-content/60">Pilih Mesin AI Utama</span>
               <p class="text-xs text-base-content/50">Digunakan pada agent reasoning engine dan pipeline otomatisasi</p>
             </div>
             <div class="flex items-center gap-2">
@@ -1639,7 +1639,7 @@ function sendDemoChatMessage() {
       >
         <div class="space-y-5">
           <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+            <span class="text-[11px] font-bold text-base-content/50 block mb-2.5">
               Varian Warna (Ring Spinner)
             </span>
             <div class="flex flex-wrap items-center gap-5">
@@ -1654,7 +1654,7 @@ function sendDemoChatMessage() {
           </div>
 
           <div class="pt-3 border-t border-base-300/70">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+            <span class="text-[11px] font-bold text-base-content/50 block mb-2.5">
               Tipe & Label (Ring, Dots, Pulse)
             </span>
             <div class="flex flex-wrap items-center gap-6">
@@ -1699,7 +1699,7 @@ function sendDemoChatMessage() {
         <div class="space-y-6">
           <!-- Dropdowns -->
           <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+            <span class="text-[11px] font-bold text-base-content/50 block mb-2.5">
               Dropdown Menu (&lt;UiDropdown&gt;)
             </span>
             <div class="flex flex-wrap items-center gap-3">
@@ -1722,7 +1722,7 @@ function sendDemoChatMessage() {
 
           <!-- Tooltips -->
           <div class="pt-3 border-t border-base-300/70">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+            <span class="text-[11px] font-bold text-base-content/50 block mb-2.5">
               Directional Tooltips (&lt;UiTooltip&gt;) — Arahkan Kursor
             </span>
             <div class="flex flex-wrap items-center gap-3">
@@ -1740,7 +1740,7 @@ function sendDemoChatMessage() {
 
           <!-- Popover -->
           <div class="pt-3 border-t border-base-300/70">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-base-content/50 block mb-2.5">
+            <span class="text-[11px] font-bold text-base-content/50 block mb-2.5">
               Rich Interactive Popover (&lt;UiPopover&gt;) — Klik Tombol
             </span>
             <div class="flex flex-wrap items-center gap-3">
@@ -1810,7 +1810,7 @@ function sendDemoChatMessage() {
           <UiVideoPlayer
             src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
             poster="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80"
-            title="BeeJir Architecture & Interactive Demo (Big Buck Bunny Sample)"
+            title="Tinkit Architecture & Interactive Demo (Big Buck Bunny Sample)"
           />
           <div class="flex flex-wrap items-center justify-between text-xs text-base-content/70 px-1 pt-1">
             <span>Mendukung keyboard space (play/pause), slider volume hover, dan overlay responsif.</span>
@@ -1826,7 +1826,7 @@ function sendDemoChatMessage() {
         accent-top="secondary"
       >
         <div class="space-y-4">
-          <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wider">
+          <div class="text-xs font-semibold text-base-content/70">
             Mode Single Expand (Default)
           </div>
           <UiAccordion
@@ -1834,7 +1834,7 @@ function sendDemoChatMessage() {
             :items="demoAccordionItems"
           />
 
-          <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wider pt-2">
+          <div class="text-xs font-semibold text-base-content/70 pt-2">
             Mode Multiple Expand (Separated)
           </div>
           <UiAccordion
@@ -1877,7 +1877,7 @@ function sendDemoChatMessage() {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Attached Tabs (Tab menyatu dengan box konten) -->
           <div class="space-y-3">
-            <div class="flex items-center justify-between text-xs font-semibold text-base-content/70 uppercase tracking-wider">
+            <div class="flex items-center justify-between text-xs font-semibold text-base-content/70">
               <span>Attached Variant (variant="attached")</span>
               <span class="badge badge-xs badge-primary">Menyatu dengan Konten</span>
             </div>
@@ -1891,7 +1891,7 @@ function sendDemoChatMessage() {
                 <div class="font-mono text-xs space-y-2">
                   <div class="text-base-content/60">// Konfigurasi aplikasi frontend</div>
                   <pre class="bg-base-300/40 p-3 rounded-btn text-primary leading-relaxed overflow-x-auto">export const appConfig = {
-  appName: 'BeeJir Admin',
+  appName: 'Tinkit Admin',
   version: '0.4.0',
   themePreset: 'ocean',
   features: {
@@ -1905,7 +1905,7 @@ function sendDemoChatMessage() {
               <template #env>
                 <div class="font-mono text-xs space-y-2">
                   <div class="text-warning">// Environment Variables</div>
-                  <pre class="bg-base-300/40 p-3 rounded-btn text-base-content/90 leading-relaxed overflow-x-auto">VITE_APP_BASE_URL=https://api.beejir.id
+                  <pre class="bg-base-300/40 p-3 rounded-btn text-base-content/90 leading-relaxed overflow-x-auto">VITE_APP_BASE_URL=https://api.tinkit.example
 VITE_ENABLE_ANALYTICS=true
 VITE_STORAGE_DRIVER=s3
 VITE_AUTH_PROVIDER=oauth2</pre>
@@ -1937,7 +1937,7 @@ VITE_AUTH_PROVIDER=oauth2</pre>
           <!-- Other Variants: Underline & Pills -->
           <div class="space-y-6">
             <div class="space-y-3">
-              <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wider">
+              <div class="text-xs font-semibold text-base-content/70">
                 Underline Variant (variant="underline")
               </div>
               <UiTabs
@@ -1964,7 +1964,7 @@ VITE_AUTH_PROVIDER=oauth2</pre>
             </div>
 
             <div class="space-y-3">
-              <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wider">
+              <div class="text-xs font-semibold text-base-content/70">
                 Boxed Segmented Variant (variant="boxed")
               </div>
               <UiTabs
@@ -2008,7 +2008,8 @@ VITE_AUTH_PROVIDER=oauth2</pre>
               <button
                 type="button"
                 class="btn btn-xs h-7 px-3 rounded-btn font-mono"
-                :class="activeCodeLang === 'sql' ? 'btn-primary' : 'btn-ghost text-base-content/70'"
+                :class="activeCodeLang === 'sql' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                :aria-pressed="activeCodeLang === 'sql'"
                 @click="activeCodeLang = 'sql'"
               >
                 SQL / Database
@@ -2016,7 +2017,8 @@ VITE_AUTH_PROVIDER=oauth2</pre>
               <button
                 type="button"
                 class="btn btn-xs h-7 px-3 rounded-btn font-mono"
-                :class="activeCodeLang === 'typescript' ? 'btn-primary' : 'btn-ghost text-base-content/70'"
+                :class="activeCodeLang === 'typescript' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                :aria-pressed="activeCodeLang === 'typescript'"
                 @click="activeCodeLang = 'typescript'"
               >
                 TypeScript
@@ -2024,7 +2026,8 @@ VITE_AUTH_PROVIDER=oauth2</pre>
               <button
                 type="button"
                 class="btn btn-xs h-7 px-3 rounded-btn font-mono"
-                :class="activeCodeLang === 'python' ? 'btn-primary' : 'btn-ghost text-base-content/70'"
+                :class="activeCodeLang === 'python' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                :aria-pressed="activeCodeLang === 'python'"
                 @click="activeCodeLang = 'python'"
               >
                 Python FastAPI
@@ -2032,7 +2035,8 @@ VITE_AUTH_PROVIDER=oauth2</pre>
               <button
                 type="button"
                 class="btn btn-xs h-7 px-3 rounded-btn font-mono"
-                :class="activeCodeLang === 'markdown' ? 'btn-primary' : 'btn-ghost text-base-content/70'"
+                :class="activeCodeLang === 'markdown' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                :aria-pressed="activeCodeLang === 'markdown'"
                 @click="activeCodeLang = 'markdown'"
               >
                 Markdown (GFM)
@@ -2067,7 +2071,7 @@ VITE_AUTH_PROVIDER=oauth2</pre>
         <div class="space-y-6">
           <!-- Size Progression -->
           <div class="space-y-2">
-            <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wider">
+            <div class="text-xs font-semibold text-base-content/70">
               Ukuran (xs, sm, md, lg, xl, 2xl)
             </div>
             <div class="flex flex-wrap items-end gap-3.5 pt-1">
@@ -2081,7 +2085,7 @@ VITE_AUTH_PROVIDER=oauth2</pre>
 
           <!-- Fallback Initials & Shapes -->
           <div class="space-y-2">
-            <div class="text-xs font-semibold text-base-content/70 uppercase tracking-wider">
+            <div class="text-xs font-semibold text-base-content/70">
               Fallback Inisial Huruf & Bentuk (Circle, Rounded, Square)
             </div>
             <div class="flex flex-wrap items-center gap-3 pt-1">
@@ -2163,7 +2167,7 @@ VITE_AUTH_PROVIDER=oauth2</pre>
     <!-- Interactive Demo Modal -->
     <UiModal
       v-model="demoModalOpen"
-      title="Contoh Dialog Modal BeeJir"
+      title="Contoh Dialog Modal Tinkit"
       subtitle="Mendukung penutupan via tombol Esc, klik backdrop, dan kustomisasi penuh"
     >
       <div class="space-y-4 text-sm text-base-content/80">

@@ -47,8 +47,8 @@ const containerWidthClass = computed(() => {
       >
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
-            © {{ new Date().getFullYear() }}, dibuat dengan ❤️ oleh
-            <span class="font-semibold text-primary">BeeJir Open-Source</span>
+            © {{ new Date().getFullYear() }}, dibuat oleh
+            <span class="font-semibold text-primary">Tinkit Open-Source</span>
           </div>
           <div class="flex flex-wrap items-center gap-5">
             <RouterLink to="/" class="hover:text-primary transition-colors">
