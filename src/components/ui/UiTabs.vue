@@ -51,20 +51,20 @@ const sizeClasses = computed(() => {
   switch (props.size) {
     case 'sm':
       return {
-        tab: 'px-3 py-1.5 text-xs gap-1.5',
+        tab: 'h-9 px-3 text-xs gap-1.5',
         icon: 'h-3.5 w-3.5',
         content: 'p-3 text-xs',
       }
     case 'lg':
       return {
-        tab: 'px-6 py-3 text-base gap-2.5',
+        tab: 'h-[3.25rem] px-6 text-base gap-2.5',
         icon: 'h-5 w-5',
         content: 'p-6 text-sm',
       }
     case 'md':
     default:
       return {
-        tab: 'px-4 py-2.5 text-sm gap-2',
+        tab: 'h-11 px-4 text-sm gap-2',
         icon: 'h-4 w-4',
         content: 'p-5 text-sm',
       }
@@ -75,7 +75,7 @@ const sizeClasses = computed(() => {
 const headerContainerClasses = computed(() => {
   switch (props.variant) {
     case 'attached':
-      return 'flex items-end -mb-px border-b border-[var(--border)] overflow-x-auto scrollbar-none'
+      return 'flex items-stretch -mb-px rounded-t-box border-b border-[var(--border)] overflow-x-auto scrollbar-none'
     case 'underline':
       return 'flex items-center gap-2 border-b border-[var(--border)] overflow-x-auto scrollbar-none'
     case 'boxed':
@@ -95,8 +95,8 @@ function getTabButtonClasses(item: TabItem) {
       sizeClasses.value.tab,
       props.fullWidth ? 'flex-1 justify-center' : '',
       isActive
-        ? 'bg-[var(--surface-raised)] text-primary font-bold shadow-xs z-10 !border-b-transparent'
-        : 'bg-base-200/40 text-base-content/70 hover:text-base-content hover:bg-base-200/80',
+        ? 'bg-[var(--surface-card)] text-[var(--accent)] font-bold shadow-[inset_0_2px_0_var(--accent)] !border-b-transparent z-10'
+        : 'bg-transparent text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-hover)]',
       item.disabled ? 'opacity-40 pointer-events-none' : '',
     ]
   }
@@ -120,7 +120,7 @@ function getTabButtonClasses(item: TabItem) {
       props.fullWidth ? 'flex-1 justify-center' : '',
       isActive
         ? 'bg-primary text-primary-content font-semibold shadow-none'
-        : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-raised)]',
+        : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-hover)]',
       item.disabled ? 'opacity-40 pointer-events-none' : '',
     ]
   }
@@ -132,14 +132,14 @@ function getTabButtonClasses(item: TabItem) {
     props.fullWidth ? 'flex-1 justify-center' : '',
     isActive
       ? 'bg-primary text-primary-content font-semibold shadow-none'
-      : 'bg-transparent text-[var(--text-muted)] hover:bg-[var(--surface-raised)] hover:text-[var(--text)]',
+      : 'bg-transparent text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]',
     item.disabled ? 'opacity-40 pointer-events-none' : '',
   ]
 }
 
 const contentContainerClasses = computed(() => {
   if (props.variant === 'attached') {
-    return 'rounded-b-box rounded-tr-box border-x border-b border-[var(--border)] bg-[var(--surface-raised)] shadow-none'
+    return 'rounded-b-box border-x border-b border-[var(--border)] bg-[var(--surface-card)] shadow-none'
   }
   return 'mt-3'
 })

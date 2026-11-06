@@ -826,3 +826,11 @@
     background-color: var(--surface-raised);
   }
 }
+
+/* Utility: hide the native scrollbar on horizontal tab strips */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
