@@ -25,6 +25,7 @@ import {
   MessagesSquare,
   BarChart3,
   CalendarDays,
+  Mail,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
 import GitHubStarButton from '@/components/layout/GitHubStarButton.vue'
@@ -122,6 +123,13 @@ const shortcuts = [
     to: '/inbox',
     icon: MessagesSquare,
     variant: 'success',
+  },
+  {
+    title: 'Mail Workspace',
+    subtitle: 'Inbox & Compose',
+    to: '/mail',
+    icon: Mail,
+    variant: 'primary',
   },
   {
     title: 'Analytics',

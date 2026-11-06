@@ -15,6 +15,10 @@ import AnalyticsView from '@/views/AnalyticsView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import OnboardingView from '@/views/OnboardingView.vue'
 import CalendarView from '@/views/CalendarView.vue'
+import MailLayout from '@/layouts/MailLayout.vue'
+import MailListView from '@/views/mail/MailListView.vue'
+import MailDetailView from '@/views/mail/MailDetailView.vue'
+import MailComposeView from '@/views/mail/MailComposeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -129,6 +133,19 @@ const router = createRouter({
         title: 'Workspace Settings',
         subtitle: 'Konfigurasi workspace, billing, notifikasi, keamanan, dan integrasi API',
       },
+    },
+    {
+      path: '/mail',
+      component: MailLayout,
+      meta: {
+        title: 'Mail Workspace',
+        subtitle: 'Kotak masuk, balasan, dan penyusunan email',
+      },
+      children: [
+        { path: '', name: 'mail', component: MailListView },
+        { path: 'compose', name: 'mail-compose', component: MailComposeView },
+        { path: ':id', name: 'mail-detail', component: MailDetailView },
+      ],
     },
     {
       path: '/calendar',

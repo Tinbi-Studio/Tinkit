@@ -19,6 +19,7 @@ import {
   Settings,
   Rocket,
   CalendarDays,
+  Mail,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
 import type { ColorVariant } from '@/types/theme'
@@ -82,6 +83,11 @@ const demoNav: NavItem[] = [
     icon: MessagesSquare,
     badge: '5',
     badgeVariant: 'error',
+  },
+  {
+    label: 'Mail Workspace',
+    to: '/mail',
+    icon: Mail,
   },
   {
     label: 'Analytics & Insights',
