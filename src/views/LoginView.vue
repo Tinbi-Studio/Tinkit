@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { useToast } from '@/stores/toast'
@@ -11,9 +11,17 @@ import {
   Palette,
   TrendingUp,
   ShoppingCart,
+  Mail,
+  Lock,
+  User,
+  ShieldCheck,
+  Check,
 } from 'lucide-vue-next'
 import ThemeCustomizerDrawer from '@/components/layout/ThemeCustomizerDrawer.vue'
 import AppBrand from '@/components/brand/AppBrand.vue'
+import UiInput from '@/components/ui/UiInput.vue'
+import UiCheckbox from '@/components/ui/UiCheckbox.vue'
+import UiButton from '@/components/ui/UiButton.vue'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -30,7 +38,37 @@ const form = ref({
   remember: true,
 })
 
+const errors = ref({
+  name: '',
+  email: '',
+  password: '',
+})
+
+const passwordChecks = computed(() => [
+  { label: 'Minimal 8 karakter', valid: form.value.password.length >= 8 },
+  { label: 'Huruf besar & kecil', valid: /[a-z]/.test(form.value.password) && /[A-Z]/.test(form.value.password) },
+  { label: 'Mengandung angka', valid: /\d/.test(form.value.password) },
+])
+
+function validate(): boolean {
+  errors.value = { name: '', email: '', password: '' }
+
+  if (isRegister.value && !form.value.name.trim()) {
+    errors.value.name = 'Nama lengkap wajib diisi.'
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
+    errors.value.email = 'Masukkan alamat email yang valid.'
+  }
+  if (form.value.password.length < 8) {
+    errors.value.password = 'Kata sandi minimal 8 karakter.'
+  }
+
+  return !errors.value.name && !errors.value.email && !errors.value.password
+}
+
 function handleSubmit() {
+  if (!validate()) return
+
   loading.value = true
   setTimeout(() => {
     loading.value = false
@@ -40,6 +78,15 @@ function handleSubmit() {
     )
     router.push('/')
   }, 500)
+}
+
+function socialLogin(provider: string) {
+  toast.info(`Masuk dengan ${provider}`, 'Demo template: integrasi OAuth belum diaktifkan.')
+}
+
+function toggleMode() {
+  isRegister.value = !isRegister.value
+  errors.value = { name: '', email: '', password: '' }
 }
 </script>
 
@@ -73,7 +120,10 @@ function handleSubmit() {
     </div>
 
     <!-- LEFT 7/12 PANEL: Tinkit Authentication Cover Showcase (bg-base-200) -->
-    <div class="hidden lg:flex lg:w-7/12 xl:w-8/12 relative items-center justify-center overflow-hidden bg-base-200 p-12">
+    <div class="relative hidden items-center justify-center overflow-hidden bg-base-200 p-12 lg:flex lg:w-7/12 xl:w-8/12">
+      <!-- Theme-aware ambient glow -->
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,var(--accent-soft),transparent_55%)]" />
+      <div class="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-[var(--accent-soft)] blur-3xl" />
       <!-- Subtle bottom decorative wave/tree mask -->
       <svg
         class="pointer-events-none absolute bottom-0 left-0 right-0 w-full h-40 text-base-300/50"
@@ -90,7 +140,7 @@ function handleSubmit() {
       <!-- Center Visual Composition: Floating Stat Cards + Main CRM Dashboard Preview -->
       <div class="relative z-10 w-full max-w-2xl">
         <!-- Floating Top-Left Stat Card (Total Profit Sparkline) -->
-        <div class="card absolute -left-8 -top-10 z-20 w-52 p-4 hidden xl:block animate-fade-in">
+        <div class="card absolute -top-36 left-0 z-20 w-52 p-4 hidden xl:block animate-fade-in">
           <div class="flex items-center justify-between mb-2">
             <div class="flex h-9 w-9 items-center justify-center avatar-soft-success">
               <TrendingUp class="h-5 w-5" />
@@ -177,7 +227,7 @@ function handleSubmit() {
         </div>
 
         <!-- Floating Bottom-Right Card (Total Orders) -->
-        <div class="card absolute -bottom-8 -right-6 z-20 w-52 p-4 hidden xl:block animate-fade-in">
+        <div class="card absolute -bottom-36 right-0 z-20 w-52 p-4 hidden xl:block animate-fade-in">
           <div class="flex items-center justify-between mb-2">
             <div class="flex h-9 w-9 items-center justify-center avatar-soft-primary">
               <ShoppingCart class="h-5 w-5" />
@@ -191,141 +241,164 @@ function handleSubmit() {
     </div>
 
     <!-- RIGHT 5/12 PANEL: Tinkit Clean Authentication Form (bg-base-100) -->
-    <div class="flex w-full lg:w-5/12 xl:w-4/12 items-center justify-center bg-base-100 p-6 sm:p-12">
-      <div class="w-full max-w-sm space-y-6">
+    <div class="flex w-full items-center justify-center bg-base-100 px-6 pb-10 pt-24 sm:px-12 lg:w-5/12 lg:px-12 lg:py-12 xl:w-4/12">
+      <div class="w-full max-w-sm">
         <!-- Heading -->
-        <div>
-          <h1 class="text-2xl font-semibold text-base-content">
-            {{ isRegister ? 'Adventure starts here' : 'Welcome to Tinkit' }}
+        <div class="mb-8">
+          <span class="badge badge-soft badge-primary mb-3 gap-1.5 font-semibold">
+            <ShieldCheck class="h-3 w-3" />
+            {{ isRegister ? 'Akun baru' : 'Area aman' }}
+          </span>
+          <h1 class="text-2xl font-bold tracking-tight text-base-content">
+            {{ isRegister ? 'Mulai perjalanan Anda' : 'Selamat datang kembali' }}
           </h1>
-          <p class="mt-1.5 text-sm text-base-content/60">
+          <p class="mt-1.5 text-sm leading-relaxed text-[var(--text-muted)]">
             {{
               isRegister
-                ? 'Make your app management easy and fun!'
-                : 'Please sign-in to your account and start the adventure'
+                ? 'Buat akun untuk mengelola workspace, tim, dan analitik dalam satu tempat.'
+                : 'Masuk untuk melanjutkan pekerjaan dan memantau performa workspace Anda.'
             }}
           </p>
         </div>
 
         <!-- Form -->
-        <form class="space-y-4" @submit.prevent="handleSubmit">
-          <div v-if="isRegister" class="form-control">
-            <label class="label"><span class="label-text">Username / Full Name</span></label>
-            <input
-              v-model="form.name"
-              type="text"
-              class="input"
-              placeholder="Enter your username"
-              required
-            />
-          </div>
+        <form class="space-y-4" novalidate @submit.prevent="handleSubmit">
+          <UiInput
+            v-if="isRegister"
+            v-model="form.name"
+            label="Nama lengkap"
+            placeholder="Nama lengkap Anda"
+            :error="errors.name"
+          >
+            <template #icon-left>
+              <User class="h-4 w-4" />
+            </template>
+          </UiInput>
 
-          <div class="form-control">
-            <label class="label"><span class="label-text">Email or Username</span></label>
-            <input
-              v-model="form.email"
-              type="email"
-              class="input"
-              placeholder="Enter your email or username"
-              required
-            />
-          </div>
+          <UiInput
+            v-model="form.email"
+            label="Email"
+            type="email"
+            placeholder="nama@perusahaan.com"
+            :error="errors.email"
+          >
+            <template #icon-left>
+              <Mail class="h-4 w-4" />
+            </template>
+          </UiInput>
 
-          <div class="form-control">
-            <label class="label"><span class="label-text">Password</span></label>
-            <div class="relative">
-              <input
-                v-model="form.password"
-                :type="showPassword ? 'text' : 'password'"
-                class="input pr-10"
-                placeholder="············"
-                required
-              />
-              <button
-                type="button"
-                class=" absolute right-3 top-1/2 -translate-y-1/2 text-base-content/45 hover:text-base-content"
-                @click="showPassword = !showPassword"
+          <div>
+            <UiInput
+              v-model="form.password"
+              label="Kata sandi"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              :error="errors.password"
+            >
+              <template #icon-left>
+                <Lock class="h-4 w-4" />
+              </template>
+              <template #icon-right>
+                <button
+                  type="button"
+                  class="rounded p-0.5 text-[var(--text-faint)] transition-colors hover:text-[var(--text)]"
+                  :aria-label="showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'"
+                  @click="showPassword = !showPassword"
+                >
+                  <EyeOff v-if="showPassword" class="h-4 w-4" />
+                  <Eye v-else class="h-4 w-4" />
+                </button>
+              </template>
+            </UiInput>
+
+            <div v-if="isRegister" class="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-3">
+              <span
+                v-for="check in passwordChecks"
+                :key="check.label"
+                class="inline-flex items-center gap-1 text-[10px] font-medium"
+                :class="check.valid ? 'text-success' : 'text-[var(--text-faint)]'"
               >
-                <EyeOff v-if="showPassword" class="h-4 w-4" />
-                <Eye v-else class="h-4 w-4" />
-              </button>
+                <Check class="h-3 w-3" :class="check.valid ? '' : 'opacity-30'" />
+                {{ check.label }}
+              </span>
             </div>
           </div>
 
           <!-- Remember Me & Forgot Password -->
-          <div class="flex items-center justify-between text-sm">
-            <label class="flex cursor-pointer items-center gap-2">
-              <input v-model="form.remember" type="checkbox" class="checkbox checkbox-sm checkbox-primary" />
-              <span class="text-base-content/75">
-                {{ isRegister ? 'I agree to privacy policy & terms' : 'Remember Me' }}
+          <div class="flex items-start justify-between gap-3 text-sm">
+            <div class="flex items-start gap-2">
+              <UiCheckbox v-model="form.remember" size="sm" class="mt-0.5" />
+              <span
+                class="cursor-pointer text-xs leading-relaxed text-[var(--text-muted)]"
+                @click="form.remember = !form.remember"
+              >
+                {{ isRegister ? 'Saya setuju dengan syarat & kebijakan privasi' : 'Ingat saya di perangkat ini' }}
               </span>
-            </label>
+            </div>
             <button
               v-if="!isRegister"
               type="button"
-              class="text-primary hover:underline text-sm"
-              @click="toast.info('Reset Password', 'Tautan pemulihan telah dikirim ke email Anda.')"
+              class="shrink-0 text-xs font-semibold text-[var(--accent)] hover:underline"
+              @click="toast.info('Reset Kata Sandi', 'Tautan pemulihan telah dikirim ke email Anda.')"
             >
-              Forgot Password?
+              Lupa kata sandi?
             </button>
           </div>
 
-          <button type="submit" class="btn btn-primary w-full" :disabled="loading">
-            <span v-if="loading" class="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-            <span>{{ isRegister ? 'Sign up' : 'Sign in' }}</span>
-          </button>
+          <UiButton
+            type="submit"
+            variant="primary"
+            size="lg"
+            block
+            :loading="loading"
+          >
+            {{ isRegister ? 'Buat Akun' : 'Masuk ke Dashboard' }}
+          </UiButton>
         </form>
 
         <!-- Toggle Sign In / Create Account -->
-        <p class="text-center text-sm text-base-content/65">
-          {{ isRegister ? 'Already have an account?' : 'New on our platform?' }}
+        <p class="mt-6 text-center text-sm text-[var(--text-muted)]">
+          {{ isRegister ? 'Sudah punya akun?' : 'Belum punya akun?' }}
           <button
             type="button"
-            class="ml-1 font-medium text-primary hover:underline"
-            @click="isRegister = !isRegister"
+            class="ml-1 font-semibold text-[var(--accent)] hover:underline"
+            @click="toggleMode"
           >
-            {{ isRegister ? 'Sign in instead' : 'Create an account' }}
+            {{ isRegister ? 'Masuk di sini' : 'Daftar sekarang' }}
           </button>
         </p>
 
         <!-- Divider -->
-        <div class="divider text-xs text-base-content/45">or</div>
+        <div class="my-6 flex items-center gap-3">
+          <span class="h-px flex-1 bg-[var(--border)]" />
+          <span class="text-[11px] font-medium text-[var(--text-faint)]">atau lanjutkan dengan</span>
+          <span class="h-px flex-1 bg-[var(--border)]" />
+        </div>
 
-        <!-- Social Auth Icons (Facebook, Twitter, GitHub, Google style) -->
-        <div class="flex items-center justify-center gap-3">
+        <!-- Social Auth -->
+        <div class="grid grid-cols-2 gap-2.5">
           <button
             type="button"
-            class="btn btn-sm btn-square bg-[#4267B2]/15 text-[#4267B2] border-transparent hover:bg-[#4267B2]/25 shadow-none"
-            title="Facebook"
-            @click="handleSubmit"
+            class="inline-flex h-10 items-center justify-center gap-2 rounded-btn border border-[var(--border)] bg-[var(--surface-input)] text-xs font-semibold text-[var(--text)] transition-colors hover:bg-[var(--surface-hover)]"
+            @click="socialLogin('Google')"
           >
-            <span class="text-xs font-bold">f</span>
+            <span class="flex h-4 w-4 items-center justify-center rounded-full bg-[#DB4437]/15 text-[10px] font-bold text-[#DB4437]">G</span>
+            Google
           </button>
           <button
             type="button"
-            class="btn btn-sm btn-square bg-[#1DA1F2]/15 text-[#1DA1F2] border-transparent hover:bg-[#1DA1F2]/25 shadow-none"
-            title="Twitter / X"
-            @click="handleSubmit"
+            class="inline-flex h-10 items-center justify-center gap-2 rounded-btn border border-[var(--border)] bg-[var(--surface-input)] text-xs font-semibold text-[var(--text)] transition-colors hover:bg-[var(--surface-hover)]"
+            @click="socialLogin('GitHub')"
           >
-            <span class="text-xs font-bold">𝕏</span>
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-square bg-base-content/10 text-base-content border-transparent hover:bg-base-content/20 shadow-none"
-            title="GitHub"
-            @click="handleSubmit"
-          >
-            <span class="text-xs font-bold">GH</span>
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-square bg-[#DB4437]/15 text-[#DB4437] border-transparent hover:bg-[#DB4437]/25 shadow-none"
-            title="Google"
-            @click="handleSubmit"
-          >
-            <span class="text-xs font-bold">G</span>
+            <span class="flex h-4 w-4 items-center justify-center rounded-full bg-base-content/10 text-[9px] font-bold text-[var(--text)]">GH</span>
+            GitHub
           </button>
         </div>
+
+        <p class="mt-6 flex items-center justify-center gap-1.5 text-[11px] text-[var(--text-faint)]">
+          <ShieldCheck class="h-3.5 w-3.5" />
+          Data Anda dienkripsi dan tidak dibagikan ke pihak ketiga.
+        </p>
       </div>
     </div>
 
