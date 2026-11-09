@@ -25,6 +25,7 @@ import {
   MessagesSquare,
   BarChart3,
   CalendarDays,
+  Kanban,
   Mail,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
@@ -97,8 +98,15 @@ const shortcuts = [
     variant: 'secondary',
   },
   {
+    title: 'Kanban Board',
+    subtitle: 'Sprint & Task Board',
+    to: '/kanban',
+    icon: Kanban,
+    variant: 'accent',
+  },
+  {
     title: 'UI Components',
-    subtitle: '22+ Semantic Kits',
+    subtitle: '27+ Semantic Kits',
     to: '/components',
     icon: Layers,
     variant: 'info',

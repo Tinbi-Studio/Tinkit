@@ -19,6 +19,7 @@ import {
   Settings,
   Rocket,
   CalendarDays,
+  Kanban,
   Mail,
 } from 'lucide-vue-next'
 import { useThemeStore } from '@/stores/theme'
@@ -61,6 +62,13 @@ const mainNav: NavItem[] = [
     label: 'Kalender Tim',
     to: '/calendar',
     icon: CalendarDays,
+  },
+  {
+    label: 'Kanban Board',
+    to: '/kanban',
+    icon: Kanban,
+    badge: 'Baru',
+    badgeVariant: 'accent',
   },
 ]
 
@@ -130,7 +138,7 @@ const uiNav: NavItem[] = [
     label: 'UI Components',
     to: '/components',
     icon: Layers,
-    badge: '22+',
+    badge: '27+',
     badgeVariant: 'info',
   },
 ]

@@ -15,6 +15,7 @@ import AnalyticsView from '@/views/AnalyticsView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import OnboardingView from '@/views/OnboardingView.vue'
 import CalendarView from '@/views/CalendarView.vue'
+import KanbanView from '@/views/KanbanView.vue'
 import MailLayout from '@/layouts/MailLayout.vue'
 import MailListView from '@/views/mail/MailListView.vue'
 import MailDetailView from '@/views/mail/MailDetailView.vue'
@@ -154,6 +155,15 @@ const router = createRouter({
       meta: {
         title: 'Kalender Tim',
         subtitle: 'Jadwal rapat, deadline, dan pengingat dalam tampilan bulanan',
+      },
+    },
+    {
+      path: '/kanban',
+      name: 'kanban',
+      component: KanbanView,
+      meta: {
+        title: 'Kanban Board',
+        subtitle: 'Manajemen tugas sprint, pelacakan progres kolom, dan kolaborasi tim',
       },
     },
     {

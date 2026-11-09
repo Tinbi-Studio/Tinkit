@@ -67,6 +67,8 @@ import UiCodeBlock from '@/components/ui/UiCodeBlock.vue'
 import UiAvatar from '@/components/ui/UiAvatar.vue'
 import UiChatMessage, { type MessageRole, type MessageStatus, type MessageAuthor } from '@/components/ui/UiChatMessage.vue'
 import UiMessageScroll from '@/components/ui/UiMessageScroll.vue'
+import UiJsonViewer from '@/components/ui/UiJsonViewer.vue'
+import UiFileTree, { type FileTreeItem } from '@/components/ui/UiFileTree.vue'
 import {
   HelpCircle as HelpIcon,
   Layers as LayersIcon,
@@ -720,6 +722,173 @@ function sendDemoChatMessage() {
       content: `Pesan diterima: "${text}". Auto-scrolling berjalan lancar`,
     })
   }, 900)
+}
+
+// 26. JSON Viewer Demo State
+const activeJsonPreset = ref<'cluster' | 'OrderPayload' | 'themeConfig'>('cluster')
+const showJsonTypes = ref(false)
+const jsonPresets: Record<'cluster' | 'OrderPayload' | 'themeConfig', { title: string; data: unknown }> = {
+  cluster: {
+    title: 'cluster-telemetry.json',
+    data: {
+      service: 'tinkit-edge-gateway',
+      version: '0.4.2',
+      healthy: true,
+      region: 'ap-southeast-1',
+      uptimeSeconds: 184920,
+      maintenanceNote: null,
+      limits: {
+        maxConnections: 10000,
+        rateLimitPerMinute: 1200,
+        retryPolicy: {
+          maxAttempts: 3,
+          backoffMs: 250,
+          jitter: true,
+        },
+      },
+      nodes: [
+        { id: 'node-jkt-01', ip: '10.24.1.11', cpuLoad: 0.42, role: 'primary', active: true },
+        { id: 'node-sgp-02', ip: '10.24.1.12', cpuLoad: 0.31, role: 'replica', active: true },
+        { id: 'node-bdg-03', ip: '10.24.1.15', cpuLoad: 0.78, role: 'worker', active: false },
+      ],
+    },
+  },
+  OrderPayload: {
+    title: 'webhook-invoice-paid.json',
+    data: {
+      event: 'invoice.paid',
+      webhookId: 'wh_9928174810',
+      timestamp: '2026-11-09T15:30:00Z',
+      customer: {
+        id: 'cus_tinkit_88',
+        name: 'PT Nusantara Cloud Digital',
+        email: 'billing@nusantaracloud.id',
+        taxVerified: true,
+      },
+      items: [
+        { sku: 'TK-ENT-YEAR', plan: 'Tinkit Enterprise Annual', qty: 1, amountIdr: 14500000 },
+        { sku: 'TK-ADD-SEAT', plan: 'Extra 10 Developer Seats', qty: 2, amountIdr: 3000000 },
+      ],
+      payment: {
+        channel: 'QRIS_INSTANT',
+        paidAmountIdr: 17500000,
+        feeIdr: 0,
+        settled: true,
+      },
+    },
+  },
+  themeConfig: {
+    title: 'theme-studio-export.json',
+    data: {
+      preset: 'tinkit',
+      darkMode: false,
+      radiusScale: 'lg',
+      fontFamily: 'Inter',
+      contentWidth: 'compact',
+      tokens: {
+        primary: '34 40 49',
+        secondary: '82 101 122',
+        accent: '34 40 49',
+        roundedBox: '0.625rem',
+        roundedBtn: '0.5rem',
+      },
+    },
+  },
+}
+
+// 27. File Tree Explorer Demo State
+const selectedTreeFileId = ref('file-json-viewer')
+const selectedTreeFilePath = ref('src/components/ui/UiJsonViewer.vue')
+const demoFileTreeItems: FileTreeItem[] = [
+  {
+    id: 'folder-src',
+    name: 'src',
+    type: 'folder',
+    badge: 'Core',
+    badgeVariant: 'primary',
+    children: [
+      {
+        id: 'folder-assets',
+        name: 'assets',
+        type: 'folder',
+        children: [
+          { id: 'file-themes-css', name: 'themes.css', type: 'file', size: '18.4 KB', badge: '9 Presets', badgeVariant: 'accent' },
+          { id: 'file-components-css', name: 'components.css', type: 'file', size: '21.2 KB' },
+          { id: 'file-logo-svg', name: 'tinkit-symbol-ink.png', type: 'file', size: '4.8 KB' },
+        ],
+      },
+      {
+        id: 'folder-components',
+        name: 'components',
+        type: 'folder',
+        children: [
+          {
+            id: 'folder-ui',
+            name: 'ui',
+            type: 'folder',
+            badge: '27 Kits',
+            badgeVariant: 'info',
+            children: [
+              { id: 'file-json-viewer', name: 'UiJsonViewer.vue', type: 'file', size: '11.6 KB', badge: 'Baru', badgeVariant: 'success' },
+              { id: 'file-file-tree', name: 'UiFileTree.vue', type: 'file', size: '10.2 KB', badge: 'Baru', badgeVariant: 'success' },
+              { id: 'file-code-block', name: 'UiCodeBlock.vue', type: 'file', size: '8.4 KB' },
+              { id: 'file-data-table', name: 'UiDataTable.vue', type: 'file', size: '14.1 KB' },
+            ],
+          },
+          {
+            id: 'folder-kanban',
+            name: 'kanban',
+            type: 'folder',
+            children: [
+              { id: 'file-kanban-col', name: 'KanbanColumn.vue', type: 'file', size: '5.3 KB' },
+              { id: 'file-kanban-card', name: 'KanbanTaskCard.vue', type: 'file', size: '6.1 KB' },
+            ],
+          },
+        ],
+      },
+      {
+        id: 'folder-views',
+        name: 'views',
+        type: 'folder',
+        children: [
+          { id: 'file-kanban-view', name: 'KanbanView.vue', type: 'file', size: '16.8 KB', badge: 'Page', badgeVariant: 'primary' },
+          { id: 'file-dashboard-view', name: 'DashboardView.vue', type: 'file', size: '19.5 KB' },
+          { id: 'file-components-view', name: 'ComponentsView.vue', type: 'file', size: '64.0 KB' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'folder-config',
+    name: 'config & schema',
+    type: 'folder',
+    children: [
+      { id: 'file-pkg-json', name: 'package.json', type: 'file', size: '1.3 KB' },
+      { id: 'file-tailwind', name: 'tailwind.config.ts', type: 'file', size: '3.2 KB' },
+      { id: 'file-schema-sql', name: 'migrations-v4.sql', type: 'file', size: '7.9 KB' },
+      { id: 'file-release-zip', name: 'tinkit-dist-v0.4.tar.gz', type: 'file', size: '142 KB' },
+    ],
+  },
+  {
+    id: 'file-readme',
+    name: 'README.md',
+    type: 'file',
+    size: '9.5 KB',
+  },
+]
+
+const selectedTreeItemDetail = ref<FileTreeItem>({
+  id: 'file-json-viewer',
+  name: 'UiJsonViewer.vue',
+  type: 'file',
+  size: '11.6 KB',
+  badge: 'Baru',
+  badgeVariant: 'success',
+})
+
+function handleTreeSelect(item: FileTreeItem, path: string) {
+  selectedTreeItemDetail.value = item
+  selectedTreeFilePath.value = path
 }
 </script>
 
@@ -2160,6 +2329,135 @@ VITE_AUTH_PROVIDER=oauth2</pre>
               <span class="hidden sm:inline text-xs">Kirim</span>
             </button>
           </form>
+        </div>
+      </UiCard>
+
+      <!-- 26. JSON Viewer Component (<UiJsonViewer>) -->
+      <UiCard
+        title="26. Interactive JSON Viewer (<UiJsonViewer>)"
+        subtitle="Penampil struktur pohon JSON interaktif dengan pencarian key/value real-time, expand/collapse per node, salin path, dan mode Raw JSON"
+        accent-top="primary"
+        class="lg:col-span-2"
+      >
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-[var(--border)]">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-xs font-semibold text-base-content/70 mr-1">Dataset Contoh:</span>
+              <button
+                type="button"
+                class="btn btn-xs h-7 px-3 rounded-btn font-mono"
+                :class="activeJsonPreset === 'cluster' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                @click="activeJsonPreset = 'cluster'"
+              >
+                Cluster Telemetry
+              </button>
+              <button
+                type="button"
+                class="btn btn-xs h-7 px-3 rounded-btn font-mono"
+                :class="activeJsonPreset === 'OrderPayload' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                @click="activeJsonPreset = 'OrderPayload'"
+              >
+                Webhook Invoice
+              </button>
+              <button
+                type="button"
+                class="btn btn-xs h-7 px-3 rounded-btn font-mono"
+                :class="activeJsonPreset === 'themeConfig' ? 'btn-active' : 'btn-ghost text-[var(--text-muted)]'"
+                @click="activeJsonPreset = 'themeConfig'"
+              >
+                Theme Tokens
+              </button>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <UiCheckbox
+                v-model="showJsonTypes"
+                label="Tampilkan Tipe Data"
+                size="sm"
+                variant="primary"
+              />
+            </div>
+          </div>
+
+          <UiJsonViewer
+            :key="activeJsonPreset"
+            :data="jsonPresets[activeJsonPreset].data"
+            :title="jsonPresets[activeJsonPreset].title"
+            :default-expand-depth="2"
+            :show-data-types="showJsonTypes"
+            max-height="380px"
+            @copy="toast.info('Disalin ke Clipboard', 'Data JSON berhasil disalin.')"
+          />
+        </div>
+      </UiCard>
+
+      <!-- 27. File Tree Explorer Component (<UiFileTree>) -->
+      <UiCard
+        title="27. File Tree Explorer (<UiFileTree>)"
+        subtitle="Hierarki direktori & berkas dengan deteksi ikon ekstensi otomatis, pencarian filter folder, garis panduan indentasi, dan navigasi keyboard"
+        accent-top="accent"
+        class="lg:col-span-2"
+      >
+        <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-5 items-start">
+          <UiFileTree
+            v-model="selectedTreeFileId"
+            :items="demoFileTreeItems"
+            :default-expanded-ids="['folder-src', 'folder-components', 'folder-ui', 'folder-views']"
+            title="tinkit-admin-template"
+            max-height="380px"
+            @select="handleTreeSelect"
+          />
+
+          <div class="rounded-box border border-[var(--border)] bg-[var(--surface-raised)] p-4 space-y-4">
+            <div class="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+                  Inspector Node Terpilih
+                </p>
+                <h4 class="mt-0.5 font-mono text-sm font-bold text-base-content">
+                  {{ selectedTreeItemDetail.name }}
+                </h4>
+              </div>
+              <UiBadge
+                :variant="selectedTreeItemDetail.type === 'folder' ? 'warning' : 'primary'"
+                size="sm"
+                soft
+              >
+                {{ selectedTreeItemDetail.type === 'folder' ? 'Folder Direktori' : 'Berkas' }}
+              </UiBadge>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="flex items-center justify-between py-1 border-b border-[var(--border)]">
+                <span class="text-[var(--text-muted)]">Path Lengkap</span>
+                <code class="font-mono text-primary font-semibold">{{ selectedTreeFilePath }}</code>
+              </div>
+              <div class="flex items-center justify-between py-1 border-b border-[var(--border)]">
+                <span class="text-[var(--text-muted)]">Node ID</span>
+                <code class="font-mono text-base-content">{{ selectedTreeItemDetail.id }}</code>
+              </div>
+              <div
+                v-if="selectedTreeItemDetail.size"
+                class="flex items-center justify-between py-1 border-b border-[var(--border)]"
+              >
+                <span class="text-[var(--text-muted)]">Ukuran Berkas</span>
+                <span class="font-mono font-semibold text-base-content">{{ selectedTreeItemDetail.size }}</span>
+              </div>
+              <div
+                v-if="selectedTreeItemDetail.children"
+                class="flex items-center justify-between py-1 border-b border-[var(--border)]"
+              >
+                <span class="text-[var(--text-muted)]">Jumlah Sub-Item</span>
+                <span class="font-mono font-semibold text-base-content">
+                  {{ selectedTreeItemDetail.children.length }} item langsung
+                </span>
+              </div>
+            </div>
+
+            <div class="rounded-btn bg-base-100 border border-[var(--border)] p-3 text-xs text-[var(--text-muted)] leading-relaxed">
+              Gunakan kolom pencarian di atas pohon direktori untuk memfilter nama berkas secara instan, atau gunakan tombol panah keyboard (<kbd class="font-mono text-base-content">↑</kbd> <kbd class="font-mono text-base-content">↓</kbd> <kbd class="font-mono text-base-content">←</kbd> <kbd class="font-mono text-base-content">→</kbd>) saat baris fokus.
+            </div>
+          </div>
         </div>
       </UiCard>
     </div>
