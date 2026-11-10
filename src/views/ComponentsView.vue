@@ -68,6 +68,7 @@ import UiAvatar from '@/components/ui/UiAvatar.vue'
 import UiChatMessage, { type MessageRole, type MessageStatus, type MessageAuthor } from '@/components/ui/UiChatMessage.vue'
 import UiMessageScroll from '@/components/ui/UiMessageScroll.vue'
 import UiJsonViewer from '@/components/ui/UiJsonViewer.vue'
+import UiJsonEditor from '@/components/ui/UiJsonEditor.vue'
 import UiFileTree, { type FileTreeItem } from '@/components/ui/UiFileTree.vue'
 import {
   HelpCircle as HelpIcon,
@@ -795,6 +796,10 @@ const jsonPresets: Record<'cluster' | 'OrderPayload' | 'themeConfig', { title: s
     },
   },
 }
+
+// 28. JSON Editor Demo State
+const jsonEditorValue = ref<unknown>(jsonPresets.themeConfig.data)
+const jsonEditorError = ref<string | null>(null)
 
 // 27. File Tree Explorer Demo State
 const selectedTreeFileId = ref('file-json-viewer')
@@ -2457,6 +2462,38 @@ VITE_AUTH_PROVIDER=oauth2</pre>
             <div class="rounded-btn bg-base-100 border border-[var(--border)] p-3 text-xs text-[var(--text-muted)] leading-relaxed">
               Gunakan kolom pencarian di atas pohon direktori untuk memfilter nama berkas secara instan, atau gunakan tombol panah keyboard (<kbd class="font-mono text-base-content">↑</kbd> <kbd class="font-mono text-base-content">↓</kbd> <kbd class="font-mono text-base-content">←</kbd> <kbd class="font-mono text-base-content">→</kbd>) saat baris fokus.
             </div>
+          </div>
+        </div>
+      </UiCard>
+
+      <!-- 28. JSON Editor Component (<UiJsonEditor>) -->
+      <UiCard
+        title="28. JSON Editor (<UiJsonEditor>)"
+        subtitle="Editor JSON dua mode (Tree Inspector & Code Editor) dengan validasi sintaks real-time, beautify/minify, pencarian, dan salin per node"
+        accent-top="secondary"
+        class="lg:col-span-2"
+      >
+        <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-5 items-start">
+          <UiJsonEditor
+            :initial-data="jsonPresets.themeConfig.data"
+            title="theme-studio-export.json"
+            :default-expand-depth="2"
+            max-height="380px"
+            @change="jsonEditorValue = $event"
+            @error="jsonEditorError = $event"
+            @copy="toast.info('Disalin ke Clipboard', 'Data JSON berhasil disalin.')"
+          />
+
+          <div class="rounded-box border border-[var(--border)] bg-[var(--surface-raised)] p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+                Output Ter-parse (@change)
+              </p>
+              <UiBadge :variant="jsonEditorError ? 'error' : 'success'" size="sm" soft>
+                {{ jsonEditorError ? 'Tidak Valid' : 'Valid' }}
+              </UiBadge>
+            </div>
+            <pre class="max-h-[300px] overflow-auto rounded-btn bg-base-100 border border-[var(--border)] p-3 font-mono text-[11px] leading-relaxed text-base-content">{{ jsonEditorError ?? JSON.stringify(jsonEditorValue, null, 2) }}</pre>
           </div>
         </div>
       </UiCard>
